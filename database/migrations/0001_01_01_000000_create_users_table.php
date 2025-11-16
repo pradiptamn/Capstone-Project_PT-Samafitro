@@ -15,8 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->enum('role', ['user', 'admin'])->default('user');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone');
+            $table->text('address')->nullable();
+            $table->string('ktp_number')->unique();
+            $table->string('ktp_photo')->nullable();
+            $table->string('company_name')->nullable();
+            $table->string('npwp')->nullable();
+            $table->string('security_question');
+            $table->string('security_answer'); // hashed            
             $table->rememberToken();
             $table->timestamps();
         });

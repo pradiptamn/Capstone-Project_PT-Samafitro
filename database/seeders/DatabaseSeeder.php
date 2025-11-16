@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,9 +16,24 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Create admin user if it doesn't exist
+        User::firstOrCreate(
+            [
+                'name' => 'Admin User',
+                'email' => 'admin@samafitro.com',
+                'password' => Hash::make('admin123'),
+                'role' => 'admin',
+                'phone' => '08123456788',
+                'ktp_number' => '1234567890123455',
+                'security_question' => 'What is your favorite color?',
+                'security_answer' => Hash::make('admin'),
+            ]
+        );
+
+        // Seed categories
+        $this->call([
+            CategorySeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }
