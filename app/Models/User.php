@@ -20,7 +20,16 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
+        'phone',
+        'address',
         'password',
+        'ktp_number',
+        'ktp_photo',
+        'company_name',
+        'npwp',
+        'security_question',
+        'security_answer',
     ];
 
     /**
@@ -44,5 +53,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Check if user is an admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user has a specific role
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
     }
 }
