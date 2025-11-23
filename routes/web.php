@@ -1,13 +1,20 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Product;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\Admin\PromoController as AdminPromoController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
+
 
 // Halaman utama welcome
 Route::get('/', function () {
@@ -87,12 +94,50 @@ Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showRese
 // 6. Proses Simpan Password Baru
 Route::post('reset-password', [ForgotPasswordController::class, 'storeNewPassword'])->name('password.update');
 
+// Route Dashboard
+Route::get('/dashboard', function () {
+    $user = Auth::user();
+    if ($user->role === 'admin') {
+        return redirect()->intended('/admin/dashboard');
+    }
+
+    return redirect()->intended('/user/dashboard');
+})->middleware(['auth']);
+
 // Admin Routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::post('/dashboard', [AdminDashboardController::class, 'store'])->name('admin.dashboard.store');
+    Route::delete('/dashboard/{id}', [AdminDashboardController::class, 'destroy'])->name('admin.dashboard.destroy');
+
+    // Promo Admin
+    Route::prefix('promos')->name('admin.promos.')->group(function () {
+        Route::get('/', [AdminPromoController::class, 'index'])->name('index');
+        Route::get('/create', [AdminPromoController::class, 'create'])->name('create');
+        Route::post('/', [AdminPromoController::class, 'store'])->name('store');
+        Route::get('/{promo}/edit', [AdminPromoController::class, 'edit'])->name('edit');
+        Route::put('/{promo}', [AdminPromoController::class, 'update'])->name('update');
+        Route::delete('/{promo}', [AdminPromoController::class, 'destroy'])->name('destroy');
+    });
+
+    // Artikel Admin
+    Route::resource('articles', AdminArticleController::class)->names('admin.articles');
+
+    // Produk Admin
+    Route::prefix('produk')->name('admin.produk.')->group(function () {
+        Route::get('/', [AdminProductController::class, 'index'])->name('index');
+        Route::post('/store', [AdminProductController::class, 'store'])->name('store');
+        Route::put('/update/{id}', [AdminProductController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [AdminProductController::class, 'destroy'])->name('delete');
+    });
 });
 
 // User & Admin Routes
 Route::middleware(['auth', 'role:user,admin'])->prefix('user')->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+
+    // Belum fix
+    Route::get('/profile', function () {
+        return 'Belum fix';
+    })->name('User.profile.index');
 });

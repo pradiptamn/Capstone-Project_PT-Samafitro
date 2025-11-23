@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Samafiltro</title>
+  <title>Dashboard - Samafitro</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -15,7 +15,7 @@
       <div class="flex justify-between h-16">
         <div class="flex items-center">
           <a href="#" class="flex-shrink-0 flex items-center">
-            <span class="font-bold text-xl text-gray-800">Samafiltro</span>
+            <span class="font-bold text-xl text-gray-800">Samafitro</span>
           </a>
           <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
             <a href="#"

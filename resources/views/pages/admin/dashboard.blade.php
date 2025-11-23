@@ -1,86 +1,86 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.admin')
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Samafiltro</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+@section('title', 'Admin Dashboard Samafitro')
 
-<body class="bg-gray-100 font-sans antialiased">
+@section('content')
 
-  <nav class="bg-white shadow-md border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex items-center">
-          <a href="#" class="flex-shrink-0 flex items-center">
-            <span class="font-bold text-xl text-gray-800">Samafiltro</span>
-          </a>
-          <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-            <a href="#"
-              class="border-b-2 border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
-              Dashboard
-            </a>
-            <a href="#"
-              class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-              Profile
-            </a>
-          </div>
-        </div>
+  <!-- Form Input -->
+  <section class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-bold mb-6">Tambah Konten Dashboard</h1>
+    <form action="{{ route('admin.dashboard.store') }}" method="POST" enctype="multipart/form-data"
+      class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-800 p-6 rounded-xl shadow-xl border border-gray-700">
+      @csrf
+      <div>
+        <label class="block mb-2 text-sm font-semibold text-gray-300">Judul</label>
+        <input type="text" name="judul"
+          class="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-blue-500" required>
 
-        <div class="flex items-center">
-          <div class="ml-3 relative flex items-center gap-4">
-            <div class="text-sm font-medium text-gray-500">
-              Halo, {{ Auth::user()->name ?? 'User' }}
-            </div>
-
-            <form method="POST" action="{{ route('logout') }}">
-              @csrf
-              <button type="submit"
-                class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                Logout
-              </button>
-            </form>
-          </div>
-        </div>
+        <label class="block mt-4 mb-2 text-sm font-semibold text-gray-300">Deskripsi</label>
+        <textarea name="deskripsi" rows="4"
+          class="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-blue-500" required></textarea>
       </div>
+      <div>
+        <label class="block mb-2 text-sm font-semibold text-gray-300">Gambar</label>
+        <input type="file" name="gambar"
+          class="w-full bg-gray-700 rounded p-2 text-sm text-white border border-gray-600">
+
+        <button type="submit"
+          class="mt-6 w-full bg-blue-600 hover:bg-blue-700 transition py-3 rounded text-white font-semibold">
+          <i class="fas fa-save mr-2"></i> Simpan Konten
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Quick Access Section -->
+  <section class="max-w-6xl mx-auto px-4 py-6">
+    <h2 class="text-2xl font-bold mb-6 text-white">Quick Access</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <a href="{{ route('admin.produk.index') }}"
+        class="bg-blue-600 hover:bg-blue-700 transition p-6 rounded-xl text-center text-white">
+        <i class="fas fa-box text-3xl mb-3"></i>
+        <h3 class="text-lg font-semibold">Kelola Produk</h3>
+        <p class="text-sm text-blue-100">Tambah, edit, hapus produk</p>
+      </a>
+
+      <a href="{{ route('admin.promos.index') }}"
+        class="bg-green-600 hover:bg-green-700 transition p-6 rounded-xl text-center text-white">
+        <i class="fas fa-tags text-3xl mb-3"></i>
+        <h3 class="text-lg font-semibold">Kelola Promo</h3>
+        <p class="text-sm text-green-100">Tambah, edit, hapus promo</p>
+      </a>
+
+      <a href="{{ route('admin.articles.index') }}"
+        class="bg-purple-600 hover:bg-purple-700 transition p-6 rounded-xl text-center text-white">
+        <i class="fas fa-newspaper text-3xl mb-3"></i>
+        <h3 class="text-lg font-semibold">Kelola Artikel</h3>
+        <p class="text-sm text-purple-100">Tambah, edit, hapus artikel</p>
+      </a>
     </div>
-  </nav>
+  </section>
 
-  <div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-      <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-        <div class="p-6 text-gray-900">
-          <h3 class="text-lg font-bold mb-2">Selamat Datang di Dashboard Admin!</h3>
-          <p class="text-gray-600">Anda berhasil login sebagai <span
-              class="font-semibold">{{ Auth::user()->email }}</span>.</p>
+  <!-- Data Grid -->
+  <section class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    @foreach ($items as $item)
+      <div
+        class="bg-gray-900 border border-gray-800 hover:shadow-xl transition rounded-xl overflow-hidden relative group">
+        @if ($item->gambar)
+          <img src="{{ asset('storage/' . $item->gambar) }}" class="w-full h-40 object-cover">
+        @endif
+        <div class="p-4">
+          <h2 class="text-xl font-semibold text-white mb-2">{{ $item->judul }}</h2>
+          <p class="text-gray-400 text-sm leading-relaxed">{{ $item->deskripsi }}</p>
         </div>
+        <form action="{{ route('admin.dashboard.destroy', $item->id) }}" method="POST" class="absolute top-3 right-3">
+          @csrf
+          @method('DELETE')
+          <button class="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition"
+            onclick="return confirm('Hapus item ini?')">
+            <i class="fas fa-trash"></i>
+          </button>
+        </form>
       </div>
+    @endforeach
+  </section>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h4 class="text-gray-500 text-sm font-medium uppercase">Total Pengguna</h4>
-          <p class="mt-2 text-3xl font-bold text-gray-900">1,240</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h4 class="text-gray-500 text-sm font-medium uppercase">Status Server</h4>
-          <span class="mt-2 inline-block px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
-            Online
-          </span>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h4 class="text-gray-500 text-sm font-medium uppercase">Notifikasi</h4>
-          <p class="mt-2 text-3xl font-bold text-gray-900">5</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</body>
-
-</html>
+@endsection

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pertanyaan Keamanan - Samafiltro</title>
+  <title>Pertanyaan Keamanan - Samafitro</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -61,7 +61,7 @@
 
       <div
         class="hidden lg:flex flex-col items-center justify-center lg:w-1/2 p-8 md:p-12 bg-gradient-to-br from-gray-100 to-gray-300">
-        <img src="{{ asset('images/samafitro-bandung.png') }}" alt="Samafiltro Logo" class="rounded mx-auto mb-8 w-1/2">
+        <img src="{{ asset('images/samafitro-bandung.png') }}" alt="Samafitro Logo" class="rounded mx-auto mb-8 w-1/2">
         <h2 class="text-gray-700 text-2xl font-bold mb-4">Verifikasi Akun</h2>
         <p class="text-gray-600 mb-8 text-center px-8">Metode ini membantu Anda mereset password tanpa perlu membuka
           email, asalkan Anda mengingat jawaban rahasia Anda.</p>

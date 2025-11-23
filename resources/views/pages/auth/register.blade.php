@@ -174,7 +174,7 @@
             </label>
             <input type="text" name="company_name" value="{{ old('company_name') }}"
               class="w-full p-2 bg-gray-800 rounded border border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="Misalnya: PT Samafiltro Indonesia">
+              placeholder="Misalnya: PT Samafitro Indonesia">
           </div>
           <div>
             <label class="block mb-1 text-sm font-medium">
