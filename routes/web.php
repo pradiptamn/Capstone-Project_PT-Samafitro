@@ -15,6 +15,9 @@ use App\Http\Controllers\Admin\PromoController as AdminPromoController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\User\PromoController as UserPromoController;
+use App\Http\Controllers\User\ArticleController as UserArticleController;
+use App\Http\Controllers\User\CartController;
 
 
 // Halaman utama welcome
@@ -143,3 +146,29 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 // User & Admin Routes
 Route::middleware(['auth', 'role:user,admin'])->prefix('user')->group(function () {
     Route::get('/', [UserDashboardController::class, 'index'])->name('user.dashboard');
+
+    // Produk user (logged-in)
+    Route::get('/products', function () {
+        return view('pages.user.produk');
+    })->name('produk.user');
+
+    // Halaman promo untuk user
+    Route::get('/promos', [UserPromoController::class, 'index'])->name('promo.index');
+    Route::get('/promos/{promo}', [UserPromoController::class, 'show'])->name('promo.show');
+
+    // Artikel user
+    Route::get('/articles', [UserArticleController::class, 'index'])->name('article.index');
+    Route::get('/articles/{id}', [UserArticleController::class, 'show'])->name('article.show');
+
+    // Halaman Hubungi Kami
+    Route::get('contact', function () {
+        return view('pages.user.contact');
+    })->name('contact-us');
+
+    // Cart routes
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
+    Route::get('/cart', [CartController::class, 'getCart'])->name('cart.get');
+    Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+});
