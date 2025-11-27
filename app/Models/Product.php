@@ -8,7 +8,7 @@ class Product extends Model
 {
     protected $keyType = 'string';
     public $incrementing = false;
-    protected $fillable = ['id', 'kategori_id', 'nama_produk', 'deskripsi', 'gambar'];
+    protected $fillable = ['id', 'kategori_id', 'harga', 'nama_produk', 'deskripsi', 'gambar'];
 
     protected $casts = [
         'deskripsi' => 'array'

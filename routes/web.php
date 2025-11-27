@@ -42,7 +42,7 @@ Route::get('/produk', function () {
 // API untuk data produk
 Route::get('/produk/json', function () {
     $categories = Category::select('id', 'name')->get();
-    $products = Product::select('id', 'kategori_id', 'nama_produk', 'deskripsi', 'gambar')->get();
+    $products = Product::select('id', 'kategori_id', 'nama_produk', 'harga', 'deskripsi', 'gambar')->get();
 
     return response()->json([
         'categories' => $categories,
@@ -109,8 +109,7 @@ Route::get('/dashboard', function () {
         return redirect()->intended('/admin/dashboard');
     }
 
-    return redirect()->intended('/user/dashboard');
-})->middleware(['auth']);
+    return redirect()->intended('/user');
 })->middleware(['auth'])->name('dashboard');
 
 // Admin Routes

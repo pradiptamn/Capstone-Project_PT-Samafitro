@@ -22,6 +22,7 @@ class ProductController extends Controller
             $request->validate([
                 'nama_produk' => 'required|string|max:255',
                 'kategori_id' => 'required|exists:categories,id',
+                'harga'       => 'required|numeric|min:0',
                 'spec_labels' => 'required|array',
                 'spec_labels.*' => 'required|string|max:100',
                 'spec_values' => 'required|array',
@@ -50,6 +51,7 @@ class ProductController extends Controller
                 'id' => $productId,
                 'nama_produk' => $request->nama_produk,
                 'kategori_id' => $request->kategori_id,
+                'harga' => $request->harga,
                 'deskripsi' => $specifications,
                 'gambar' => $gambarPath,
             ]);
@@ -67,6 +69,7 @@ class ProductController extends Controller
             $request->validate([
                 'nama_produk' => 'required|string|max:255',
                 'kategori_id' => 'required|exists:categories,id',
+                'harga'       => 'required|numeric|min:0',
                 'spec_labels' => 'required|array',
                 'spec_labels.*' => 'required|string|max:100',
                 'spec_values' => 'required|array',
@@ -96,6 +99,7 @@ class ProductController extends Controller
             // Update produk
             $product->update([
                 'kategori_id' => $request->kategori_id,
+                'harga' => $request->harga,
                 'nama_produk' => $request->nama_produk,
                 'deskripsi' => $specifications,
                 'gambar' => $gambarPath,
