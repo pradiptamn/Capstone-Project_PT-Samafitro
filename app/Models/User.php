@@ -73,6 +73,14 @@ class User extends Authenticatable
         return $this->role === $role;
     }
 
+    /**
+     * Get user's cart items
+     */
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);
