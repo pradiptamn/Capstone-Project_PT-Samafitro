@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
@@ -70,9 +71,16 @@ Route::middleware('guest')->group(function () {
     // Proses pendaftaran
     Route::post('/register', [RegisterController::class, 'register']);
 });
+
+// Authenticated
 Route::middleware('auth')->group(function () {
     // Logout
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 // RESET PASSWORD
@@ -103,6 +111,7 @@ Route::get('/dashboard', function () {
 
     return redirect()->intended('/user/dashboard');
 })->middleware(['auth']);
+})->middleware(['auth'])->name('dashboard');
 
 // Admin Routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
@@ -134,10 +143,4 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
 // User & Admin Routes
 Route::middleware(['auth', 'role:user,admin'])->prefix('user')->group(function () {
-    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-
-    // Belum fix
-    Route::get('/profile', function () {
-        return 'Belum fix';
-    })->name('User.profile.index');
-});
+    Route::get('/', [UserDashboardController::class, 'index'])->name('user.dashboard');

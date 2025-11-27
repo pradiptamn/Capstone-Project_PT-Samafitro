@@ -20,7 +20,7 @@
       </main>
 
       <footer class="bg-gray-900 border-t border-gray-800 text-center py-4 text-xs text-gray-500">
-        &copy; {{ date('Y') }} Admin Samafitro. All rights reserved.
+        &copy; {{ date('Y') }} Cabang PT Samafitro Bandung Oleh Tim Developer Kami.
       </footer>
 
     </div>

@@ -8,7 +8,7 @@
 
   <div class="flex items-center space-x-4">
 
-    <a href="{{ route('User.profile.index') }}" class="flex items-center gap-2 text-gray-300 hover:text-white transition">
+    <a href="{{ route('profile.index') }}" class="flex items-center gap-2 text-gray-300 hover:text-white transition">
       <span class="text-sm font-medium hidden md:block">{{ Auth::user()->name ?? 'Admin' }}</span>
       <img src="/images/profile.png" class="h-8 w-8 rounded-full border border-gray-600">
     </a>
