@@ -13,12 +13,14 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\PromoController as AdminPromoController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\PromoController as UserPromoController;
 use App\Http\Controllers\User\ArticleController as UserArticleController;
 use App\Http\Controllers\User\CartController;
-
+use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\OrderController as UserOrderController;
 
 // Halaman utama welcome
 Route::get('/', function () {
@@ -141,6 +143,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::put('/update/{id}', [AdminProductController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [AdminProductController::class, 'destroy'])->name('delete');
     });
+
+    // Order Admin
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+    Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
+    Route::put('/orders/{order}', [AdminOrderController::class, 'update'])->name('admin.orders.update');
 });
 
 // User & Admin Routes
@@ -171,4 +178,14 @@ Route::middleware(['auth', 'role:user,admin'])->prefix('user')->group(function (
     Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.get');
     Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+
+    // Checkout
+    Route::get('/checkout', [CheckoutController::class, 'showShippingForm'])->name('checkout.index');
+    Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+    Route::get('/orders', [UserOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [UserOrderController::class, 'show'])->name('orders.show');
+    // Route untuk menangani setelah pembayaran sukses/selesai
+    Route::get('/payment/finish', [UserOrderController::class, 'paymentFinish'])->name('payment.finish');
+    // Route untuk tombol Cek Status Manual
+    Route::get('/orders/{order}/check', [UserOrderController::class, 'checkStatus'])->name('orders.check');
 });

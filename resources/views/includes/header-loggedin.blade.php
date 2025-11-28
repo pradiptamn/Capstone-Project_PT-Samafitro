@@ -2,12 +2,14 @@
 <div x-data="shoppingCart()" x-init="initCart()" class="relative">
 
   {{-- Navbar --}}
-  <nav class="bg-gray-950 shadow fixed top-0 left-0 w-full z-40 transition-all duration-300">
+  <nav class="bg-gray-950 shadow fixed top-0 left-0 w-full z-40 transition-all duration-300 border-b border-gray-800">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
 
       {{-- Logo --}}
       <div class="flex items-center space-x-3">
-        <img src="{{ asset('images/logo-samafitro.png') }}" alt="Samafitro" class="h-10 md:h-14 w-auto object-contain">
+        <a href="{{ route('dashboard') }}">
+          <img src="{{ asset('images/logo-samafitro.png') }}" alt="Samafitro" class="h-10 md:h-14 w-auto object-contain">
+        </a>
       </div>
 
       {{-- Desktop Menu --}}
@@ -16,13 +18,18 @@
         <li><a href="{{ route('produk.user') }}" class="hover:text-blue-400 transition">Produk</a></li>
         <li><a href="{{ route('promo.index') }}" class="hover:text-blue-400 transition">Promo</a></li>
         <li><a href="{{ route('article.index') }}" class="hover:text-blue-400 transition">Artikel & Berita</a></li>
+
+        {{-- MENU BARU: PESANAN SAYA --}}
+        <li><a href="{{ route('orders.index') }}" class="hover:text-blue-400 transition text-yellow-400">Pesanan
+            Saya</a></li>
+
         <li><a href="{{ route('contact-us') }}" class="hover:text-blue-400 transition">Hubungi Kami</a></li>
       </ul>
 
       {{-- Desktop Icons --}}
       <div class="hidden md:flex space-x-5 items-center">
         {{-- Cart Button --}}
-        <button @click="cartOpen = true" class="relative group">
+        <button @click="cartOpen = true" class="relative group focus:outline-none">
           <img src="{{ asset('images/cart.png') }}" alt="Cart" class="h-6 w-6 group-hover:opacity-80 transition" />
           <span x-show="totalItems > 0" x-transition.scale
             class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-gray-950"
@@ -47,7 +54,7 @@
       {{-- Mobile Hamburger --}}
       <div class="md:hidden flex items-center space-x-4">
         {{-- Mobile Cart --}}
-        <button @click="cartOpen = true" class="relative">
+        <button @click="cartOpen = true" class="relative focus:outline-none">
           <img src="{{ asset('images/cart.png') }}" alt="Cart" class="h-6 w-6" />
           <span x-show="totalItems > 0"
             class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-gray-950"
@@ -64,8 +71,6 @@
     {{-- Mobile Menu Dropdown --}}
     <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-200"
       x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
-      x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
-      x-transition:leave-end="opacity-0 -translate-y-2"
       class="md:hidden absolute top-full left-0 w-full bg-gray-950 border-t border-gray-800 shadow-xl"
       style="display: none;">
       <ul class="flex flex-col space-y-1 px-4 py-4 text-white text-sm">
@@ -77,6 +82,9 @@
             class="block py-2 hover:text-blue-400 hover:bg-gray-900 rounded px-2">Promo</a></li>
         <li><a href="{{ route('article.index') }}"
             class="block py-2 hover:text-blue-400 hover:bg-gray-900 rounded px-2">Artikel & Berita</a></li>
+        <li><a href="{{ route('orders.index') }}"
+            class="block py-2 text-yellow-400 hover:text-yellow-300 hover:bg-gray-900 rounded px-2">Pesanan Saya</a>
+        </li>
         <li><a href="{{ route('contact-us') }}"
             class="block py-2 hover:text-blue-400 hover:bg-gray-900 rounded px-2">Hubungi Kami</a></li>
         <li class="border-t border-gray-800 mt-2 pt-2"><a href="{{ route('profile.index') }}"
@@ -91,7 +99,7 @@
     </div>
   </nav>
 
-  {{-- Spacer agar konten tidak tertutup navbar --}}
+  {{-- Spacer --}}
   <div class="h-20"></div>
 
   {{-- CART SLIDE-OVER (DARK MODE) --}}
@@ -115,7 +123,8 @@
             x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
             class="pointer-events-auto w-screen max-w-md">
 
-            <div class="flex h-full flex-col overflow-y-scroll bg-gray-900 shadow-2xl border-l border-gray-800">
+            <div
+              class="flex h-full flex-col overflow-y-scroll bg-gray-900 shadow-2xl border-l border-gray-800 text-white">
               {{-- Cart Header --}}
               <div class="flex items-start justify-between px-4 py-6 sm:px-6 border-b border-gray-800 bg-gray-900">
                 <h2 class="text-lg font-medium text-white" id="slide-over-title">
@@ -168,11 +177,10 @@
                         <div>
                           <div class="flex justify-between text-base font-medium text-white">
                             <h3 class="line-clamp-1 mr-2" x-text="item.product.nama_produk"></h3>
-                            <p class="text-blue-400 shrink-0"
+                            <p class="text-blue-400 shrink-0 font-bold"
                               x-text="formatRupiah(item.product.harga * item.quantity)"></p>
                           </div>
-                          <p class="mt-1 text-xs text-gray-500"
-                            x-text="'Harga Satuan: ' + formatRupiah(item.product.harga)"></p>
+                          <p class="mt-1 text-xs text-gray-500" x-text="'@ ' + formatRupiah(item.product.harga)"></p>
                         </div>
                         <div class="flex flex-1 items-end justify-between text-sm">
                           <div class="flex items-center border border-gray-700 rounded bg-gray-800">
@@ -199,9 +207,9 @@
               {{-- Cart Footer --}}
               <div x-show="!isLoading && cartItems.length > 0"
                 class="border-t border-gray-800 px-4 py-6 sm:px-6 bg-gray-900">
-                <div class="flex justify-between text-base font-medium text-white mb-4">
-                  <p class="text-gray-400">Subtotal</p>
-                  <p class="text-xl font-bold text-blue-400" x-text="formatRupiah(totalPrice)"></p>
+                <div class="flex justify-between text-lg font-bold text-white mb-4">
+                  <p>Total</p>
+                  <p class="text-blue-400" x-text="formatRupiah(totalPrice)"></p>
                 </div>
                 <p class="mt-0.5 text-xs text-gray-500 mb-4">Ongkos kirim dihitung saat checkout.</p>
                 <div class="flex gap-3">
@@ -209,10 +217,12 @@
                     class="flex-1 items-center justify-center rounded-md border border-gray-600 bg-gray-800 px-6 py-3 text-base font-medium text-gray-300 shadow-sm hover:bg-gray-700 hover:text-white transition">
                     Kosongkan
                   </button>
-                  <button @click="checkout()"
-                    class="flex-[2] items-center justify-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 transition">
+
+                  {{-- TOMBOL CHECKOUT BERFUNGSI --}}
+                  <a href="{{ route('checkout.index') }}"
+                    class="flex-[2] items-center justify-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 transition text-center">
                     Checkout
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -233,7 +243,6 @@
       totalItems: 0,
       isLoading: false,
 
-      // Computed Property untuk Total Harga
       get totalPrice() {
         return this.cartItems.reduce((acc, item) => {
           return acc + (Number(item.product.harga) * item.quantity);
@@ -242,7 +251,6 @@
 
       initCart() {
         this.loadCart();
-        // Listen event jika ada penambahan ke cart dari halaman lain
         window.addEventListener('cart-updated', () => this.loadCart());
       },
 
@@ -262,7 +270,6 @@
 
       async updateQuantity(productId, newQty) {
         if (newQty < 1) return;
-
         try {
           const response = await fetch('/user/cart/update', {
             method: 'POST',
@@ -283,8 +290,7 @@
       },
 
       async removeItem(productId) {
-        if (!confirm('Hapus produk ini dari keranjang?')) return;
-
+        if (!confirm('Hapus produk ini?')) return;
         try {
           const response = await fetch('/user/cart/remove', {
             method: 'POST',
@@ -305,7 +311,6 @@
 
       async clearCart() {
         if (!confirm('Kosongkan semua keranjang?')) return;
-
         try {
           const response = await fetch('/user/cart/clear', {
             method: 'POST',
@@ -319,11 +324,6 @@
         } catch (e) {
           console.error(e);
         }
-      },
-
-      checkout() {
-        window.location.href = "#";
-        // alert('Fitur checkout akan segera hadir!');
       },
 
       formatRupiah(angka) {
