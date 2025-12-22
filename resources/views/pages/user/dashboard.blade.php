@@ -50,21 +50,24 @@
   <section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
 
     {{-- Left side cards --}}
-    <div class="flex flex-col gap-4" x-data="{ show1: false, show2: false }" x-init="setInterval(() => { show1 = !show1 }, 3000);
-    setTimeout(() => setInterval(() => { show2 = !show2 }, 3000), 1500);">
+    {{-- Container diberi height fix (h-[220px]) dan relative --}}
+    <div class="relative w-full h-[220px] bg-gray-800 rounded-2xl shadow-lg overflow-hidden" x-data="{ active: true }"
+      x-init="setInterval(() => { active = !active }, 3000)">
 
-      <div class="rounded-2xl bg-gray-800 p-4 flex items-center justify-center shadow-lg" x-show="show1"
+      {{-- Image 1 --}}
+      <div class="absolute inset-0 flex items-center justify-center p-4" x-show="active"
         x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0 scale-95"
         x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-700"
         x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
-        <img src="{{ asset('images/ucjv330.png') }}" alt="UCJV330" class="object-contain w-full h-[180px]">
+        <img src="{{ asset('images/banner/ucjv330.png') }}" alt="UCJV330" class="object-contain w-full h-[180px]">
       </div>
 
-      <div class="rounded-2xl bg-gray-800 p-4 flex items-center justify-center shadow-lg" x-show="show2"
+      {{-- Image 2 --}}
+      <div class="absolute inset-0 flex items-center justify-center p-4" x-show="!active"
         x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0 scale-95"
         x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-700"
         x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
-        <img src="{{ asset('images/lxir320.png') }}" alt="LXiR320" class="object-contain w-full h-[180px]">
+        <img src="{{ asset('images/banner/lxir320.png') }}" alt="LXiR320" class="object-contain w-full h-[180px]">
       </div>
     </div>
 
@@ -77,38 +80,25 @@
     </div>
 
     {{-- Right side cards --}}
-    <div class="flex flex-col gap-4" x-data="{ show3: false, show4: false }" x-init="setInterval(() => { show3 = !show3 }, 3000);
-    setTimeout(() => setInterval(() => { show4 = !show4 }, 3000), 1500);">
+    {{-- Container diberi height fix (h-[220px]) dan relative --}}
+    <div class="relative w-full h-[220px] bg-gray-800 rounded-2xl shadow-lg overflow-hidden" x-data="{ active: true }"
+      x-init="setTimeout(() => { setInterval(() => { active = !active }, 3000) }, 1500)">
 
-      <div class="rounded-2xl bg-gray-800 p-4 flex items-center justify-center shadow-lg" x-show="show3"
+      {{-- Image 3 --}}
+      <div class="absolute inset-0 flex items-center justify-center p-4" x-show="active"
         x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0 scale-95"
         x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-700"
         x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
-        <img src="{{ asset('images/tc20m.png') }}" alt="TC-20M" class="object-contain w-full h-[180px]">
+        <img src="{{ asset('images/banner/tc20m.png') }}" alt="TC-20M" class="object-contain w-full h-[180px]">
       </div>
 
-      <div class="rounded-2xl bg-gray-800 p-4 flex items-center justify-center shadow-lg" x-show="show4"
+      {{-- Image 4 --}}
+      <div class="absolute inset-0 flex items-center justify-center p-4" x-show="!active"
         x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0 scale-95"
         x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-700"
         x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
-        <img src="{{ asset('images/prestos.png') }}" alt="Presto S" class="object-contain w-full h-[180px]">
+        <img src="{{ asset('images/banner/prestos.png') }}" alt="Presto S" class="object-contain w-full h-[180px]">
       </div>
-    </div>
-  </section>
-
-  {{-- Items dari database --}}
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      @foreach ($items as $item)
-        <div class="bg-gray-800 rounded-xl p-4 shadow hover:shadow-xl transition">
-          <h3 class="text-lg font-semibold mb-2">{{ $item->judul }}</h3>
-          <p class="text-gray-300 text-sm mb-3">{{ $item->deskripsi }}</p>
-          @if ($item->gambar)
-            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}"
-              class="rounded-lg w-full object-cover max-h-52">
-          @endif
-        </div>
-      @endforeach
     </div>
   </section>
 
@@ -170,25 +160,25 @@
       return {
         activeIndex: 0,
         slides: [{
-            image: '/images/ucjv330.png',
+            image: '/images/banner/ucjv330.png',
             title: 'UCJV330 SERIE',
             brand: 'Mimaki',
             description: 'Inovasi cetak, kualitas profesional.'
           },
           {
-            image: '/images/tc20m.png',
+            image: '/images/banner/tc20m.png',
             title: 'Image PROGRAF TC-20M',
             brand: 'Canon',
             description: 'Desain ramping, performa maksimal.'
           },
           {
-            image: '/images/lxir320.png',
+            image: '/images/banner/lxir320.png',
             title: 'RollToRoll UV Printer LXiR320',
             brand: 'Jetrix',
             description: 'Warna lebih hidup, daya tahan lebih lama.'
           },
           {
-            image: '/images/prestos.png',
+            image: '/images/banner/prestos.png',
             title: 'KORNIT Presto S',
             brand: 'Kornit',
             description: 'Solusi cetak, untuk kain berkualitas.'
