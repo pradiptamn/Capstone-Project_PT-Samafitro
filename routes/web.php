@@ -187,8 +187,15 @@ Route::middleware(['auth', 'role:user,admin'])->prefix('user')->group(function (
     Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
     Route::get('/orders', [UserOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [UserOrderController::class, 'show'])->name('orders.show');
+    // Route untuk Cancel Order
+    Route::put('/orders/{order}/cancel', [UserOrderController::class, 'cancel'])
+        ->name('orders.cancel');
     // Route untuk menangani setelah pembayaran sukses/selesai
     Route::get('/payment/finish', [UserOrderController::class, 'paymentFinish'])->name('payment.finish');
     // Route untuk tombol Cek Status Manual
     Route::get('/orders/{order}/check', [UserOrderController::class, 'checkStatus'])->name('orders.check');
+    // Route cetak invoice/kuitansi
+    Route::get('/orders/{order}/invoice', [UserOrderController::class, 'downloadInvoice'])
+        ->name('orders.invoice');
+});
 });

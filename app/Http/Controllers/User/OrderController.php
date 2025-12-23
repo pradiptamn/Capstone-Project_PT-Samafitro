@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,6 +38,33 @@ class OrderController extends Controller
 
         // 3. Tampilkan view detail
         return view('pages.user.orders.show', compact('order'));
+    }
+
+    public function cancel(Order $order)
+    {
+        // 1. Validasi Kepemilikan (Security)
+        if ($order->user_id != auth()->id()) {
+            abort(403, 'Anda tidak memiliki akses ke pesanan ini.');
+        }
+
+        // 2. Validasi Status (Hanya boleh batal jika belum diproses/dikirim)
+        // Status yang BOLEH dibatalkan: 'pending' (belum bayar) atau 'unpaid'
+        if ($order->status == 'shipped' || $order->status == 'completed' || $order->status == 'processing') {
+            return back()->with('error', 'Pesanan tidak dapat dibatalkan karena sudah diproses/dikirim.');
+        }
+
+        // 3. Update Status
+        $order->status = 'cancelled';
+        $order->save();
+
+        // (Opsional) Jika Anda pakai stok management, kembalikan stok produk disini
+        // foreach($order->items as $item) {
+        //    $product = $item->product;
+        //    $product->stok += $item->quantity;
+        //    $product->save();
+        // }
+
+        return back()->with('success', 'Pesanan berhasil dibatalkan.');
     }
 
 
@@ -137,5 +165,22 @@ class OrderController extends Controller
             // Jika error (misal belum ada transaksi sama sekali di Midtrans)
             return back()->with('error', 'Belum ada transaksi yang ditemukan untuk pesanan ini.');
         }
+    }
+
+    public function downloadInvoice(Order $order)
+    {
+        // 1. Security Check: Pastikan order milik user yang login
+        if ($order->user_id != auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // 2. Load View PDF
+        $pdf = Pdf::loadView('pages.user.orders.invoice', compact('order'));
+
+        // 3. Set ukuran kertas (A4 Portrait standar surat)
+        $pdf->setPaper('a4', 'portrait');
+
+        // 4. Download file dengan nama dinamis
+        return $pdf->download('Invoice-' . $order->order_number . '.pdf');
     }
 }

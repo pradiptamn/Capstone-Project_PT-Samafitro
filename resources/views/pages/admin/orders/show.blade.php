@@ -5,11 +5,58 @@
 @section('content')
   <div class="container mx-auto px-4 py-8">
 
+    {{-- Header / Tombol Kembali --}}
     <div class="mb-6">
       <a href="{{ route('admin.orders.index') }}" class="text-gray-400 hover:text-white flex items-center gap-2 transition">
         <i class="fas fa-arrow-left"></i> Kembali ke Daftar
       </a>
     </div>
+
+    {{-- ========================================== --}}
+    {{-- TAMBAHAN: ALERT MESSAGES (SUCCESS / ERROR) --}}
+    {{-- ========================================== --}}
+
+    {{-- 1. Pesan Sukses --}}
+    @if (session('success'))
+      <div
+        class="mb-6 bg-green-500/10 border border-green-500 text-green-400 px-4 py-3 rounded-lg relative flex items-center gap-3"
+        role="alert">
+        <i class="fas fa-check-circle text-xl"></i>
+        <div>
+          <strong class="font-bold">Berhasil!</strong>
+          <span class="block sm:inline">{{ session('success') }}</span>
+        </div>
+      </div>
+    @endif
+
+    {{-- 2. Pesan Error (Dari Controller) --}}
+    @if (session('error'))
+      <div
+        class="mb-6 bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-lg relative flex items-center gap-3"
+        role="alert">
+        <i class="fas fa-exclamation-circle text-xl"></i>
+        <div>
+          <strong class="font-bold">Gagal!</strong>
+          <span class="block sm:inline">{{ session('error') }}</span>
+        </div>
+      </div>
+    @endif
+
+    {{-- 3. Pesan Error Validasi (Misal form tidak lengkap) --}}
+    @if ($errors->any())
+      <div class="mb-6 bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-lg relative">
+        <strong class="font-bold flex items-center gap-2 mb-1">
+          <i class="fas fa-exclamation-triangle"></i> Terjadi Kesalahan:
+        </strong>
+        <ul class="list-disc list-inside text-sm">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+    {{-- ========================================== --}}
+
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
