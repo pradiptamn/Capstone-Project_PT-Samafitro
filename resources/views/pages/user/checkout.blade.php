@@ -56,15 +56,15 @@
                   <i class="fas fa-truck text-blue-400 text-xl"></i>
                   <div>
                     <p class="font-bold text-white">Kurir Internal Samafitro</p>
-                    <p class="text-xs text-gray-400">Aman & Terpercaya</p>
+                    <p class="text-xs text-gray-400">Pengiriman aman oleh tim kami sendiri</p>
                   </div>
                 </div>
-                <span class="font-bold text-blue-400">Rp {{ number_format($shippingPrice, 0, ',', '.') }}</span>
+                <span class="text-xs font-bold text-blue-400 bg-blue-900/50 px-2 py-1 rounded">Official</span>
               </div>
             </div>
           </div>
 
-          {{-- KOLOM KANAN: RINGKASAN & KONTROL QTY (YANG DIUBAH) --}}
+          {{-- KOLOM KANAN: RINGKASAN --}}
           <div class="lg:col-span-1">
             <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg sticky top-6">
               <h2 class="text-xl font-bold mb-4 text-white">Ringkasan Pesanan</h2>
@@ -72,11 +72,9 @@
               <div class="max-h-96 overflow-y-auto mb-6 pr-1 space-y-4 custom-scrollbar">
                 @foreach ($cartItems as $item)
                   <div class="bg-gray-900/50 p-3 rounded-lg border border-gray-700 relative group">
-
                     <div class="flex gap-3 mb-3">
                       <img src="{{ asset($item->product->gambar) }}"
                         class="w-16 h-16 object-cover rounded bg-white shrink-0">
-
                       <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-white line-clamp-2 leading-tight"
                           title="{{ $item->product->nama_produk }}">
@@ -87,9 +85,7 @@
                         </p>
                       </div>
                     </div>
-
                     <div class="flex items-center justify-between border-t border-gray-700 pt-3">
-
                       <div class="flex items-center border border-gray-600 rounded bg-gray-800">
                         <button type="button"
                           onclick="updateCheckoutQty('{{ $item->product_id }}', {{ $item->quantity - 1 }})"
@@ -97,46 +93,71 @@
                           {{ $item->quantity <= 1 ? 'disabled' : '' }}>
                           <i class="fas fa-minus text-xs"></i>
                         </button>
-
                         <span class="px-2 text-sm font-bold text-white min-w-[30px] text-center">
                           {{ $item->quantity }}
                         </span>
-
                         <button type="button"
                           onclick="updateCheckoutQty('{{ $item->product_id }}', {{ $item->quantity + 1 }})"
                           class="px-2 py-1 text-gray-400 hover:text-white hover:bg-gray-700 transition">
                           <i class="fas fa-plus text-xs"></i>
                         </button>
                       </div>
-
                       <div class="text-right">
                         <p class="text-sm font-bold text-blue-400">
                           Rp {{ number_format($item->product->harga * $item->quantity, 0, ',', '.') }}
                         </p>
                       </div>
                     </div>
-
                     <button type="button" onclick="removeCartItem('{{ $item->product_id }}')"
                       class="absolute top-2 right-2 text-gray-600 hover:text-red-500 p-1 transition" title="Hapus produk">
                       <i class="fas fa-trash-alt"></i>
                     </button>
-
                   </div>
                 @endforeach
               </div>
 
-              <div class="border-t border-gray-700 pt-4 space-y-2 text-sm">
+              {{-- --- BAGIAN OPSI INPUT (CHECKBOX) --- --}}
+              <div class="mb-6">
+                <div
+                  class="flex justify-between items-start p-3 bg-gray-700/30 rounded-lg border border-gray-600/50 hover:bg-gray-700/50 transition cursor-pointer"
+                  onclick="document.getElementById('insurance-checkbox').click()">
+                  <div class="flex items-start gap-2">
+                    <input id="insurance-checkbox" name="use_insurance" type="checkbox" value="1"
+                      class="mt-1 w-4 h-4 text-blue-600 bg-gray-700 border-gray-500 rounded focus:ring-blue-500 cursor-pointer"
+                      onclick="event.stopPropagation()">
+                    <label for="insurance-checkbox" class="text-gray-300 cursor-pointer select-none text-sm">
+                      Biaya Asuransi Pengiriman
+                      <span class="text-[11px] text-gray-400 block mt-0.5">
+                        Lindungi paket dari kerusakan & kehilangan<br>
+                        <span class="text-yellow-500 font-bold ml-1">
+                          (+ Rp {{ number_format($insuranceFee, 0, ',', '.') }})
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              {{-- --- BAGIAN RINCIAN BIAYA (OUTPUT) --- --}}
+              <div class="border-t border-gray-700 pt-4 space-y-3 text-sm">
+
                 <div class="flex justify-between text-gray-400">
                   <span>Subtotal</span>
                   <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                 </div>
-                <div class="flex justify-between text-gray-400">
-                  <span>Ongkir</span>
-                  <span>Rp {{ number_format($shippingPrice, 0, ',', '.') }}</span>
+
+                {{-- Baris Asuransi (Default: Hidden) --}}
+                <div id="insurance-row" class="justify-between text-blue-400" style="display: none;">
+                  <span>Biaya Asuransi</span>
+                  <span>Rp {{ number_format($insuranceFee, 0, ',', '.') }}</span>
                 </div>
+
+                {{-- Total Bayar --}}
                 <div class="flex justify-between text-white font-bold text-xl pt-3 border-t border-gray-700 mt-2">
-                  <span>Total</span>
-                  <span class="text-green-400">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                  <span>Total Bayar</span>
+                  <span id="grand-total-display" class="text-green-400">
+                    Rp {{ number_format($subtotal, 0, ',', '.') }}
+                  </span>
                 </div>
               </div>
 
@@ -152,26 +173,53 @@
     </div>
   </div>
 
-  {{-- SCRIPT UPDATE & HAPUS --}}
   <script>
-    // Fungsi Menampilkan Loading
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- LOGIKA ASURANSI ---
+      const insuranceCheckbox = document.getElementById('insurance-checkbox');
+      const insuranceRow = document.getElementById('insurance-row');
+      const grandTotalDisplay = document.getElementById('grand-total-display');
+
+      const subtotal = {{ $subtotal }};
+      const insuranceFee = {{ $insuranceFee }};
+
+      const formatRupiah = (number) => {
+        return new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+          minimumFractionDigits: 0
+        }).format(number).replace('IDR', 'Rp').trim();
+      };
+
+      function updateTotal() {
+        let total = subtotal;
+
+        if (insuranceCheckbox.checked) {
+          total += insuranceFee;
+          // Tampilkan baris "Biaya Asuransi"
+          insuranceRow.style.display = 'flex';
+        } else {
+          // Sembunyikan sepenuhnya
+          insuranceRow.style.display = 'none';
+        }
+
+        grandTotalDisplay.innerText = formatRupiah(total);
+      }
+
+      insuranceCheckbox.addEventListener('change', updateTotal);
+      updateTotal();
+    });
+
+    // --- FUNGSI UPDATE KERANJANG (BAWAAN) ---
     function showLoading() {
-      document.body.innerHTML += `
-            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; display: flex; justify-content: center; align-items: center; color: white; flex-direction: column;">
-                <i class="fas fa-spinner fa-spin fa-3x mb-3 text-blue-500"></i>
-                <p class="font-medium text-lg">Memperbarui pesanan...</p>
-            </div>
-        `;
+      document.body.innerHTML +=
+        `<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; display: flex; justify-content: center; align-items: center; color: white; flex-direction: column;"><i class="fas fa-spinner fa-spin fa-3x mb-3 text-blue-500"></i><p class="font-medium text-lg">Memperbarui pesanan...</p></div>`;
     }
 
-    // 1. UPDATE QUANTITY (Plus / Minus)
     async function updateCheckoutQty(productId, newQty) {
-      if (newQty < 1) return; // Mencegah qty 0 lewat tombol minus
-
+      if (newQty < 1) return;
       showLoading();
-
       try {
-        // Kita gunakan endpoint Cart yang sudah ada di Web.php
         const response = await fetch("{{ route('cart.update') }}", {
           method: 'POST',
           headers: {
@@ -183,28 +231,21 @@
             quantity: newQty
           })
         });
-
         const data = await response.json();
-
-        if (data.success) {
-          window.location.reload(); // Reload untuk update harga PHP
-        } else {
-          alert('Gagal update keranjang');
+        if (data.success) window.location.reload();
+        else {
+          alert('Gagal update');
           window.location.reload();
         }
       } catch (error) {
         console.error(error);
-        alert('Terjadi kesalahan koneksi');
         window.location.reload();
       }
     }
 
-    // 2. HAPUS ITEM (Tombol Sampah)
     async function removeCartItem(productId) {
       if (!confirm('Hapus produk ini dari pesanan?')) return;
-
       showLoading();
-
       try {
         const response = await fetch("{{ route('cart.remove') }}", {
           method: 'POST',
@@ -216,13 +257,10 @@
             product_id: productId
           })
         });
-
         const data = await response.json();
-
-        if (data.success) {
-          window.location.reload();
-        } else {
-          alert('Gagal menghapus item');
+        if (data.success) window.location.reload();
+        else {
+          alert('Gagal hapus');
           window.location.reload();
         }
       } catch (error) {

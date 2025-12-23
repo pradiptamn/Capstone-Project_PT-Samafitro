@@ -211,7 +211,7 @@
                   <p>Total</p>
                   <p class="text-blue-400" x-text="formatRupiah(totalPrice)"></p>
                 </div>
-                <p class="mt-0.5 text-xs text-gray-500 mb-4">Ongkos kirim dihitung saat checkout.</p>
+                <p class="mt-0.5 text-xs text-gray-500 mb-4">Belum termasuk asuransi pengiriman.</p>
                 <div class="flex gap-3">
                   <button @click="clearCart()"
                     class="flex-1 items-center justify-center rounded-md border border-gray-600 bg-gray-800 px-6 py-3 text-base font-medium text-gray-300 shadow-sm hover:bg-gray-700 hover:text-white transition">

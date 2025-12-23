@@ -35,12 +35,12 @@ class CheckoutController extends Controller
             $subtotal += $item->product->harga * $item->quantity;
         }
 
-        // Ongkir Flat (Bisa diubah logikanya nanti)
-        $shippingPrice = 20000;
+        // PANGGIL DARI CONFIG (Bukan ditulis manual 20000 lagi)
+        $insuranceFee = config('samafitro.insurance_fee');
 
-        $total = $subtotal + $shippingPrice;
+        $total = $subtotal + $insuranceFee;
 
-        return view('pages.user.checkout', compact('cartItems', 'subtotal', 'shippingPrice', 'total', 'user'));
+        return view('pages.user.checkout', compact('cartItems', 'subtotal', 'insuranceFee', 'total', 'user'));
     }
 
     /**
@@ -67,8 +67,15 @@ class CheckoutController extends Controller
         foreach ($cartItems as $item) {
             $subtotal += $item->product->harga * $item->quantity;
         }
-        $shippingPrice = 20000; // Flat Rate
-        $grandTotal = $subtotal + $shippingPrice;
+        // 1. Ambil Biaya Default dari Config
+        $defaultInsuranceFee = config('samafitro.insurance_fee');
+
+        // 2. CEK CHECKBOX: Apakah user mencentang 'use_insurance'?
+        // Jika ada input 'use_insurance', maka pakai harga config. Jika tidak, 0.
+        $appliedInsuranceFee = $request->has('use_insurance') ? $defaultInsuranceFee : 0;
+
+        // 3. Hitung Grand Total
+        $grandTotal = $subtotal + $appliedInsuranceFee;
 
         try {
             DB::beginTransaction();
@@ -83,7 +90,7 @@ class CheckoutController extends Controller
                 'note' => $request->note,
 
                 'subtotal' => $subtotal,
-                'shipping_price' => $shippingPrice,
+                'insurance_fee' => $appliedInsuranceFee, // Simpan 0 atau 20000 sesuai pilihan user
                 'total_price' => $grandTotal,
                 'status' => 'pending',
                 'payment_status' => 'unpaid',
@@ -123,13 +130,13 @@ class CheckoutController extends Controller
                 ];
             }
 
-            // B. Masukkan Ongkir sebagai "Item" tambahan
-            if ($order->shipping_price > 0) {
+            // B. Konfigurasi Midtrans Item Details
+            if ($order->insurance_fee > 0) {
                 $item_details[] = [
-                    'id'       => 'SHIPPING',
-                    'price'    => (int) $order->shipping_price,
+                    'id'       => 'INSURANCE-FEE',
+                    'price'    => (int) $order->insurance_fee, // Pakai kolom baru
                     'quantity' => 1,
-                    'name'     => 'Biaya Pengiriman (Kurir Internal)',
+                    'name'     => 'Biaya Layanan & Asuransi',
                 ];
             }
 
@@ -147,6 +154,20 @@ class CheckoutController extends Controller
                     'shipping_address' => [
                         'address' => $request->address,
                     ],
+                ],
+                'enabled_payments' => [
+                    'credit_card', // Kartu Kredit
+                    'bca_va',      // BCA Virtual Account
+                    'bni_va',      // BNI Virtual Account
+                    'bri_va',      // BRI Virtual Account
+                    'echannel',    // Mandiri Bill Payment (Mandiri VA)
+                    'permata_va',  // Permata VA
+                    'cimb_va',     // CIMB Niaga VA
+                    'other_va'     // Bank Lainnya (ATM Bersama/Prima)
+                ],
+                // Konfigurasi tambahan agar Kartu Kredit Aman (3D Secure)
+                'credit_card' => [
+                    'secure' => true
                 ],
             ];
 
