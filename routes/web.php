@@ -123,6 +123,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::post('/dashboard', [AdminDashboardController::class, 'store'])->name('admin.dashboard.store');
     Route::delete('/dashboard/{id}', [AdminDashboardController::class, 'destroy'])->name('admin.dashboard.destroy');
 
+    Route::get('/export/pdf', [AdminDashboardController::class, 'exportPdf'])->name('admin.export.pdf');
+    Route::get('/export/excel', [AdminDashboardController::class, 'exportExcel'])->name('admin.export.excel');
+
     // Promo Admin
     Route::prefix('promos')->name('admin.promos.')->group(function () {
         Route::get('/', [AdminPromoController::class, 'index'])->name('index');
