@@ -25,6 +25,10 @@ use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\OrderController as UserOrderController;
 
+// Courier
+use App\Http\Controllers\Courier\OrderController as CourierOrderController;
+use App\Http\Controllers\Courier\ProfileController as CourierProfileController;
+
 // Halaman utama welcome
 Route::get('/', function () {
     if (!session()->has('splash_shown')) {
@@ -115,6 +119,8 @@ Route::get('/dashboard', function () {
     $user = Auth::user();
     if ($user->role === 'admin') {
         return redirect()->intended('/admin/dashboard');
+    } else if ($user->role === 'courier') {
+        return redirect()->intended('/courier/dashboard');
     }
 
     return redirect()->intended('/user');
@@ -203,4 +209,13 @@ Route::middleware(['auth', 'role:user,admin'])->prefix('user')->group(function (
     Route::get('/orders/{order}/invoice', [UserOrderController::class, 'downloadInvoice'])
         ->name('orders.invoice');
 });
+
+// Route Khusus Kurir
+Route::middleware(['auth', 'role:courier'])->prefix('courier')->name('courier.')->group(function () {
+    Route::get('/dashboard', [CourierOrderController::class, 'index'])->name('dashboard');
+    Route::get('/orders/{order}', [CourierOrderController::class, 'show'])->name('orders.show');
+    Route::put('/orders/{order}', [CourierOrderController::class, 'update'])->name('orders.update');
+
+    Route::get('/courier/profile', [CourierProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/courier/profile', [CourierProfileController::class, 'update'])->name('profile.update');
 });
