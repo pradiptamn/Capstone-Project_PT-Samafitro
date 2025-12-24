@@ -59,5 +59,16 @@
       Edit Artikel
     </a>
 
+    {{-- MENU MANAJEMEN USER --}}
+    <div class="px-4 text-xs font-bold text-gray-500 uppercase">
+      Manajemen User
+    </div>
+
+    <a href="{{ route('admin.couriers.index') }}"
+      class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.couriers.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+      <i class="fas fa-truck w-6"></i>
+      Data Kurir
+    </a>
+
   </nav>
 </div>
