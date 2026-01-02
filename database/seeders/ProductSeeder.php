@@ -34,6 +34,8 @@ class ProductSeeder extends Seeder
                     'id' => $productData['id'],
                     'kategori_id' => $productData['kategori_id'],
                     'nama_produk' => $productData['nama_produk'],
+                    'harga' => $productData['harga'],
+                    'stok' => $productData['stok'],
                     'deskripsi' => $productData['deskripsi'],
                     'gambar' => $productData['gambar'],
                 ]);

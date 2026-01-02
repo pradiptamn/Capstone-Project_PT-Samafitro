@@ -54,7 +54,7 @@ Route::get('/produk', function () {
 // API untuk data produk
 Route::get('/produk/json', function () {
     $categories = Category::select('id', 'name')->get();
-    $products = Product::select('id', 'kategori_id', 'nama_produk', 'harga', 'deskripsi', 'gambar')->get();
+    $products = Product::select('id', 'kategori_id', 'nama_produk', 'harga', 'stok', 'deskripsi', 'gambar')->get();
 
     return response()->json([
         'categories' => $categories,
@@ -154,6 +154,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::post('/store', [AdminProductController::class, 'store'])->name('store');
         Route::put('/update/{id}', [AdminProductController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [AdminProductController::class, 'destroy'])->name('delete');
+
+        Route::get('/trash', [AdminProductController::class, 'trash'])->name('trash');
+        Route::put('/{id}/restore', [AdminProductController::class, 'restore'])->name('restore');
+        Route::delete('/{id}/force-delete', [AdminProductController::class, 'forceDelete'])->name('forceDelete');
     });
 
     // Order Admin

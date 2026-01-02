@@ -6,9 +6,46 @@
   <div class="bg-gradient-to-b from-gray-900 to-gray-800 text-white font-sans min-h-screen flex flex-col">
     <main class="flex-1 container mx-auto px-4 py-8">
 
-      <h2 class="text-3xl font-bold text-center mb-8 flex items-center justify-center gap-2">
-        <i class="fas fa-box-open text-blue-500"></i> Kelola Produk
-      </h2>
+      {{-- Letakkan di samping Judul "Kelola Produk" --}}
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+        <h2 class="text-3xl font-bold flex items-center gap-2">
+          <i class="fas fa-box-open text-blue-500"></i> Kelola Produk
+        </h2>
+        <a href="{{ route('admin.produk.trash') }}"
+          class="bg-gray-700 hover:bg-red-600 text-white text-xs px-4 py-2 rounded-full transition flex items-center gap-2">
+          <i class="fas fa-trash-alt"></i> Lihat Tong Sampah
+        </a>
+      </div>
+
+      {{-- 1. Pesan Error Validasi Input --}}
+      @if ($errors->any())
+        <div class="mb-6 p-4 bg-red-600/20 border border-red-600 text-red-400 rounded-lg shadow-lg">
+          <h4 class="font-bold mb-2"><i class="fas fa-exclamation-triangle mr-2"></i> Terjadi Kesalahan:</h4>
+          <ul class="list-disc list-inside text-sm">
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
+      {{-- 2. Pesan Sukses (dari session success) --}}
+      @if (session('success'))
+        <div
+          class="mb-6 p-4 bg-green-600/20 border border-green-600 text-green-400 rounded-lg shadow-lg flex items-center gap-3">
+          <i class="fas fa-check-circle text-xl"></i>
+          <span class="text-sm font-medium">{{ session('success') }}</span>
+        </div>
+      @endif
+
+      {{-- 3. Pesan Error Sistem (dari session error) --}}
+      @if (session('error'))
+        <div
+          class="mb-6 p-4 bg-red-600/20 border border-red-600 text-red-400 rounded-lg shadow-lg flex items-center gap-3">
+          <i class="fas fa-times-circle text-xl"></i>
+          <span class="text-sm font-medium">{{ session('error') }}</span>
+        </div>
+      @endif
 
       <div class="bg-gray-900 rounded-xl shadow-lg border border-gray-700 overflow-hidden mb-10">
         <div class="bg-gray-800 px-6 py-4 border-b border-gray-700">
@@ -19,34 +56,47 @@
           <form action="{{ route('admin.produk.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              {{-- Nama Produk --}}
               <div>
                 <label class="block mb-2 text-sm font-medium text-gray-300">Nama Produk</label>
-                <input type="text" name="nama_produk"
-                  class="w-full bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                <input type="text" name="nama_produk" value="{{ old('nama_produk') }}"
+                  class="w-full bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 block p-2.5"
                   required placeholder="Contoh: Canon imageRUNNER">
               </div>
 
+              {{-- Kategori --}}
               <div>
                 <label class="block mb-2 text-sm font-medium text-gray-300">Kategori</label>
                 <select name="kategori_id"
-                  class="w-full bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                  class="w-full bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 block p-2.5"
                   required>
                   <option value="">Pilih Kategori</option>
                   @foreach ($categories as $cat)
-                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                    <option value="{{ $cat->id }}" {{ old('kategori_id') == $cat->id ? 'selected' : '' }}>
+                      {{ $cat->name }}
+                    </option>
                   @endforeach
                 </select>
               </div>
 
-              <div class="md:col-span-2">
+              {{-- Stok Awal --}}
+              <div>
+                <label class="block mb-2 text-sm font-medium text-gray-300">Stok Awal</label>
+                <input type="number" name="stok" value="{{ old('stok') }}"
+                  class="w-full bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 block p-2.5"
+                  placeholder="0" min="0" required>
+              </div>
+
+              {{-- Harga --}}
+              <div class="md:col-span-3">
                 <label class="block mb-2 text-sm font-medium text-gray-300">Harga (Rp)</label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <span class="text-gray-400 font-bold">Rp</span>
                   </div>
-                  <input type="number" name="harga"
-                    class="w-full bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block pl-10 p-2.5"
+                  <input type="number" name="harga" value="{{ old('harga') }}"
+                    class="w-full bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 block pl-10 p-2.5"
                     placeholder="0" min="0" required>
                 </div>
               </div>
@@ -55,17 +105,38 @@
             <div class="mb-6">
               <label class="block mb-2 text-sm font-medium text-gray-300">Spesifikasi Produk</label>
               <div id="specifications-container" class="space-y-3">
-                <div class="specification-item flex flex-col md:flex-row gap-3">
-                  <input type="text" name="spec_labels[]"
-                    class="flex-1 bg-gray-800 border border-gray-600 text-white text-sm rounded-lg p-2.5"
-                    placeholder="Label (Contoh: Kecepatan)" required>
-                  <input type="text" name="spec_values[]"
-                    class="flex-1 bg-gray-800 border border-gray-600 text-white text-sm rounded-lg p-2.5"
-                    placeholder="Nilai (Contoh: 45 ppm)" required>
-                  <button type="button"
-                    class="btn-remove-spec bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm transition">
-                    <i class="fas fa-trash"></i>
-                  </button>
+                <div id="specifications-container" class="space-y-3">
+                  @if (old('spec_labels'))
+                    {{-- Jika ada error validasi, tampilkan kembali apa yang sudah diinput --}}
+                    @foreach (old('spec_labels') as $index => $label)
+                      <div class="specification-item flex flex-col md:flex-row gap-3">
+                        <input type="text" name="spec_labels[]" value="{{ $label }}"
+                          class="flex-1 bg-gray-800 border border-gray-600 text-white text-sm rounded-lg p-2.5"
+                          placeholder="Label" required>
+                        <input type="text" name="spec_values[]" value="{{ old('spec_values')[$index] }}"
+                          class="flex-1 bg-gray-800 border border-gray-600 text-white text-sm rounded-lg p-2.5"
+                          placeholder="Nilai" required>
+                        <button type="button"
+                          class="btn-remove-spec bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm transition">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    @endforeach
+                  @else
+                    {{-- Tampilan default saat pertama kali buka halaman --}}
+                    <div class="specification-item flex flex-col md:flex-row gap-3">
+                      <input type="text" name="spec_labels[]"
+                        class="flex-1 bg-gray-800 border border-gray-600 text-white text-sm rounded-lg p-2.5"
+                        placeholder="Label (Contoh: Kecepatan)" required>
+                      <input type="text" name="spec_values[]"
+                        class="flex-1 bg-gray-800 border border-gray-600 text-white text-sm rounded-lg p-2.5"
+                        placeholder="Nilai (Contoh: 45 ppm)" required>
+                      <button type="button"
+                        class="btn-remove-spec bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm transition">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  @endif
                 </div>
               </div>
               <button type="button" id="add-specification"
@@ -132,7 +203,7 @@
                 data-category-id="{{ $p->kategori_id }}" data-name="{{ strtolower($p->nama_produk) }}">
 
                 <div class="h-40 w-full bg-white p-4 flex items-center justify-center">
-                  <img src="{{ asset($p->gambar) }}" alt="{{ $p->nama_produk }}"
+                  <img src="{{ asset('storage/' . $p->gambar) }}" alt="{{ $p->nama_produk }}"
                     class="max-h-full max-w-full object-contain">
                 </div>
 
@@ -140,7 +211,10 @@
                   <h4 class="text-lg font-bold text-white mb-1 line-clamp-2">{{ $p->nama_produk }}</h4>
                   <span class="text-xs text-gray-400 mb-2 block">{{ $p->category?->name }}</span>
 
-                  <p class="text-blue-400 font-bold mb-4">Rp {{ number_format($p->harga, 0, ',', '.') }}</p>
+                  <p class="text-blue-400 font-bold mb-1">Rp {{ number_format($p->harga, 0, ',', '.') }}</p>
+                  <p class="text-xs {{ $p->stok <= 5 ? 'text-red-500 font-bold' : 'text-gray-500' }} mb-4 italic">
+                    <i class="fas fa-warehouse mr-1"></i> Stok: {{ $p->stok }} Unit
+                  </p>
 
                   <div class="mt-auto flex gap-2">
                     <button onclick="editProduct({{ json_encode($p) }})"
@@ -191,6 +265,7 @@
             @csrf @method('PUT')
             <input type="hidden" name="id" id="editId">
 
+            {{-- Update grid di dalam modal edit --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
               <div>
                 <label class="block mb-2 text-sm font-medium text-gray-300">Nama Produk</label>
@@ -206,16 +281,16 @@
                   @endforeach
                 </select>
               </div>
-              <div class="md:col-span-2">
+              {{-- INPUT EDIT STOK --}}
+              <div class="md:col-span-1">
+                <label class="block mb-2 text-sm font-medium text-gray-300">Stok</label>
+                <input type="number" name="stok" id="editStok"
+                  class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg p-2.5" required>
+              </div>
+              <div class="md:col-span-1">
                 <label class="block mb-2 text-sm font-medium text-gray-300">Harga (Rp)</label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <span class="text-gray-400 font-bold">Rp</span>
-                  </div>
-                  <input type="number" name="harga" id="editHarga"
-                    class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block pl-10 p-2.5"
-                    required>
-                </div>
+                <input type="number" name="harga" id="editHarga"
+                  class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg p-2.5" required>
               </div>
             </div>
 
@@ -308,6 +383,8 @@
 
       // ISI NILAI HARGA DI MODAL
       document.getElementById('editHarga').value = product.harga;
+
+      document.getElementById('editStok').value = product.stok;
 
       document.getElementById('editForm').action = '/admin/produk/update/' + product.id;
 
