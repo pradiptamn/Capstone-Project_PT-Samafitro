@@ -76,7 +76,8 @@
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                 <div class="lg:col-span-2">
-                  <label class="block text-sm text-gray-400 mb-1">Nama Lengkap</label>
+                  <label class="block text-sm text-gray-400 mb-1">Nama Lengkap <span class="text-red-500">*</span>
+                  </label>
                   <input type="text" name="name" value="{{ old('name', $user->name) }}"
                     class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
                 </div>
@@ -122,13 +123,15 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm text-gray-400 mb-1">NIK (KTP)</label>
+                  <label class="block text-sm text-gray-400 mb-1">
+                    NIK (KTP) <span class="text-red-500">*</span>
+                  </label>
                   <input type="text" name="ktp_number" value="{{ old('ktp_number', $user->ktp_number) }}"
-                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-purple-500 transition">
+                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2.5 focus:border-purple-500 outline-none">
                 </div>
 
                 <div class="lg:col-span-2">
-                  <label class="block text-sm text-gray-400 mb-2">Foto KTP</label>
+                  <label class="block text-sm text-gray-400 mb-2">Foto KTP <span class="text-red-500">*</span></label>
                   <div
                     class="flex flex-col sm:flex-row items-start gap-4 p-4 bg-gray-700/30 rounded-xl border border-gray-600 border-dashed">
                     <div class="shrink-0">
@@ -180,6 +183,48 @@
               </div>
               <a href="{{ route('password.request') }}" class="text-gray-300 text-sm hover:underline">Lupa
                 Password?</a>
+            </div>
+
+            <div>
+              <h3
+                class="text-green-400 font-bold text-sm uppercase tracking-wider mb-4 border-b border-gray-700 pb-2 flex items-center">
+                <i class="fas fa-shield-alt mr-2"></i> Keamanan Akun
+              </h3>
+
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <div>
+                  <label class="block text-sm text-gray-400 mb-1">
+                    Pertanyaan Keamanan @if (empty($user->security_question))
+                      <span class="text-red-500">*</span>
+                    @endif
+                  </label>
+                  <select name="security_question"
+                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2.5 outline-none">
+                    <option value="" disabled {{ is_null($user->security_question) ? 'selected' : '' }}>Pilih
+                      Pertanyaan</option>
+                    <option value="Siapa nama ibu kandung Anda"
+                      {{ old('security_question', $user->security_question) == 'Siapa nama ibu kandung Anda' ? 'selected' : '' }}>
+                      Siapa nama ibu kandung Anda</option>
+                    <option value="Apa nama sekolah pertama Anda"
+                      {{ old('security_question', $user->security_question) == 'Apa nama sekolah pertama Anda' ? 'selected' : '' }}>
+                      Apa nama sekolah pertama Anda</option>
+                    <option value="Apa makanan favorite Anda"
+                      {{ old('security_question', $user->security_question) == 'Apa makanan favorite Anda' ? 'selected' : '' }}>
+                      Apa makanan favorite Anda</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-sm text-gray-400 mb-1">
+                    Jawaban Keamanan @if (empty($user->security_answer))
+                      <span class="text-red-500">*</span>
+                    @endif
+                  </label>
+                  <input type="password" name="security_answer"
+                    placeholder="{{ empty($user->security_answer) ? 'Wajib diisi' : 'Isi untuk mengganti jawaban lama' }}"
+                    class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2.5 focus:border-green-500 outline-none">
+                </div>
+              </div>
             </div>
 
             <div class="pt-1">

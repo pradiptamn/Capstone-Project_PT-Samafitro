@@ -43,34 +43,39 @@ class ProfileController extends Controller
             return redirect()->route('login');
         }
 
-        // 1. Validasi Input
-        $request->validate(
-            [
-                'name'         => 'required|string|max:255',
-                'phone'        => 'nullable|string|max:20',
-                'address'      => 'nullable|string|max:500',
-                'company_name' => 'nullable|string|max:255',
-                'npwp'         => 'nullable|string|max:50',
-                'ktp_number'   => 'nullable|string|max:50',
+        // --- Logika Validasi Dinamis ---
+        // Cek apakah data di database kosong
+        $isKtpNumberEmpty = empty($user->ktp_number);
+        $isKtpPhotoEmpty = empty($user->ktp_photo);
+        $isSecurityEmpty = empty($user->security_question) || empty($user->security_answer);
 
-                // Validasi File Gambar
-                'photo'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
-                'ktp_photo'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+        $rules = [
+            'name'             => 'required|string|max:255',
+            'phone'            => 'nullable|string|max:20',
+            'address'          => 'nullable|string|max:500',
+            'company_name'     => 'nullable|string|max:255',
+            'npwp'             => 'nullable|string|max:50',
+            'photo'            => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'current_password' => 'nullable|required_with:new_password',
+            'new_password'     => ['nullable', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
+        ];
 
-                // Validasi Password (Opsional, hanya jika diisi)
-                'current_password' => 'nullable|required_with:new_password',
-                'new_password'     => ['nullable', 'confirmed', Rules\Password::defaults()],
-            ],
-            [
-                'ktp_photo.image' => 'File harus berupa gambar.',
-                'ktp_photo.mimes' => 'Format gambar harus JPG, JPEG, atau PNG.',
-                'ktp_photo.max' => 'Ukuran gambar maksimal 2MB.',
-            ]
-        );
+        // Jika data KTP/Keamanan kosong di DB, maka WAJIB diisi di form
+        $rules['ktp_number'] = $isKtpNumberEmpty ? 'required|string|max:50' : 'nullable|string|max:50';
+        $rules['ktp_photo']  = $isKtpPhotoEmpty ? 'required|image|mimes:jpeg,png,jpg,gif|max:2048' : 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048';
 
-        $user = Auth::user();
+        $securityQuestions = 'Siapa nama ibu kandung Anda,Apa nama sekolah pertama Anda,Apa makanan favorite Anda';
+        $rules['security_question'] = $isSecurityEmpty ? "required|string|in:$securityQuestions" : "nullable|string|in:$securityQuestions";
+        $rules['security_answer']   = $isSecurityEmpty ? 'required|string|max:255' : 'nullable|string|max:255';
 
-        // 2. Update Informasi Dasar
+        $request->validate($rules, [
+            'ktp_number.required' => 'Nomor KTP wajib diisi karena data Anda belum lengkap.',
+            'ktp_photo.required'  => 'Foto KTP wajib diunggah karena data Anda belum lengkap.',
+            'security_question.required' => 'Pertanyaan keamanan wajib dipilih.',
+            'security_answer.required'   => 'Jawaban keamanan wajib diisi.',
+        ]);
+
+        // --- Proses Update Data ---
         $user->name         = $request->name;
         $user->phone        = $request->phone;
         $user->address      = $request->address;
@@ -78,44 +83,37 @@ class ProfileController extends Controller
         $user->npwp         = $request->npwp;
         $user->ktp_number   = $request->ktp_number;
 
-        // 3. Handle Upload Foto Profil
+        // Update Pertanyaan Keamanan & Hash Jawaban jika diisi
+        if ($request->filled('security_answer')) {
+            $user->security_question = $request->security_question;
+            $user->security_answer   = Hash::make($request->security_answer);
+        }
+
+        // Handle Foto Profil
         if ($request->hasFile('photo')) {
-            // Hapus foto lama jika ada (dan bukan foto default/url eksternal)
             if ($user->photo && Storage::disk('public')->exists($user->photo)) {
                 Storage::disk('public')->delete($user->photo);
             }
-
-            // Simpan foto baru di folder 'profile_photos'
-            $path = $request->file('photo')->store('profile_photos', 'public');
-            $user->photo = $path;
+            $user->photo = $request->file('photo')->store('profile_photos', 'public');
         }
 
-        // 4. Handle Upload Foto KTP
+        // Handle Foto KTP
         if ($request->hasFile('ktp_photo')) {
-            // Hapus foto KTP lama jika ada
             if ($user->ktp_photo && Storage::disk('public')->exists($user->ktp_photo)) {
                 Storage::disk('public')->delete($user->ktp_photo);
             }
-
-            // Simpan foto KTP baru di folder 'ktp_photos' (Sesuai Permintaan)
-            $path = $request->file('ktp_photo')->store('ktp_photos', 'public');
-            $user->ktp_photo = $path;
+            $user->ktp_photo = $request->file('ktp_photo')->store('ktp_photos', 'public');
         }
 
-        // 5. Handle Ganti Password
+        // Handle Password
         if ($request->filled('current_password')) {
-            // Cek apakah password lama benar
             if (!Hash::check($request->current_password, $user->password)) {
-                return back()->withErrors(['current_password' => 'Password lama yang Anda masukkan salah.']);
+                return back()->withErrors(['current_password' => 'Password lama salah.']);
             }
-
-            // Update password baru
             $user->password = Hash::make($request->new_password);
         }
 
-        // 6. Simpan Perubahan ke Database
         $user->save();
-
         return redirect()->route('profile.edit')->with('success', 'Profil berhasil diperbarui.');
     }
 }

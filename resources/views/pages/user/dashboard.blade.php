@@ -46,6 +46,25 @@
     </div>
   </section>
 
+  <div class="max-w-7xl mx-auto px-4">
+    @if (is_null(auth()->user()->security_question))
+      <div
+        class="mb-6 p-4 bg-yellow-600/20 border border-yellow-600 text-yellow-400 rounded-lg shadow-lg flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i class="fas fa-shield-alt text-xl"></i>
+          <div>
+            <p class="font-bold">Keamanan Akun Belum Lengkap!</p>
+            <p class="text-xs">Silakan atur pertanyaan keamanan Anda untuk memudahkan reset password di masa depan.</p>
+          </div>
+        </div>
+        <a href="{{ route('profile.edit') }}"
+          class="bg-yellow-600 hover:bg-yellow-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition">
+          Atur Sekarang
+        </a>
+      </div>
+    @endif
+  </div>
+
   {{-- Section with text and images --}}
   <section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
 
