@@ -18,6 +18,25 @@
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-grow w-full">
+
+      {{-- 1. Pesan Sukses (Sama seperti halaman Produk & Promo) --}}
+      @if (session('success'))
+        <div
+          class="mb-6 p-4 bg-green-600/20 border border-green-600 text-green-400 rounded-lg shadow-lg flex items-center gap-3">
+          <i class="fas fa-check-circle text-xl"></i>
+          <span class="text-sm font-medium">{{ session('success') }}</span>
+        </div>
+      @endif
+
+      {{-- 2. Pesan Error Sistem (Jika ada) --}}
+      @if (session('error'))
+        <div
+          class="mb-6 p-4 bg-red-600/20 border border-red-600 text-red-400 rounded-lg shadow-lg flex items-center gap-3">
+          <i class="fas fa-times-circle text-xl"></i>
+          <span class="text-sm font-medium">{{ session('error') }}</span>
+        </div>
+      @endif
+
       <div
         class="bg-gradient-to-br from-gray-800/80 to-gray-700/80 backdrop-blur-sm p-4 sm:p-6 rounded-xl shadow-xl border border-gray-600">
         <h2 class="text-xl sm:text-2xl font-semibold text-white mb-4 sm:mb-6 border-b border-gray-600 pb-2">Daftar Artikel
@@ -74,14 +93,5 @@
 
     {{-- Alpine.js --}}
     <script src="//unpkg.com/alpinejs" defer></script>
-
-    {{-- Notifikasi sukses --}}
-    @if (session('success'))
-      <script>
-        window.onload = function() {
-          alert("{{ session('success') }}");
-        }
-      </script>
-    @endif
 
   @endsection

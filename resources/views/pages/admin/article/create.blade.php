@@ -5,6 +5,39 @@
 @section('content')
   <div class="bg-gradient-to-b from-gray-900 to-gray-800 text-white font-sans min-h-screen flex flex-col">
     <main class="flex-1 container mx-auto px-4 py-8">
+      {{-- ===== BLOK NOTIFIKASI START ===== --}}
+      <div class="max-w-4xl mx-auto">
+        {{-- 1. Pesan Error Validasi Input (Judul kosong, File terlalu besar, dll) --}}
+        @if ($errors->any())
+          <div class="mb-6 p-4 bg-red-600/20 border border-red-600 text-red-400 rounded-lg shadow-lg">
+            <h4 class="font-bold mb-2"><i class="fas fa-exclamation-triangle mr-2"></i> Periksa Kembali Input Anda:</h4>
+            <ul class="list-disc list-inside text-sm">
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
+
+        {{-- 2. Pesan Sukses (Berhasil Publikasi Artikel) --}}
+        @if (session('success'))
+          <div
+            class="mb-6 p-4 bg-green-600/20 border border-green-600 text-green-400 rounded-lg shadow-lg flex items-center gap-3">
+            <i class="fas fa-check-circle text-xl"></i>
+            <span class="text-sm font-medium">{{ session('success') }}</span>
+          </div>
+        @endif
+
+        {{-- 3. Pesan Error Sistem (Gagal Upload ke Storage, dll) --}}
+        @if (session('error'))
+          <div
+            class="mb-6 p-4 bg-red-600/20 border border-red-600 text-red-400 rounded-lg shadow-lg flex items-center gap-3">
+            <i class="fas fa-times-circle text-xl"></i>
+            <span class="text-sm font-medium">{{ session('error') }}</span>
+          </div>
+        @endif
+      </div>
+      {{-- ===== BLOK NOTIFIKASI END ===== --}}
 
       <div class="bg-gray-900 rounded-xl shadow-lg overflow-hidden border border-gray-700 max-w-4xl mx-auto">
 
