@@ -27,7 +27,7 @@
 
               {{-- Promo Tag (Absolute) --}}
               <div class="absolute top-0 left-0 z-10 bg-red-600 text-white px-4 py-2 rounded-br-2xl shadow-md">
-                <div class="text-lg font-bold">Diskon {{ $promo['discount'] ?? '30%' }}</div>
+                <div class="text-lg font-bold">Diskon {{ $promo['discount'] . '%' ?? '30%' }}</div>
                 <div class="text-[10px] uppercase tracking-wider opacity-90">Brand {{ $promo['vendor'] }}</div>
               </div>
 
@@ -66,7 +66,9 @@
                 <div class="mt-4 pt-4 border-t border-gray-700">
                   <p class="text-gray-400 text-sm mb-4 flex items-center">
                     <i class="far fa-clock text-blue-500 mr-2"></i>
-                    <span>Periode: <span class="text-gray-200 font-medium">{{ $promo['periode'] }}</span></span>
+                    <span>Periode: <span class="text-gray-200 font-medium">
+                        {{ \Carbon\Carbon::parse($promo->periode)->translatedFormat('d F Y') ?? '-' }}
+                      </span></span>
                   </p>
 
                   <a href="{{ route('promo.show', $promo['id']) }}"

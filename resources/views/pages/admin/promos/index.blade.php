@@ -48,7 +48,7 @@
                       {{ $promo->label }}
                     </span>
                   </td>
-                  <td class="px-4 py-3 text-red-400 font-semibold">{{ $promo->discount }}</td>
+                  <td class="px-4 py-3 text-red-400 font-semibold">{{ $promo->discount }}%</td>
                   <td class="px-4 py-3">{{ $promo->periode }}</td>
                   <td class="px-4 py-3">
                     <img src="{{ asset('storage/' . $promo->image) }}" alt="Gambar Promo"

@@ -22,15 +22,26 @@ class PromoController extends Controller
 
     public function store(Request $request)
     {
+        // 1. Bersihkan dulu tanda % sebelum validasi dimulai
+        if ($request->has('discount')) {
+            $request->merge([
+                'discount' => str_replace('%', '', $request->discount)
+            ]);
+        }
+
+        // 2. Validasi ketat
         $validated = $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|max:255',
             'vendor' => 'required|string',
-            'label' => 'nullable|string',
+            'label'    => 'nullable|string',
+            'discount' => 'required|numeric|min:0|max:100',
             'periode' => 'required|date',
-            'discount' => 'nullable|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'description' => 'nullable|string',
-            'terms' => 'nullable|string',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'terms' => 'required',
+        ], [
+            // Custom pesan error bahasa Indonesia
+            'discount.numeric' => 'Kolom diskon harus berupa angka (contoh: 20).',
+            'discount.max' => 'Diskon tidak boleh lebih dari 100%.',
         ]);
 
         // Simpan gambar ke disk 'public' di folder 'promo_images'
@@ -51,18 +62,32 @@ class PromoController extends Controller
 
     public function update(Request $request, Promo $promo)
     {
+        if ($request->has('discount')) {
+            $request->merge([
+                'discount' => str_replace('%', '', $request->discount)
+            ]);
+        }
+
         $data = $request->validate([
             'name' => 'required|string',
             'vendor' => 'required|string',
             'label' => 'nullable|string',
-            'discount' => 'nullable|string',
+            'discount' => 'nullable|numeric|min:0|max:100',
             'periode' => 'required|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'description' => 'nullable|string',
             'terms' => 'nullable|string',
+        ], [
+            // Custom pesan error bahasa Indonesia
+            'discount.numeric' => 'Kolom diskon harus berupa angka (contoh: 20).',
+            'discount.max' => 'Diskon tidak boleh lebih dari 100%.',
         ]);
 
         if ($request->hasFile('image')) {
+            if ($promo->image && Storage::disk('public')->exists($promo->image)) {
+                Storage::disk('public')->delete($promo->image);
+            }
+
             $path = $request->file('image')->store('promo_images', 'public');
             $data['image'] = $path;
         }

@@ -19,7 +19,7 @@
           <div class="lg:w-1/2 relative bg-white h-[300px] lg:h-auto flex items-center justify-center p-4">
 
             <div class="absolute top-0 left-0 z-10 bg-red-600 text-white font-bold px-4 py-2 rounded-br-xl shadow-md">
-              {{ $promo->discount ?? '30%' }} OFF
+              {{ $promo->discount . '%' ?? '30%' }} OFF
             </div>
 
             @if ($promo->image)
@@ -84,10 +84,22 @@
 
             <div class="mt-auto">
               @php
-                $waNumber = '6281234567890';
-                $waText = urlencode(
-                    "Halo, saya tertarik promo: {$promo->name} (ID: {$promo->id}). Mohon info lebih lanjut.",
-                );
+                $waNumber = '6281234567890'; // Sesuaikan dengan nomor WA Sales PT Samafitro
+
+                // Membuat template pesan yang rapi dengan baris baru (\n)
+                // Kita tambahkan konteks Vendor, Diskon, dan Periode
+                $pesan = "Halo Admin PT Samafitro,\n\n";
+                $pesan .= "Saya tertarik dengan promo berikut:\n";
+                $pesan .= '*Nama Promo:* ' . $promo->name . "\n";
+                $pesan .= '*Brand/Vendor:* ' . $promo->vendor . "\n";
+                $pesan .= '*Diskon:* ' . $promo->discount . "%\n";
+                $pesan .= '*Label:* ' . $promo->label . "\n";
+                $pesan .=
+                    '*Berlaku Hingga:* ' . \Carbon\Carbon::parse($promo->periode)->translatedFormat('d F Y') . "\n\n";
+                $pesan .=
+                    'Mohon informasi lebih lanjut mengenai ketersediaan stok dan cara pemesanannya. Terima kasih.';
+
+                $waText = rawurlencode($pesan);
               @endphp
 
               <a href="https://wa.me/{{ $waNumber }}?text={{ $waText }}" target="_blank"
