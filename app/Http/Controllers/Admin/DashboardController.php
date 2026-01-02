@@ -18,66 +18,79 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. Inisialisasi Filter
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->endOfMonth()->toDateString());
-        $trendType = $request->input('trend_type', 'daily'); // Default: Harian
+        $trendType = $request->input('trend_type', 'daily');
 
-        // ==========================================
-        // A. ANGKA STATISTIK
-        // ==========================================
+        // --- A. Statistik Utama ---
         $globalRevenue = Order::where('payment_status', 'paid')->sum('total_price');
-
         $filteredRevenue = Order::where('payment_status', 'paid')
             ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
             ->sum('total_price');
-
         $totalOrders = Order::count();
         $pendingOrders = Order::where('status', 'paid')->count();
 
-        // ==========================================
-        // B. QUERY TREN PENDAPATAN (DINAMIS)
-        // ==========================================
+        // --- B. Tren Pendapatan (Logika Harian/Mingguan/Bulanan) ---
         $queryTrend = Order::where('payment_status', 'paid')
             ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
 
-        // Logika pengelompokan berdasarkan Trend Type [cite: 243, 278]
         $revenueTrend = match ($trendType) {
-            'weekly' => $queryTrend->select(
-                DB::raw("CONCAT('Minggu ', WEEK(created_at)) as label"),
-                DB::raw("SUM(total_price) as revenue"),
-                DB::raw("YEARWEEK(created_at) as sort_key")
-            )->groupBy('label', 'sort_key')->orderBy('sort_key')->get(),
-
-            'monthly' => $queryTrend->select(
-                DB::raw("DATE_FORMAT(created_at, '%M %Y') as label"),
-                DB::raw("SUM(total_price) as revenue"),
-                DB::raw("DATE_FORMAT(created_at, '%Y-%m') as sort_key")
-            )->groupBy('label', 'sort_key')->orderBy('sort_key')->get(),
-
-            default => $queryTrend->select( // Harian
-                DB::raw("DATE_FORMAT(created_at, '%d %b') as label"),
-                DB::raw("SUM(total_price) as revenue"),
-                DB::raw("DATE(created_at) as sort_key")
-            )->groupBy('label', 'sort_key')->orderBy('sort_key')->get(),
+            'weekly' => $queryTrend->select(DB::raw("CONCAT('W', WEEK(created_at)) as label"), DB::raw("SUM(total_price) as revenue"), DB::raw("YEARWEEK(created_at) as sort_key"))->groupBy('label', 'sort_key')->orderBy('sort_key')->get(),
+            'monthly' => $queryTrend->select(DB::raw("DATE_FORMAT(created_at, '%M %Y') as label"), DB::raw("SUM(total_price) as revenue"), DB::raw("DATE_FORMAT(created_at, '%Y-%m') as sort_key"))->groupBy('label', 'sort_key')->orderBy('sort_key')->get(),
+            default => $queryTrend->select(DB::raw("DATE_FORMAT(created_at, '%d %b') as label"), DB::raw("SUM(total_price) as revenue"), DB::raw("DATE(created_at) as sort_key"))->groupBy('label', 'sort_key')->orderBy('sort_key')->get(),
         };
 
-        // ==========================================
-        // C. PRODUK TERLARIS (TOP SELLING)
-        // ==========================================
-        $topSelling = OrderItem::select('product_name', DB::raw('SUM(quantity) as total_sold'))
+        // --- C. Produk Terlaris & Logika Restock (MENGGUNAKAN STOK) ---
+        $topSelling = OrderItem::select('product_id', 'product_name', DB::raw('SUM(quantity) as total_sold'))
             ->whereHas('order', function ($q) use ($startDate, $endDate) {
                 $q->where('payment_status', 'paid')
                     ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
             })
-            ->groupBy('product_name')
+            ->groupBy('product_id', 'product_name')
             ->orderByDesc('total_sold')
             ->limit(10)
             ->get();
 
         // ==========================================
-        // D. DISTRIBUSI KATEGORI (PIE CHART)
+        // D. DEAD STOCK (Logika: Ada stok tapi tidak laku)
         // ==========================================
+        $soldProductIds = OrderItem::whereHas('order', function ($q) use ($startDate, $endDate) {
+            $q->where('payment_status', 'paid')
+                ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+        })->pluck('product_id')->unique()->toArray();
+
+        $deadStock = Product::with('category')
+            ->whereNotIn('id', $soldProductIds)
+            ->where('stok', '>', 0) // Dead stock = barang yang menumpuk di gudang
+            ->orderByDesc('stok')    // Urutkan dari sisa stok terbanyak
+            ->limit(10)->get();
+
+        // ==========================================
+        // E. TABEL PRIORITAS RESTOCK (Logika: Berdasarkan Stok Rendah/Habis)
+        // ==========================================
+        $restockPriority = Product::where('stok', '<=', 10) // Ambil yang stoknya kritis/menipis
+            ->withSum(['orderItems as total_sold' => function ($query) use ($startDate, $endDate) {
+                $query->whereHas('order', function ($q) use ($startDate, $endDate) {
+                    $q->where('payment_status', 'paid')
+                        ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+                });
+            }], 'quantity')
+            ->orderBy('stok', 'asc')       // Stok 0 wajib paling atas
+            ->orderByDesc('total_sold')    // Lalu yang paling laku secara historis
+            ->limit(10)->get();
+
+        $restockPriority->map(function ($item) {
+            $item->current_stock = $item->stok;
+            $item->total_sold = $item->total_sold ?? 0;
+            $item->priority = match (true) {
+                $item->stok <= 3 => 'Sangat Tinggi',
+                $item->stok <= 10 => 'Tinggi',
+                default => 'Normal',
+            };
+            return $item;
+        });
+
+        // --- F. Pie Chart (Distribusi Kategori) ---
         $categoryDistribution = DB::table('order_items')
             ->join('products', 'order_items.product_id', '=', 'products.id')
             ->join('categories', 'products.kategori_id', '=', 'categories.id')
@@ -85,59 +98,25 @@ class DashboardController extends Controller
             ->where('orders.payment_status', 'paid')
             ->whereBetween('orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
             ->select('categories.name', DB::raw('SUM(order_items.quantity) as total'))
-            ->groupBy('categories.name')
-            ->get();
+            ->groupBy('categories.name')->get();
 
-        // ==========================================
-        // E. DEAD STOCK & PRIORITAS RESTOCK
-        // ==========================================
-        $soldProductIds = OrderItem::whereHas('order', function ($q) use ($startDate, $endDate) {
-            $q->where('payment_status', 'paid')
-                ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
-        })->pluck('product_id')->toArray();
-
-        $deadStock = Product::with('category')
-            ->whereNotIn('id', $soldProductIds)
-            ->limit(10)
-            ->get();
-
-        $restockPriority = $topSelling->map(function ($item) {
-            $item->priority = match (true) {
-                $item->total_sold > 10 => 'Sangat Tinggi',
-                $item->total_sold > 4  => 'Tinggi',
-                default                => 'Normal',
-            };
-            return $item;
-        });
-
-        // ==========================================
-        // RESPONSE AJAX / VIEW
-        // ==========================================
         if ($request->ajax()) {
             return response()->json([
                 'stats' => [
                     'filteredRevenue' => number_format($filteredRevenue, 0, ',', '.'),
-                    'globalRevenue'   => number_format($globalRevenue, 0, ',', '.'),
-                    'totalOrders'     => $totalOrders,
-                    'pendingOrders'   => $pendingOrders,
+                    'globalRevenue' => number_format($globalRevenue, 0, ',', '.'),
+                    'totalOrders' => $totalOrders,
+                    'pendingOrders' => $pendingOrders,
                 ],
                 'charts' => [
-                    'revenue' => [
-                        'labels' => $revenueTrend->pluck('label'),
-                        'data'   => $revenueTrend->pluck('revenue')
-                    ],
-                    'topSelling' => [
-                        'labels' => $topSelling->pluck('product_name'),
-                        'data'   => $topSelling->pluck('total_sold')
-                    ],
-                    'pie' => [
-                        'labels' => $categoryDistribution->pluck('name'),
-                        'data'   => $categoryDistribution->pluck('total')
-                    ],
+                    'revenue' => ['labels' => $revenueTrend->pluck('label'), 'data' => $revenueTrend->pluck('revenue')],
+                    'topSelling' => ['labels' => $topSelling->pluck('product_name'), 'data' => $topSelling->pluck('total_sold')],
+                    'pie' => ['labels' => $categoryDistribution->pluck('name'), 'data' => $categoryDistribution->pluck('total')],
                     'deadStock_detail' => $deadStock->map(fn($p) => [
                         'nama_produk' => $p->nama_produk,
-                        'kategori'    => $p->category->name ?? '-',
-                        'harga'       => $p->harga
+                        'kategori' => $p->category->name ?? '-',
+                        'harga' => $p->harga,
+                        'stok' => $p->stok
                     ]),
                 ],
                 'table' => $restockPriority
@@ -145,7 +124,6 @@ class DashboardController extends Controller
         }
 
         $dashboardItems = DashboardItem::latest()->get();
-
         return view('pages.admin.dashboard', compact(
             'globalRevenue',
             'filteredRevenue',

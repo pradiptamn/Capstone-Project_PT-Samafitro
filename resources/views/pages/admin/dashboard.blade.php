@@ -16,7 +16,6 @@
       <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto items-end">
         {{-- FILTER TOOLS --}}
         <div class="flex bg-gray-800 p-1.5 rounded-lg border border-gray-700 gap-2 items-center flex-wrap">
-          {{-- Dropdown Tipe Tren (BARU) --}}
           <div class="relative">
             <select id="trend_type"
               class="bg-gray-900 text-white text-xs border border-gray-600 rounded px-2 py-2.5 focus:ring-blue-500 cursor-pointer outline-none">
@@ -28,7 +27,6 @@
 
           <div class="h-6 w-[1px] bg-gray-700 hidden md:block"></div>
 
-          {{-- Filter Tanggal --}}
           <div class="relative">
             <span class="absolute left-2 top-1.5 text-[10px] text-gray-500 uppercase font-bold">Dari</span>
             <input type="date" id="start_date" value="{{ $startDate }}"
@@ -59,7 +57,7 @@
       </div>
     </div>
 
-    {{-- STAT CARDS --}}
+    {{-- STAT CARDS (3 Utama Tetap Sama) --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg relative overflow-hidden">
         <div class="flex justify-between items-start">
@@ -115,6 +113,7 @@
 
     {{-- TABLES (RESTOCK & DEADSTOCK) --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+      {{-- TABEL PRIORITAS RESTOCK --}}
       <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-lg overflow-hidden">
         <div class="p-4 border-b border-gray-700 bg-gray-800">
           <h3 class="font-bold text-white">📋 Tabel Prioritas Restock</h3>
@@ -125,6 +124,7 @@
               <tr>
                 <th class="px-4 py-2">Produk</th>
                 <th class="px-4 py-2 text-center">Terjual</th>
+                <th class="px-4 py-2 text-center">Sisa Stok</th> {{-- Tambah Kolom --}}
                 <th class="px-4 py-2">Prioritas</th>
               </tr>
             </thead>
@@ -133,6 +133,10 @@
                 <tr class="hover:bg-gray-700">
                   <td class="px-4 py-2 text-white">{{ $item->product_name }}</td>
                   <td class="px-4 py-2 font-bold text-center">{{ $item->total_sold }}</td>
+                  <td
+                    class="px-4 py-2 text-center font-bold {{ $item->current_stock <= 3 ? 'text-red-500' : 'text-gray-300' }}">
+                    {{ $item->current_stock }}
+                  </td>
                   <td class="px-4 py-2">
                     <span
                       class="text-[10px] px-2 py-1 rounded {{ $item->priority == 'Sangat Tinggi' ? 'bg-red-900 text-red-300' : ($item->priority == 'Tinggi' ? 'bg-yellow-900 text-yellow-300' : 'bg-green-900 text-green-300') }}">
@@ -146,11 +150,13 @@
         </div>
       </div>
 
+      {{-- TABEL DEAD STOCK --}}
       <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-lg overflow-hidden flex flex-col">
         <div class="p-4 border-b border-gray-700 bg-gray-800 flex justify-between items-center">
           <h3 class="font-bold text-red-400 flex items-center"><i class="fas fa-box-open mr-2"></i> Produk Tidak Laku
             (Dead Stock)</h3>
-          <span class="text-[10px] text-gray-500 bg-gray-900 px-2 py-1 rounded border border-gray-700 italic">Terjual: 0
+          <span class="text-[10px] text-gray-500 bg-gray-900 px-2 py-1 rounded border border-gray-700 italic">Penjualan:
+            0
             Unit</span>
         </div>
         <div class="overflow-y-auto max-h-64 flex-1">
@@ -158,7 +164,7 @@
             <thead class="bg-gray-900 text-gray-200 sticky top-0 z-10">
               <tr>
                 <th class="px-4 py-2">Nama Produk</th>
-                <th class="px-4 py-2">Kategori</th>
+                <th class="px-4 py-2 text-center">Sisa Stok</th> {{-- Tambah Kolom --}}
                 <th class="px-4 py-2 text-right">Harga</th>
               </tr>
             </thead>
@@ -166,9 +172,7 @@
               @forelse ($deadStock as $item)
                 <tr class="hover:bg-gray-750 group transition">
                   <td class="px-4 py-3 text-white group-hover:text-red-300 transition">{{ $item->nama_produk }}</td>
-                  <td class="px-4 py-3 text-xs">
-                    <span class="bg-gray-700 text-gray-300 px-2 py-1 rounded">{{ $item->category->name ?? '-' }}</span>
-                  </td>
+                  <td class="px-4 py-3 text-center font-mono text-gray-300">{{ $item->stok }}</td>
                   <td class="px-4 py-3 text-right font-mono text-gray-500">
                     Rp {{ number_format($item->harga, 0, ',', '.') }}
                   </td>
@@ -186,7 +190,7 @@
       </div>
     </div>
 
-    {{-- MANAGE CONTENT SECTION --}}
+    {{-- KELOLA KONTEN DASHBOARD (Tetap Sama) --}}
     <div class="border-t border-gray-700 my-10 pt-10">
       <h2 class="text-2xl font-bold mb-6 text-white flex items-center gap-2">
         <i class="fas fa-edit text-yellow-500"></i> Kelola Konten Dashboard
@@ -258,6 +262,7 @@
         </div>
       </div>
     </div>
+
   </div>
 
   {{-- SCRIPT JAVASCRIPT --}}
@@ -266,14 +271,13 @@
 
     document.addEventListener('DOMContentLoaded', function() {
       initCharts();
-      // Listeners untuk Filter
       document.getElementById('start_date').addEventListener('change', updateDashboard);
       document.getElementById('end_date').addEventListener('change', updateDashboard);
       document.getElementById('trend_type').addEventListener('change', updateDashboard);
     });
 
     function initCharts() {
-      // 1. Revenue Chart (Line)
+      // 1. Revenue Chart
       const revCtx = document.getElementById('revenueTrendChart');
       revenueChart = new Chart(revCtx, {
         type: 'line',
@@ -328,7 +332,7 @@
         }
       });
 
-      // 2. Bar Chart (Top Selling)
+      // 2. Bar Chart
       const barCtx = document.getElementById('barChart');
       barChart = new Chart(barCtx, {
         type: 'bar',
@@ -370,7 +374,7 @@
         }
       });
 
-      // 3. Pie Chart (Category)
+      // 3. Pie Chart
       const pieCtx = document.getElementById('pieChart');
       pieChart = new Chart(pieCtx, {
         type: 'doughnut',
@@ -405,12 +409,10 @@
       const endDate = document.getElementById('end_date').value;
       const trendType = document.getElementById('trend_type').value;
 
-      // Update Chart Title
       const titleType = trendType === 'daily' ? 'Harian' : (trendType === 'weekly' ? 'Mingguan' : 'Bulanan');
       document.getElementById('revenue-chart-title').innerHTML =
         `<i class="fas fa-chart-line mr-2"></i> Tren Pendapatan ${titleType}`;
 
-      // Update Link Export
       const exportParams = `?start_date=${startDate}&end_date=${endDate}&trend_type=${trendType}`;
       document.getElementById('btn-export-pdf').href = `{{ route('admin.export.pdf') }}${exportParams}`;
       document.getElementById('btn-export-excel').href = `{{ route('admin.export.excel') }}${exportParams}`;
@@ -422,18 +424,15 @@
         })
         .then(response => response.json())
         .then(data => {
-          // Update Stat Cards
           document.getElementById('stat-filtered-revenue').innerText = 'Rp ' + data.stats.filteredRevenue;
           document.getElementById('stat-global-revenue').innerText = 'Rp ' + data.stats.globalRevenue;
           document.getElementById('stat-total-orders').innerText = data.stats.totalOrders;
           document.getElementById('stat-pending-orders').innerText = data.stats.pendingOrders;
 
-          // Update Charts
           updateChartData(revenueChart, data.charts.revenue.labels, data.charts.revenue.data);
           updateChartData(barChart, data.charts.topSelling.labels, data.charts.topSelling.data);
           updateChartData(pieChart, data.charts.pie.labels, data.charts.pie.data);
 
-          // Update Tables
           updateTableRestock(data.table);
           updateTableDeadStock(data.charts.deadStock_detail);
         })
@@ -458,7 +457,7 @@
         tbody.innerHTML += `
             <tr class="hover:bg-gray-750 group transition">
                 <td class="px-4 py-3 text-white group-hover:text-red-300 transition">${item.nama_produk}</td>
-                <td class="px-4 py-3 text-xs"><span class="bg-gray-700 text-gray-300 px-2 py-1 rounded">${item.kategori}</span></td>
+                <td class="px-4 py-3 text-center font-mono text-gray-300">${item.stok}</td> {{-- Data Stok --}}
                 <td class="px-4 py-3 text-right font-mono text-gray-500">Rp ${new Intl.NumberFormat('id-ID').format(item.harga)}</td>
             </tr>`;
       });
@@ -468,18 +467,22 @@
       const tbody = document.getElementById('table-restock-body');
       tbody.innerHTML = '';
       if (!items || items.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="px-4 py-4 text-center text-gray-500">Tidak ada data.</td></tr>';
+        tbody.innerHTML =
+          '<tr><td colspan="4" class="px-4 py-8 text-center text-gray-500 italic">Semua stok masih aman.</td></tr>';
         return;
       }
       items.forEach(item => {
         const priorityClass = item.priority === 'Sangat Tinggi' ? 'bg-red-900 text-red-300' : (item.priority ===
           'Tinggi' ? 'bg-yellow-900 text-yellow-300' : 'bg-green-900 text-green-300');
+        const stockClass = item.current_stock <= 3 ? 'text-red-500' : 'text-gray-300';
+
         tbody.innerHTML += `
-            <tr class="hover:bg-gray-700">
-                <td class="px-4 py-2 text-white">${item.product_name}</td>
-                <td class="px-4 py-2 font-bold text-center">${item.total_sold}</td>
-                <td class="px-4 py-2"><span class="text-[10px] px-2 py-1 rounded ${priorityClass}">${item.priority}</span></td>
-            </tr>`;
+        <tr class="hover:bg-gray-750 transition">
+            <td class="px-4 py-3 text-white">${item.nama_produk || item.product_name}</td>
+            <td class="px-4 py-3 text-center font-bold text-blue-400">${item.total_sold || 0}</td>
+            <td class="px-4 py-3 text-center font-bold ${stockClass}">${item.current_stock}</td>
+            <td class="px-4 py-3"><span class="text-[10px] px-2 py-1 rounded ${priorityClass}">${item.priority}</span></td>
+        </tr>`;
       });
     }
 
