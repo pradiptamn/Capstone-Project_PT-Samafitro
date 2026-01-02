@@ -3,11 +3,17 @@
 @section('title', 'Detail Pesanan #' . $order->order_number)
 
 @section('content')
+  @php
+    $role = auth()->user()->role;
+    $prefix = $role;
+  @endphp
+
   <div class="container mx-auto px-4 py-8">
 
     {{-- Header / Tombol Kembali --}}
     <div class="mb-6">
-      <a href="{{ route('admin.orders.index') }}" class="text-gray-400 hover:text-white flex items-center gap-2 transition">
+      <a href="{{ route($prefix . '.orders.index') }}"
+        class="text-gray-400 hover:text-white flex items-center gap-2 transition">
         <i class="fas fa-arrow-left"></i> Kembali ke Daftar
       </a>
     </div>
@@ -117,7 +123,7 @@
             <h3 class="font-bold text-blue-400">Kontrol Admin</h3>
           </div>
 
-          <form action="{{ route('admin.orders.update', $order->id) }}" method="POST" class="p-6 space-y-6">
+          <form action="{{ route($prefix . '.orders.update', $order->id) }}" method="POST" class="p-6 space-y-6">
             @csrf
             @method('PUT')
 

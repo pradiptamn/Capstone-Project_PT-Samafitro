@@ -3,6 +3,11 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
+  @php
+    $role = auth()->user()->role;
+    $prefix = $role;
+  @endphp
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <div class="container mx-auto px-4 py-8 text-white">
@@ -45,11 +50,11 @@
         </div>
 
         <div class="flex gap-2">
-          <a id="btn-export-pdf" href="{{ route('admin.export.pdf', request()->all()) }}"
+          <a id="btn-export-pdf" href="{{ route($prefix . '.export.pdf', request()->all()) }}"
             class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-red-900/20">
             <i class="fas fa-file-pdf"></i> PDF
           </a>
-          <a id="btn-export-excel" href="{{ route('admin.export.excel', request()->all()) }}"
+          <a id="btn-export-excel" href="{{ route($prefix . '.export.excel', request()->all()) }}"
             class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-green-900/20">
             <i class="fas fa-file-excel"></i> Excel
           </a>
@@ -111,6 +116,19 @@
       </div>
     </div>
 
+    {{-- PERFORMA SALES CHART --}}
+    <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg mb-10">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="font-bold text-yellow-400 flex items-center">
+          <i class="fas fa-user-tie mr-2"></i> Performa Penjualan Per Sales
+        </h3>
+        <span class="text-[10px] text-gray-500 italic uppercase">Berdasarkan Total Nilai Transaksi</span>
+      </div>
+      <div class="h-80">
+        <canvas id="salesChart"></canvas>
+      </div>
+    </div>
+
     {{-- TABLES (RESTOCK & DEADSTOCK) --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
       {{-- TABEL PRIORITAS RESTOCK --}}
@@ -131,7 +149,7 @@
             <tbody class="divide-y divide-gray-700" id="table-restock-body">
               @foreach ($restockPriority as $item)
                 <tr class="hover:bg-gray-700">
-                  <td class="px-4 py-2 text-white">{{ $item->product_name }}</td>
+                  <td class="px-4 py-2 text-white">{{ $item->nama_produk }}</td>
                   <td class="px-4 py-2 font-bold text-center">{{ $item->total_sold }}</td>
                   <td
                     class="px-4 py-2 text-center font-bold {{ $item->current_stock <= 3 ? 'text-red-500' : 'text-gray-300' }}">
@@ -191,83 +209,85 @@
     </div>
 
     {{-- KELOLA KONTEN DASHBOARD (Tetap Sama) --}}
-    <div class="border-t border-gray-700 my-10 pt-10">
-      <h2 class="text-2xl font-bold mb-6 text-white flex items-center gap-2">
-        <i class="fas fa-edit text-yellow-500"></i> Kelola Konten Dashboard
-      </h2>
+    @if (Auth::user()->role === 'admin')
+      <div class="border-t border-gray-700 my-10 pt-10">
+        <h2 class="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+          <i class="fas fa-edit text-yellow-500"></i> Kelola Konten Dashboard
+        </h2>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-1">
-          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg sticky top-6">
-            <h3 class="text-lg font-semibold text-white mb-4">Tambah Konten Baru</h3>
-            <form action="{{ route('admin.dashboard.store') }}" method="POST" enctype="multipart/form-data">
-              @csrf
-              <div class="space-y-4">
-                <div>
-                  <label class="block text-sm text-gray-400 mb-1">Judul</label>
-                  <input type="text" name="judul"
-                    class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2.5 text-white focus:border-blue-500 outline-none"
-                    required>
-                </div>
-                <div>
-                  <label class="block text-sm text-gray-400 mb-1">Deskripsi</label>
-                  <textarea name="deskripsi" rows="3"
-                    class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2.5 text-white focus:border-blue-500 outline-none"
-                    required></textarea>
-                </div>
-                <div>
-                  <label class="block text-sm text-gray-400 mb-1">Gambar</label>
-                  <input type="file" name="gambar"
-                    class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:bg-gray-700 file:text-blue-400 hover:file:bg-gray-600 cursor-pointer">
-                </div>
-                <button type="submit"
-                  class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-lg shadow-lg transition">Simpan
-                  Konten</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div class="lg:col-span-2">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            @forelse ($dashboardItems as $item)
-              <div
-                class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 shadow-md group hover:border-gray-500 transition relative">
-                @if ($item->gambar)
-                  <div class="h-40 overflow-hidden">
-                    <img src="{{ asset('storage/' . $item->gambar) }}"
-                      class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-1">
+            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg sticky top-6">
+              <h3 class="text-lg font-semibold text-white mb-4">Tambah Konten Baru</h3>
+              <form action="{{ route('admin.dashboard.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm text-gray-400 mb-1">Judul</label>
+                    <input type="text" name="judul"
+                      class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2.5 text-white focus:border-blue-500 outline-none"
+                      required>
                   </div>
-                @endif
-                <div class="p-5">
-                  <h3 class="font-bold text-white text-lg mb-2">{{ $item->judul }}</h3>
-                  <p class="text-gray-400 text-sm line-clamp-3">{{ $item->deskripsi }}</p>
-                  <p class="text-[10px] text-gray-500 mt-4">{{ $item->created_at->diffForHumans() }}</p>
+                  <div>
+                    <label class="block text-sm text-gray-400 mb-1">Deskripsi</label>
+                    <textarea name="deskripsi" rows="3"
+                      class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2.5 text-white focus:border-blue-500 outline-none"
+                      required></textarea>
+                  </div>
+                  <div>
+                    <label class="block text-sm text-gray-400 mb-1">Gambar</label>
+                    <input type="file" name="gambar"
+                      class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:bg-gray-700 file:text-blue-400 hover:file:bg-gray-600 cursor-pointer">
+                  </div>
+                  <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-lg shadow-lg transition">Simpan
+                    Konten</button>
                 </div>
-                <form action="{{ route('admin.dashboard.destroy', $item->id) }}" method="POST"
-                  class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition duration-300">
-                  @csrf @method('DELETE')
-                  <button onclick="return confirm('Hapus konten ini?')"
-                    class="bg-red-600 text-white p-2 rounded-full shadow-lg hover:bg-red-700 transition">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </form>
-              </div>
-            @empty
-              <div class="col-span-full text-center py-10 bg-gray-800 rounded-xl border border-gray-700 border-dashed">
-                <p class="text-gray-500 italic">Belum ada konten tambahan.</p>
-              </div>
-            @endforelse
+              </form>
+            </div>
+          </div>
+
+          <div class="lg:col-span-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              @forelse ($dashboardItems as $item)
+                <div
+                  class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 shadow-md group hover:border-gray-500 transition relative">
+                  @if ($item->gambar)
+                    <div class="h-40 overflow-hidden">
+                      <img src="{{ asset('storage/' . $item->gambar) }}"
+                        class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+                    </div>
+                  @endif
+                  <div class="p-5">
+                    <h3 class="font-bold text-white text-lg mb-2">{{ $item->judul }}</h3>
+                    <p class="text-gray-400 text-sm line-clamp-3">{{ $item->deskripsi }}</p>
+                    <p class="text-[10px] text-gray-500 mt-4">{{ $item->created_at->diffForHumans() }}</p>
+                  </div>
+                  <form action="{{ route('admin.dashboard.destroy', $item->id) }}" method="POST"
+                    class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition duration-300">
+                    @csrf @method('DELETE')
+                    <button onclick="return confirm('Hapus konten ini?')"
+                      class="bg-red-600 text-white p-2 rounded-full shadow-lg hover:bg-red-700 transition">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </form>
+                </div>
+              @empty
+                <div class="col-span-full text-center py-10 bg-gray-800 rounded-xl border border-gray-700 border-dashed">
+                  <p class="text-gray-500 italic">Belum ada konten tambahan.</p>
+                </div>
+              @endforelse
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    @endif
 
   </div>
 
   {{-- SCRIPT JAVASCRIPT --}}
   <script>
-    let revenueChart, barChart, pieChart;
+    let revenueChart, barChart, pieChart, salesChart;
 
     document.addEventListener('DOMContentLoaded', function() {
       initCharts();
@@ -402,6 +422,61 @@
           }
         }
       });
+
+      // 4. Sales Performance Chart (Horizontal Bar)
+      const salesCtx = document.getElementById('salesChart');
+      salesChart = new Chart(salesCtx, {
+        type: 'bar',
+        data: {
+          labels: {!! json_encode($salesPerformance->pluck('name')) !!},
+          datasets: [{
+            label: 'Total Penjualan (Rp)',
+            data: {!! json_encode($salesPerformance->pluck('total_revenue')) !!},
+            backgroundColor: '#f59e0b',
+            borderRadius: 4,
+            // indexAxis: 'y' <--- HAPUS DARI SINI
+          }]
+        },
+        options: {
+          indexAxis: 'y', // <--- PINDAHKAN KE SINI (Level Options)
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              beginAtZero: true,
+              grid: {
+                color: '#374151'
+              },
+              ticks: {
+                color: '#9ca3af'
+              }
+            },
+            y: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#fff',
+                font: {
+                  weight: 'bold'
+                }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return ' Omzet: Rp ' + new Intl.NumberFormat('id-ID').format(context.raw);
+                }
+              }
+            }
+          }
+        }
+      });
     }
 
     function updateDashboard() {
@@ -414,10 +489,10 @@
         `<i class="fas fa-chart-line mr-2"></i> Tren Pendapatan ${titleType}`;
 
       const exportParams = `?start_date=${startDate}&end_date=${endDate}&trend_type=${trendType}`;
-      document.getElementById('btn-export-pdf').href = `{{ route('admin.export.pdf') }}${exportParams}`;
-      document.getElementById('btn-export-excel').href = `{{ route('admin.export.excel') }}${exportParams}`;
+      document.getElementById('btn-export-pdf').href = `{{ route($prefix . '.export.pdf') }}${exportParams}`;
+      document.getElementById('btn-export-excel').href = `{{ route($prefix . '.export.excel') }}${exportParams}`;
 
-      fetch(`{{ route('admin.dashboard') }}${exportParams}`, {
+      fetch(`{{ route($prefix . '.dashboard') }}${exportParams}`, {
           headers: {
             'X-Requested-With': 'XMLHttpRequest'
           }
@@ -432,6 +507,7 @@
           updateChartData(revenueChart, data.charts.revenue.labels, data.charts.revenue.data);
           updateChartData(barChart, data.charts.topSelling.labels, data.charts.topSelling.data);
           updateChartData(pieChart, data.charts.pie.labels, data.charts.pie.data);
+          updateChartData(salesChart, data.charts.salesPerformance.labels, data.charts.salesPerformance.data);
 
           updateTableRestock(data.table);
           updateTableDeadStock(data.charts.deadStock_detail);

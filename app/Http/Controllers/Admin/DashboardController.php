@@ -100,6 +100,15 @@ class DashboardController extends Controller
             ->select('categories.name', DB::raw('SUM(order_items.quantity) as total'))
             ->groupBy('categories.name')->get();
 
+        // --- G. Performa Sales (Berdasarkan created_by) ---
+        $salesPerformance = Order::join('users', 'orders.created_by', '=', 'users.id')
+            ->where('orders.payment_status', 'paid')
+            ->whereBetween('orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
+            ->select('users.name', DB::raw('SUM(orders.total_price) as total_revenue'), DB::raw('COUNT(orders.id) as total_deals'))
+            ->groupBy('users.id', 'users.name')
+            ->orderByDesc('total_revenue')
+            ->get();
+
         if ($request->ajax()) {
             return response()->json([
                 'stats' => [
@@ -118,6 +127,11 @@ class DashboardController extends Controller
                         'harga' => $p->harga,
                         'stok' => $p->stok
                     ]),
+                    'salesPerformance' => [
+                        'labels' => $salesPerformance->pluck('name'),
+                        'data' => $salesPerformance->pluck('total_revenue'),
+                        'deals' => $salesPerformance->pluck('total_deals')
+                    ],
                 ],
                 'table' => $restockPriority
             ]);
@@ -132,6 +146,7 @@ class DashboardController extends Controller
             'pendingOrders',
             'topSelling',
             'deadStock',
+            'salesPerformance',
             'categoryDistribution',
             'restockPriority',
             'dashboardItems',

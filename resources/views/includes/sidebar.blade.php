@@ -1,3 +1,8 @@
+@php
+  $role = auth()->user()->role;
+  $prefix = $role;
+@endphp
+
 <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition:enter="transition-opacity ease-linear duration-300"
   x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
   x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100"
@@ -14,20 +19,19 @@
   </div>
 
   <nav class="mt-5 px-4 space-y-1">
-
-    {{-- 1. DASHBOARD --}}
-    <a href="{{ route('admin.dashboard') }}"
-      class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.dashboard') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+    {{-- 1. DASHBOARD (Dinamis) --}}
+    <a href="{{ route($prefix . '.dashboard') }}"
+      class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs($prefix . '.dashboard') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
       <i class="fas fa-home w-6"></i>
       Dashboard
     </a>
 
-    {{-- 2. KELOLA PESANAN (BARU) --}}
-    <a href="{{ route('admin.orders.index') }}"
-      class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.orders.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+    {{-- 2. KELOLA PESANAN --}}
+    <a href="{{ route($prefix . '.orders.index') }}"
+      class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs($prefix . '.orders.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
       <i class="fas fa-shopping-cart w-6"></i>
       Kelola Pesanan
-      {{-- Badge Notifikasi (Opsional: Hitung order status 'paid') --}}
+
       @php
         $newOrders = \App\Models\Order::where('status', 'paid')->count();
       @endphp
@@ -38,37 +42,53 @@
       @endif
     </a>
 
-    {{-- 3. PRODUK --}}
-    <a href="{{ route('admin.produk.index') }}"
-      class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.produk.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
-      <i class="fas fa-box w-6"></i>
-      Edit Produk
-    </a>
+    {{-- 3. INPUT PESANAN BARU (Admin & Sales bisa akses) --}}
+    {{-- Karena di web.php rutenya ada di group sales.sales.create --}}
+    @if (in_array($role, ['sales']))
+      <a href="{{ route('sales.order.create') }}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('sales.order.*') ? 'bg-gray-800 text-green-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+        <i class="fas fa-cart-plus w-6"></i>
+        Input Pesanan Baru
+      </a>
+    @endif
 
-    {{-- 4. PROMO --}}
-    <a href="{{ route('admin.promos.index') }}"
-      class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.promos.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
-      <i class="fas fa-tags w-6"></i>
-      Edit Promo
-    </a>
+    @if ($role === 'admin')
+      <div class="pt-4 pb-2 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+        Manajemen Konten
+      </div>
 
-    {{-- 5. ARTIKEL --}}
-    <a href="{{ route('admin.articles.index') }}"
-      class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.articles.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
-      <i class="fas fa-newspaper w-6"></i>
-      Edit Artikel
-    </a>
+      {{-- 4. PRODUK --}}
+      <a href="{{ route('admin.produk.index') }}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.produk.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+        <i class="fas fa-box w-6"></i>
+        Edit Produk
+      </a>
 
-    {{-- MENU MANAJEMEN USER --}}
-    <div class="px-4 text-xs font-bold text-gray-500 uppercase">
-      Manajemen User
-    </div>
+      {{-- 5. PROMO --}}
+      <a href="{{ route('admin.promos.index') }}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.promos.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+        <i class="fas fa-tags w-6"></i>
+        Edit Promo
+      </a>
 
-    <a href="{{ route('admin.couriers.index') }}"
-      class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.couriers.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
-      <i class="fas fa-truck w-6"></i>
-      Data Kurir
-    </a>
+      {{-- 6. ARTIKEL --}}
+      <a href="{{ route('admin.articles.index') }}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.articles.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+        <i class="fas fa-newspaper w-6"></i>
+        Edit Artikel
+      </a>
+
+      <div class="pt-4 pb-2 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+        Manajemen User
+      </div>
+
+      {{-- 7. DATA KURIR --}}
+      <a href="{{ route('admin.couriers.index') }}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.couriers.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+        <i class="fas fa-truck w-6"></i>
+        Data Kurir
+      </a>
+    @endif
 
   </nav>
 </div>

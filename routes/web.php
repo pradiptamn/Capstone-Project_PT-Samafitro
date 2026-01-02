@@ -29,6 +29,9 @@ use App\Http\Controllers\User\OrderController as UserOrderController;
 use App\Http\Controllers\Courier\OrderController as CourierOrderController;
 use App\Http\Controllers\Courier\ProfileController as CourierProfileController;
 
+// Sales
+use App\Http\Controllers\Sales\OrderController as SalesOrderController;
+
 // Halaman utama welcome
 Route::get('/', function () {
     if (!session()->has('splash_shown')) {
@@ -119,6 +122,10 @@ Route::get('/dashboard', function () {
     $user = Auth::user();
     if ($user->role === 'admin') {
         return redirect()->intended('/admin/dashboard');
+    } else if ($user->role === 'sales') {
+        return redirect()->intended('/sales/dashboard');
+    } else if ($user->role === 'manager') {
+        return redirect()->intended('/manager/dashboard');
     } else if ($user->role === 'courier') {
         return redirect()->intended('/courier/dashboard');
     }
@@ -222,4 +229,39 @@ Route::middleware(['auth', 'role:courier'])->prefix('courier')->name('courier.')
 
     Route::get('/courier/profile', [CourierProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/courier/profile', [CourierProfileController::class, 'update'])->name('profile.update');
+});
+
+// Route Khusus Sales
+Route::middleware(['auth', 'role:sales'])->prefix('sales')->name('sales.')->group(function () {
+    // Dashboard menggunakan controller yang sama dengan Admin
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/export/pdf', [AdminDashboardController::class, 'exportPdf'])->name('export.pdf');
+    Route::get('/export/excel', [AdminDashboardController::class, 'exportExcel'])->name('export.excel');
+
+    // Melihat daftar pesanan
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::put('/orders/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
+
+    Route::get('/search-users', [SalesOrderController::class, 'searchUsers'])->name('users.search');
+    // Form Pembuatan Pesanan (Form Input)
+    Route::get('/order/create', [SalesOrderController::class, 'create'])->name('order.create');
+
+    // Proses Simpan Pesanan (Quick Register & Store Logic)
+    Route::post('/order/store', [SalesOrderController::class, 'store'])->name('order.store');
+});
+
+// Route Khusus Sales
+Route::middleware(['auth', 'role:manager'])->prefix('manager')->name('manager.')->group(function () {
+    // Dashboard menggunakan controller yang sama dengan Admin
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/export/pdf', [AdminDashboardController::class, 'exportPdf'])->name('export.pdf');
+    Route::get('/export/excel', [AdminDashboardController::class, 'exportExcel'])->name('export.excel');
+
+    // Melihat daftar pesanan
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::put('/orders/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
 });

@@ -3,9 +3,34 @@
 @section('title', 'Manajemen Pesanan')
 
 @section('content')
+
+  @php
+    $role = auth()->user()->role;
+    $prefix = $role;
+  @endphp
+
   <div class="container mx-auto px-4 py-8">
 
     <h2 class="text-3xl font-bold text-white mb-8">Daftar Pesanan Masuk</h2>
+
+    {{-- ===== BLOK NOTIFIKASI SUCCESS & ERROR START ===== --}}
+    <div class="mb-8">
+      @if (session('success'))
+        <div
+          class="p-4 bg-green-600/20 border border-green-600 text-green-400 rounded-lg shadow-lg flex items-center gap-3">
+          <i class="fas fa-check-circle text-xl"></i>
+          <span class="text-sm font-medium">{{ session('success') }}</span>
+        </div>
+      @endif
+
+      @if (session('error'))
+        <div class="p-4 bg-red-600/20 border border-red-600 text-red-400 rounded-lg shadow-lg flex items-center gap-3">
+          <i class="fas fa-times-circle text-xl"></i>
+          <span class="text-sm font-medium">{{ session('error') }}</span>
+        </div>
+      @endif
+    </div>
+    {{-- ===== BLOK NOTIFIKASI SUCCESS & ERROR END ===== --}}
 
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
       <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg">
@@ -82,7 +107,7 @@
                   </span>
                 </td>
                 <td class="px-6 py-4 text-center">
-                  <a href="{{ route('admin.orders.show', $order->id) }}"
+                  <a href="{{ route($prefix . '.orders.show', $order->id) }}"
                     class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-xs font-bold transition shadow-lg">
                     Kelola
                   </a>
