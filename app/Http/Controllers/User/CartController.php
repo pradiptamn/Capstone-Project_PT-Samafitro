@@ -99,20 +99,26 @@ class CartController extends Controller
         $productId = $request->product_id;
         $newQuantity = $request->quantity;
 
-        // 1. Cek stok produk
-        $product = Product::findOrFail($productId);
+        // 1. Cari item di keranjang dan stok produk
+        $cartItem = CartItem::where('user_id', $user->id)
+            ->where('product_id', $productId)
+            ->firstOrFail();
 
-        // 2. Validasi stok
-        if ($newQuantity > $product->stok) {
+        $product = Product::findOrFail($productId);
+        $oldQuantity = $cartItem->quantity;
+
+        // 2. Validasi Stok Pintar:
+        // Hanya blokir jika user MENAMBAH (new > old) DAN melebihi stok.
+        // Jika user MENGURANGI (new < old), izinkan saja agar user bisa keluar dari jebakan stok.
+        if ($newQuantity > $oldQuantity && $newQuantity > $product->stok) {
             return response()->json([
                 'success' => false,
                 'message' => "Gagal. Stok fisik hanya tersedia {$product->stok} unit."
             ], 422);
         }
 
-        CartItem::where('user_id', $user->id)
-            ->where('product_id', $productId)
-            ->update(['quantity' => $newQuantity]);
+        // 3. Update jumlah
+        $cartItem->update(['quantity' => $newQuantity]);
 
         return response()->json([
             'success' => true,
