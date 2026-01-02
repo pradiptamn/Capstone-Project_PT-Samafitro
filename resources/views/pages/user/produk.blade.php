@@ -320,17 +320,29 @@
     <div class="product-grid">
       <template x-for="prod in paginatedProducts" :key="prod.id">
         <div class="product-card">
-          <img :src="prod.gambar" :alt="prod.nama_produk" loading="lazy">
+          <img
+            :src="prod.gambar ? (prod.gambar.startsWith('http') ? prod.gambar : '/storage/' + prod.gambar) :
+                '/images/no-image.png'"
+            :alt="prod.nama_produk" loading="lazy">
           <h3 x-text="prod.nama_produk"></h3>
           <p class="product-price" x-text="prod.harga_format || formatRupiah(prod.harga)"></p>
+
+          {{-- INFO STOK DI KARTU --}}
+          <p class="text-[11px] mb-4 flex items-center gap-1.5"
+            :class="prod.stok <= 5 ? 'text-orange-500 font-bold' : 'text-gray-400'">
+            <i class="fas fa-warehouse"></i>
+            <span x-text="prod.stok > 0 ? 'Tersedia: ' + prod.stok + ' Unit' : 'Stok Habis'"></span>
+          </p>
 
           <div style="display: flex; gap: 8px; justify-content: center;">
             <button class="specs-button" @click="openSpecsModal(prod)">
               Lihat Spesifikasi
             </button>
-            <button class="add-to-cart-btn" @click="addToCart(prod)" :disabled="addingToCart === prod.id"
-              :class="{ 'opacity-50 cursor-not-allowed': addingToCart === prod.id }">
-              <span x-show="addingToCart !== prod.id">Add to Cart</span>
+            <button class="add-to-cart-btn" @click="addToCart(prod)"
+              :disabled="addingToCart === prod.id || prod.stok <= 0"
+              :class="{ 'opacity-50 cursor-not-allowed bg-gray-600': addingToCart === prod.id || prod.stok <= 0 }">
+              <span x-show="addingToCart !== prod.id && prod.stok > 0">Add to Cart</span>
+              <span x-show="prod.stok <= 0">Habis</span>
               <span x-show="addingToCart === prod.id">Adding...</span>
             </button>
           </div>
@@ -363,7 +375,8 @@
           class="relative transform overflow-hidden rounded-lg bg-gray-800 border border-gray-700 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
 
           <div class="bg-gray-900 px-4 py-3 sm:px-6 border-b border-gray-700 flex justify-between items-center">
-            <h3 class="text-lg font-semibold leading-6 text-white" id="modal-title" x-text="activeProduct?.nama_produk">
+            <h3 class="text-lg font-semibold leading-6 text-white" id="modal-title"
+              x-text="activeProduct?.nama_produk">
             </h3>
             <button @click="closeModal()" class="text-gray-400 hover:text-white">
               <i class="fas fa-times"></i>
@@ -372,12 +385,22 @@
 
           <div class="px-4 py-5 sm:p-6 max-h-[60vh] overflow-y-auto">
             <div class="flex justify-center mb-4">
-              <img :src="activeProduct?.gambar" class="h-32 object-contain bg-white/5 rounded p-2">
+              <img
+                :src="activeProduct?.gambar ? (activeProduct.gambar.startsWith('http') ? activeProduct.gambar : '/storage/' +
+                    activeProduct.gambar) : '/images/no-image.png'"
+                class="h-32 object-contain bg-white/5 rounded p-2">
             </div>
 
             <div class="text-center mb-4">
-              <span class="text-green-400 font-bold text-xl"
+              <span class="text-green-400 font-bold text-xl block"
                 x-text="activeProduct?.harga_format || formatRupiah(activeProduct?.harga)"></span>
+
+              {{-- INFO STOK DI MODAL --}}
+              <span class="text-sm mt-1 inline-block px-3 py-1 rounded-full border"
+                :class="activeProduct?.stok <= 5 ? 'bg-orange-500/10 border-orange-500 text-orange-500' :
+                    'bg-gray-700/50 border-gray-600 text-gray-400'"
+                x-text="activeProduct?.stok > 0 ? 'Sisa Stok: ' + activeProduct?.stok + ' Unit' : 'Stok Habis'">
+              </span>
             </div>
 
             <div x-show="activeProduct && activeProduct.deskripsi">
@@ -398,9 +421,10 @@
           </div>
 
           <div class="bg-gray-900 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2">
-            <button type="button" @click="addToCart(activeProduct); closeModal()"
-              class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">
-              Add to Cart
+            <button type="button" @click="addToCart(activeProduct); closeModal()" :disabled="activeProduct?.stok <= 0"
+              :class="activeProduct?.stok <= 0 ? 'bg-gray-600 cursor-not-allowed' : 'bg-green-600 hover:bg-green-500'"
+              class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">
+              <span x-text="activeProduct?.stok > 0 ? 'Add to Cart' : 'Stok Habis'"></span>
             </button>
             <button type="button" @click="closeModal()"
               class="mt-3 inline-flex w-full justify-center rounded-md bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-300 shadow-sm ring-1 ring-inset ring-gray-600 hover:bg-gray-600 sm:mt-0 sm:w-auto">
@@ -519,7 +543,7 @@
               // PANGGIL TOAST DISINI
               this.showNotification('Produk berhasil ditambahkan ke keranjang', 'success');
             } else {
-              this.showNotification('Gagal menambahkan produk', 'error');
+              this.showNotification(data.message, 'error');
             }
           } catch (error) {
             console.error('Error adding to cart:', error);

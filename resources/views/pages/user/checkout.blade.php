@@ -6,6 +6,42 @@
   <div class="min-h-screen py-10 px-4">
     <div class="container mx-auto max-w-6xl">
 
+      {{-- 1. Pesan Gagal Stok (Business Logic Error) --}}
+      @if (session('error'))
+        <div class="mb-6 bg-red-950/40 border-l-4 border-red-500 p-4 rounded-r-lg shadow-md">
+          <div class="flex items-start gap-3">
+            <div class="text-red-500 mt-0.5">
+              <i class="fas fa-exclamation-circle text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-red-500 font-bold text-sm uppercase tracking-wider">Kesalahan Transaksi</h3>
+              <p class="text-gray-300 text-sm mt-1">
+                {{ session('error') }}
+              </p>
+            </div>
+          </div>
+        </div>
+      @endif
+
+      {{-- 2. Pesan Error Validasi Form (Input Error) --}}
+      @if ($errors->any())
+        <div class="mb-6 bg-amber-950/30 border-l-4 border-amber-500 p-4 rounded-r-lg shadow-md">
+          <div class="flex items-start gap-3">
+            <div class="text-amber-500 mt-0.5">
+              <i class="fas fa-info-circle text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-amber-500 font-bold text-sm uppercase tracking-wider">Lengkapi Data Pengiriman</h3>
+              <ul class="text-gray-300 text-xs mt-1 list-disc list-inside opacity-90">
+                @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          </div>
+        </div>
+      @endif
+
       {{-- Tombol Kembali --}}
       <div class="mb-8">
         <a href="{{ route('produk.user') }}"
@@ -73,18 +109,32 @@
                 @foreach ($cartItems as $item)
                   <div class="bg-gray-900/50 p-3 rounded-lg border border-gray-700 relative group">
                     <div class="flex gap-3 mb-3">
-                      <img src="{{ asset($item->product->gambar) }}"
+                      <img src="{{ asset('storage/' . $item->product->gambar) }}"
                         class="w-16 h-16 object-cover rounded bg-white shrink-0">
                       <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-white line-clamp-2 leading-tight"
                           title="{{ $item->product->nama_produk }}">
                           {{ $item->product->nama_produk }}
                         </p>
+
+                        {{-- INFO HARGA --}}
                         <p class="text-xs text-gray-400 mt-1">
                           @ Rp {{ number_format($item->product->harga, 0, ',', '.') }}
                         </p>
+
+                        {{-- INFO SISA STOK (BARU) --}}
+                        <p
+                          class="text-[10px] mt-1 flex items-center gap-1 {{ $item->product->stok <= 5 ? 'text-orange-400 font-bold' : 'text-gray-500' }}">
+                          <i class="fas fa-warehouse text-[9px]"></i>
+                          Sisa Stok: {{ $item->product->stok }} Unit
+                          @if ($item->product->stok <= 5)
+                            <span class="animate-pulse">(Stok Terbatas!)</span>
+                          @endif
+                        </p>
                       </div>
                     </div>
+
+                    {{-- Bagian tombol update Qty tetap sama di bawahnya --}}
                     <div class="flex items-center justify-between border-t border-gray-700 pt-3">
                       <div class="flex items-center border border-gray-600 rounded bg-gray-800">
                         <button type="button"
@@ -108,8 +158,10 @@
                         </p>
                       </div>
                     </div>
+
+                    {{-- Tombol Hapus --}}
                     <button type="button" onclick="removeCartItem('{{ $item->product_id }}')"
-                      class="absolute top-2 right-2 text-gray-600 hover:text-red-500 p-1 transition" title="Hapus produk">
+                      class="absolute top-2 right-2 text-gray-600 hover:text-red-500 p-1 transition">
                       <i class="fas fa-trash-alt"></i>
                     </button>
                   </div>
@@ -234,7 +286,7 @@
         const data = await response.json();
         if (data.success) window.location.reload();
         else {
-          alert('Gagal update');
+          alert(data.message);
           window.location.reload();
         }
       } catch (error) {

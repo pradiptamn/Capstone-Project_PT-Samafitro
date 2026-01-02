@@ -166,35 +166,68 @@
                 <ul x-show="!isLoading && cartItems.length > 0" role="list"
                   class="-my-6 divide-y divide-gray-800">
                   <template x-for="item in cartItems" :key="item.product_id">
-                    <li class="flex py-6">
+                    <li class="flex py-6 border-b border-gray-800 last:border-0"
+                      :class="item.product.deleted_at ? 'opacity-60' : ''">
+                      {{-- 1. FOTO PRODUK (Tetap) --}}
                       <div
                         class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-700 bg-gray-800 p-1">
-                        <img :src="item.product.gambar" :alt="item.product.nama_produk"
-                          class="h-full w-full object-contain object-center">
+                        <img
+                          :src="item.product.gambar ? (item.product.gambar.startsWith('http') ? item.product.gambar :
+                              '/storage/' + item.product.gambar) : '/images/no-image.png'"
+                          :alt="item.product.nama_produk" class="h-full w-full object-contain object-center">
                       </div>
 
-                      <div class="ml-4 flex flex-1 flex-col justify-between">
-                        <div>
-                          <div class="flex justify-between text-base font-medium text-white">
+                      {{-- 2. DETAIL PRODUK --}}
+                      <div class="ml-4 flex flex-1 flex-col">
+                        {{-- Baris Atas: Nama & Total Harga --}}
+                        <div class="flex justify-between text-base font-medium text-white">
+                          <div>
                             <h3 class="line-clamp-1 mr-2" x-text="item.product.nama_produk"></h3>
-                            <p class="text-blue-400 shrink-0 font-bold"
-                              x-text="formatRupiah(item.product.harga * item.quantity)"></p>
+                            {{-- LABEL: Muncul hanya jika barang sudah di-soft delete --}}
+                            <template x-if="item.product.deleted_at">
+                              <span
+                                class="text-[9px] bg-red-600 text-white px-1.5 py-0.5 rounded font-bold uppercase mt-1 inline-block">
+                                Tidak Tersedia
+                              </span>
+                            </template>
                           </div>
-                          <p class="mt-1 text-xs text-gray-500" x-text="'@ ' + formatRupiah(item.product.harga)"></p>
+                          <p class="text-blue-400 shrink-0 font-bold"
+                            :class="item.product.deleted_at ? 'line-through opacity-50' : ''"
+                            x-text="formatRupiah(item.product.harga * item.quantity)"></p>
                         </div>
-                        <div class="flex flex-1 items-end justify-between text-sm">
-                          <div class="flex items-center border border-gray-700 rounded bg-gray-800">
+
+                        {{-- Baris Tengah: Harga Satuan & INFO STOK (SEJAJAR) --}}
+                        <div class="flex justify-between items-center mt-1">
+                          <p class="text-xs text-gray-500" x-text="'@ ' + formatRupiah(item.product.harga)"></p>
+
+                          {{-- Stok hanya muncul jika barang masih aktif --}}
+                          <template x-if="!item.product.deleted_at">
+                            <div
+                              class="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded bg-gray-800 border border-gray-700"
+                              :class="item.product.stok <= 5 ? 'text-red-400 border-red-900/50' : 'text-gray-400'">
+                              <i class="fas fa-warehouse"></i>
+                              <span x-text="'Stok: ' + item.product.stok"></span>
+                            </div>
+                          </template>
+                        </div>
+
+                        {{-- Baris Bawah: Tombol Quantity & TULISAN HAPUS (SEJAJAR) --}}
+                        <div class="flex flex-1 items-end justify-between text-sm mt-3">
+                          {{-- Tombol Quantity (Disabled jika barang tidak tersedia) --}}
+                          <div class="flex items-center border border-gray-700 rounded bg-gray-800"
+                            :class="item.product.deleted_at ? 'opacity-20 pointer-events-none' : ''">
                             <button @click="updateQuantity(item.product_id, item.quantity - 1)"
                               class="px-2 py-1 text-gray-400 hover:text-white hover:bg-gray-700 disabled:opacity-30"
-                              :disabled="item.quantity <= 1">-</button>
+                              :disabled="item.quantity <= 1 || item.product.deleted_at">-</button>
                             <span class="px-2 py-1 font-medium text-white min-w-[30px] text-center"
                               x-text="item.quantity"></span>
                             <button @click="updateQuantity(item.product_id, item.quantity + 1)"
-                              class="px-2 py-1 text-gray-400 hover:text-white hover:bg-gray-700">+</button>
+                              class="px-2 py-1 text-gray-400 hover:text-white hover:bg-gray-700"
+                              :disabled="item.product.deleted_at">+</button>
                           </div>
 
                           <button type="button" @click="removeItem(item.product_id)"
-                            class="font-medium text-red-500 hover:text-red-400 text-xs">
+                            class="font-medium text-red-500 hover:text-red-400 text-xs transition-colors mb-1">
                             Hapus
                           </button>
                         </div>
@@ -212,17 +245,36 @@
                   <p class="text-blue-400" x-text="formatRupiah(totalPrice)"></p>
                 </div>
                 <p class="mt-0.5 text-xs text-gray-500 mb-4">Belum termasuk asuransi pengiriman.</p>
-                <div class="flex gap-3">
-                  <button @click="clearCart()"
-                    class="flex-1 items-center justify-center rounded-md border border-gray-600 bg-gray-800 px-6 py-3 text-base font-medium text-gray-300 shadow-sm hover:bg-gray-700 hover:text-white transition">
-                    Kosongkan
-                  </button>
+                <div class="flex flex-col gap-2">
+                  {{-- Tampilkan Pesan Peringatan jika ada barang trashed --}}
+                  <template x-if="hasInvalidItems">
+                    <p
+                      class="text-[11px] text-red-400 text-center bg-red-900/20 py-2 rounded border border-red-500/30">
+                      Ada barang yang tidak tersedia. Silakan hapus terlebih dahulu.
+                    </p>
+                  </template>
 
-                  {{-- TOMBOL CHECKOUT BERFUNGSI --}}
-                  <a href="{{ route('checkout.index') }}"
-                    class="flex-[2] items-center justify-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 transition text-center">
-                    Checkout
-                  </a>
+                  <div class="flex gap-3">
+                    <button @click="clearCart()"
+                      class="flex-1 items-center justify-center rounded-md border border-gray-600 bg-gray-800 px-6 py-3 text-base font-medium text-gray-300 shadow-sm hover:bg-gray-700 hover:text-white transition">
+                      Kosongkan
+                    </button>
+
+                    {{-- Tombol Checkout Dinamis --}}
+                    <template x-if="!hasInvalidItems">
+                      <a href="{{ route('checkout.index') }}"
+                        class="flex-[2] items-center justify-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 transition text-center">
+                        Checkout
+                      </a>
+                    </template>
+
+                    <template x-if="hasInvalidItems">
+                      <button disabled
+                        class="flex-[2] items-center justify-center rounded-md border border-transparent bg-gray-600 px-6 py-3 text-base font-medium text-gray-400 shadow-sm cursor-not-allowed text-center">
+                        Checkout
+                      </button>
+                    </template>
+                  </div>
                 </div>
               </div>
             </div>
@@ -245,8 +297,14 @@
 
       get totalPrice() {
         return this.cartItems.reduce((acc, item) => {
+          if (item.product.deleted_at) return acc;
           return acc + (Number(item.product.harga) * item.quantity);
         }, 0);
+      },
+
+      // Fungsi untuk cek apakah ada item yang tidak valid (trashed)
+      get hasInvalidItems() {
+        return this.cartItems.some(item => item.product.deleted_at !== null);
       },
 
       initCart() {
@@ -282,10 +340,18 @@
               quantity: newQty
             })
           });
+
           const data = await response.json();
-          if (data.success) this.loadCart();
+
+          if (data.success) {
+            this.loadCart(); // Berhasil, refresh list
+          } else {
+            // Tampilkan pesan error asli dari Controller (misal: "Stok fisik hanya tersedia 5 unit")
+            alert(data.message);
+            this.loadCart(); // Sync ulang data
+          }
         } catch (e) {
-          console.error(e);
+          console.error("Error updating cart:", e);
         }
       },
 

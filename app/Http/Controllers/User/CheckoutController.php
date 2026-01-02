@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\CartItem;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,8 +23,15 @@ class CheckoutController extends Controller
     {
         $user = Auth::user();
 
-        // Ambil keranjang
-        $cartItems = CartItem::where('user_id', $user->id)->with('product')->get();
+        $cartItems = CartItem::where('user_id', $user->id)->with(['product' => function ($q) {
+            $q->withTrashed();
+        }])->get();
+
+        foreach ($cartItems as $item) {
+            if (!$item->product || $item->product->trashed()) {
+                return back()->with('error', "Produk '{$item->product->nama_produk}' sudah tidak tersedia. Silakan hapus dari keranjang untuk melanjutkan.");
+            }
+        }
 
         if ($cartItems->isEmpty()) {
             return redirect()->route('produk.user')->with('error', 'Keranjang belanja kosong.');
@@ -56,51 +64,57 @@ class CheckoutController extends Controller
         ]);
 
         $user = Auth::user();
-        $cartItems = CartItem::where('user_id', $user->id)->with('product')->get();
-
-        if ($cartItems->isEmpty()) {
-            return back()->with('error', 'Keranjang kosong');
-        }
-
-        // Hitung Ulang (Security: Jangan percaya input harga dari frontend)
-        $subtotal = 0;
-        foreach ($cartItems as $item) {
-            $subtotal += $item->product->harga * $item->quantity;
-        }
-        // 1. Ambil Biaya Default dari Config
-        $defaultInsuranceFee = config('samafitro.insurance_fee');
-
-        // 2. CEK CHECKBOX: Apakah user mencentang 'use_insurance'?
-        // Jika ada input 'use_insurance', maka pakai harga config. Jika tidak, 0.
-        $appliedInsuranceFee = $request->has('use_insurance') ? $defaultInsuranceFee : 0;
-
-        // 3. Hitung Grand Total
-        $grandTotal = $subtotal + $appliedInsuranceFee;
 
         try {
             DB::beginTransaction();
 
-            // A. Buat Order
+            $cartItems = CartItem::where('user_id', $user->id)->with(['product' => function ($q) {
+                $q->withTrashed();
+            }])->get();
+
+            foreach ($cartItems as $item) {
+                if (!$item->product || $item->product->trashed()) {
+                    return back()->with('error', "Produk '{$item->product->nama_produk}' sudah tidak tersedia. Silakan hapus dari keranjang untuk melanjutkan.");
+                }
+            }
+
+            if ($cartItems->isEmpty()) return back()->with('error', 'Keranjang kosong');
+
+            // --- VALIDASI & LOCKING STOK ---
+            foreach ($cartItems as $item) {
+                // lockForUpdate memastikan tidak ada proses lain yang mengubah baris produk ini sampai transaksi selesai
+                $product = Product::where('id', $item->product_id)->lockForUpdate()->first();
+
+                if (!$product || $product->stok < $item->quantity) {
+                    DB::rollBack();
+                    return back()->with('error', "Maaf, stok '{$item->product->nama_produk}' tidak mencukupi. Sisa: {$product->stok}");
+                }
+
+                $product->decrement('stok', $item->quantity);
+            }
+
+            // --- LANJUT BUAT ORDER JIKA STOK AMAN ---
+            $subtotal = $cartItems->sum(fn($item) => $item->product->harga * $item->quantity);
+            $appliedInsuranceFee = $request->has('use_insurance') ? config('samafitro.insurance_fee') : 0;
+            $grandTotal = $subtotal + $appliedInsuranceFee;
+
             $order = Order::create([
                 'user_id' => $user->id,
                 'order_number' => 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(5)),
-
                 'shipping_address' => $request->address,
                 'shipping_phone' => $request->phone,
                 'note' => $request->note,
-
                 'subtotal' => $subtotal,
-                'insurance_fee' => $appliedInsuranceFee, // Simpan 0 atau 20000 sesuai pilihan user
+                'insurance_fee' => $appliedInsuranceFee,
                 'total_price' => $grandTotal,
                 'status' => 'pending',
                 'payment_status' => 'unpaid',
             ]);
 
-            // B. Pindahkan Item
             foreach ($cartItems as $item) {
                 OrderItem::create([
-                    'order_id' => $order->id, // UUID String
-                    'product_id' => $item->product_id, // String ID
+                    'order_id' => $order->id,
+                    'product_id' => $item->product_id,
                     'product_name' => $item->product->nama_produk,
                     'price' => $item->product->harga,
                     'quantity' => $item->quantity,
@@ -108,7 +122,6 @@ class CheckoutController extends Controller
                 ]);
             }
 
-            // C. Hapus Keranjang
             CartItem::where('user_id', $user->id)->delete();
 
             // 1. Konfigurasi Midtrans

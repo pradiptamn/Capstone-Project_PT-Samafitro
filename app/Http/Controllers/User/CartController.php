@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,27 +22,37 @@ class CartController extends Controller
 
         $user = Auth::user();
         $productId = $request->product_id;
-        $quantity = $request->quantity ?? 1;
+        $quantityToAdd = $request->quantity ?? 1;
 
-        // Check if product already in cart
+        // 1. Cek stok produk di database
+        $product = Product::findOrFail($productId);
+
+        // 2. Cek jumlah yang sudah ada di keranjang user
         $existingItem = CartItem::where('user_id', $user->id)
             ->where('product_id', $productId)
             ->first();
 
+        $currentInCart = $existingItem ? $existingItem->quantity : 0;
+        $totalRequested = $currentInCart + $quantityToAdd;
+
+        // 3. Validasi: Apakah total yang diminta melebihi stok?
+        if ($totalRequested > $product->stok) {
+            return response()->json([
+                'success' => false,
+                'message' => "Stok terbatas! Anda sudah memiliki $currentInCart di keranjang, dan sisa stok hanya {$product->stok}."
+            ], 422); // Gunakan status 422 (Unprocessable Entity)
+        }
+
         if ($existingItem) {
-            // Update quantity if already exists
-            $existingItem->update([
-                'quantity' => $existingItem->quantity + $quantity
-            ]);
-            $message = 'Quantity updated in cart';
+            $existingItem->update(['quantity' => $totalRequested]);
+            $message = 'Jumlah di keranjang diperbarui';
         } else {
-            // Create new cart item
             CartItem::create([
                 'user_id' => $user->id,
                 'product_id' => $productId,
-                'quantity' => $quantity
+                'quantity' => $quantityToAdd
             ]);
-            $message = 'Product added to cart';
+            $message = 'Produk berhasil ditambah ke keranjang';
         }
 
         return response()->json([
@@ -86,20 +97,26 @@ class CartController extends Controller
 
         $user = Auth::user();
         $productId = $request->product_id;
-        $quantity = $request->quantity;
+        $newQuantity = $request->quantity;
 
-        if ($quantity <= 0) {
-            // Remove item if quantity is 0 or negative
-            return $this->removeFromCart($request);
+        // 1. Cek stok produk
+        $product = Product::findOrFail($productId);
+
+        // 2. Validasi stok
+        if ($newQuantity > $product->stok) {
+            return response()->json([
+                'success' => false,
+                'message' => "Gagal. Stok fisik hanya tersedia {$product->stok} unit."
+            ], 422);
         }
 
         CartItem::where('user_id', $user->id)
             ->where('product_id', $productId)
-            ->update(['quantity' => $quantity]);
+            ->update(['quantity' => $newQuantity]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Quantity updated',
+            'message' => 'Jumlah berhasil diperbarui',
             'cart_count' => $user->cartItems()->sum('quantity')
         ]);
     }
@@ -110,11 +127,12 @@ class CartController extends Controller
     public function getCart()
     {
         $user = Auth::user();
-        $cartItems = $user->cartItems()->with('product')->get();
+        // Gunakan withTrashed() pada relasi product
+        $cartItems = $user->cartItems()->with(['product' => function ($query) {
+            $query->withTrashed();
+        }])->get();
 
-        $total = $cartItems->sum(function ($item) {
-            return $item->quantity;
-        });
+        $total = $cartItems->sum('quantity');
 
         return response()->json([
             'cart_items' => $cartItems,

@@ -240,17 +240,28 @@
               @foreach ($order->items as $item)
                 <div class="flex justify-between items-start">
                   <div class="flex gap-4">
-                    <div class="w-12 h-12 bg-gray-700 rounded-md flex items-center justify-center text-gray-500 shrink-0">
-                      <i class="fas fa-box"></i>
+                    {{-- LOGIKA GAMBAR PRODUK --}}
+                    <div
+                      class="w-14 h-14 bg-gray-700 rounded-md flex items-center justify-center overflow-hidden shrink-0 border border-gray-600">
+                      @if ($item->product && $item->product->gambar)
+                        <img src="{{ asset('storage/' . $item->product->gambar) }}" alt="{{ $item->product_name }}"
+                          class="w-full h-full object-contain p-1">
+                      @else
+                        {{-- FALLBACK KE IKON JIKA KOSONG --}}
+                        <i class="fas fa-box text-gray-500"></i>
+                      @endif
                     </div>
+
                     <div>
-                      <p class="font-medium text-white">{{ $item->product_name }}</p>
-                      <p class="text-xs text-gray-400">{{ $item->quantity }} x Rp
-                        {{ number_format($item->price, 0, ',', '.') }}</p>
+                      <p class="font-medium text-white leading-tight mb-1">{{ $item->product_name }}</p>
+                      <p class="text-xs text-gray-400">
+                        {{ $item->quantity }} x Rp {{ number_format($item->price, 0, ',', '.') }}
+                      </p>
                     </div>
                   </div>
-                  <p class="font-bold text-gray-300 text-right whitespace-nowrap">Rp
-                    {{ number_format($item->subtotal, 0, ',', '.') }}</p>
+                  <p class="font-bold text-gray-300 text-right whitespace-nowrap">
+                    Rp {{ number_format($item->subtotal, 0, ',', '.') }}
+                  </p>
                 </div>
               @endforeach
             </div>
