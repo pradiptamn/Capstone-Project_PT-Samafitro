@@ -762,7 +762,10 @@
           <div class="katalog-grid">
             <template x-for="prod in paginatedProducts" :key="prod.id">
               <div class="katalog-card">
-                <img :src="prod.gambar" :alt="prod.nama_produk" loading="lazy">
+                <img
+                  :src="prod.gambar ? (prod.gambar.startsWith('http') ? prod.gambar : '/storage/' + prod.gambar) :
+                      '/images/no-image.png'"
+                  :alt="prod.nama_produk" loading="lazy">
                 <h3 x-text="prod.nama_produk"></h3>
                 <button class="btn-lihat-spesifikasi" @click="openOverlay(prod)"
                   style="margin-top: 12px; padding: 6px 12px; background: #666060ff; color: white; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer;">

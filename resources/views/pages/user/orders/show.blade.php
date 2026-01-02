@@ -190,8 +190,16 @@
                 <span class="text-gray-500 w-32 flex-shrink-0"><i class="fas fa-map-marker-alt w-5"></i> Alamat</span>
                 <span>{{ $order->shipping_address }}</span>
               </div>
+              <div class="mt-4 pt-4 border-t border-gray-700">
+                <p class="text-yellow-500 text-xs font-bold mb-2 uppercase tracking-widest flex items-center gap-2">
+                  <i class="fas fa-sticky-note"></i> Catatan
+                </p>
+                <div
+                  class="p-3 bg-gray-900/80 rounded-lg border border-yellow-600/20 text-sm text-gray-300 italic leading-relaxed">
+                  "{{ $order->note }}"
+                </div>
+              </div>
 
-              {{-- JIKA STATUS >= DIKIRIM (Step 3), TAMPILKAN INFO KURIR --}}
               {{-- JIKA STATUS >= DIKIRIM (Step 3), TAMPILKAN INFO KURIR --}}
               @if ($step >= 3 && $order->courier)
                 <div class="mt-4 pt-4 border-t border-gray-700 bg-gray-900/50 p-4 rounded-xl border border-blue-500/20">
