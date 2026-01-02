@@ -38,6 +38,12 @@ class Order extends Model
         return $this->belongsTo(User::class, 'courier_id');
     }
 
+    // Sales
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
     public function items()
     {
         return $this->hasMany(OrderItem::class);

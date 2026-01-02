@@ -97,7 +97,7 @@ class OrderController extends Controller
             // Cukup update status saja, karena stok sudah dipotong saat checkout
             $order->update([
                 'payment_status' => 'paid',
-                'status' => 'processing',
+                'status' => 'paid',
                 'payment_type' => $status->payment_type
             ]);
         } else if (in_array($status->transaction_status, ['deny', 'expire', 'cancel'])) {
