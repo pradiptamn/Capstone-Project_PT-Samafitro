@@ -30,6 +30,7 @@ class ProductController extends Controller
                 'spec_values' => 'required|array',
                 'spec_values.*' => 'required|string|max:255',
                 'gambar'      => 'required|image|mimes:png,jpg,jpeg|max:2048',
+                'link_brosur' => 'nullable|url',
             ]);
 
             $specifications = [];
@@ -54,6 +55,7 @@ class ProductController extends Controller
                 'stok' => $request->stok, // Simpan Stok
                 'deskripsi' => $specifications,
                 'gambar' => $gambarPath,
+                'link_brosur' => $request->link_brosur,
             ]);
 
             return redirect()->back()->with('success', 'Produk berhasil ditambahkan');
@@ -74,6 +76,7 @@ class ProductController extends Controller
                 'spec_labels' => 'required|array',
                 'spec_values' => 'required|array',
                 'gambar'      => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+                'link_brosur' => 'nullable|url',
             ]);
 
             $product = Product::findOrFail($id);
@@ -104,6 +107,7 @@ class ProductController extends Controller
                 'nama_produk' => $request->nama_produk,
                 'deskripsi' => $specifications,
                 'gambar' => $gambarPath,
+                'link_brosur' => $request->link_brosur,
             ]);
 
             return redirect()->back()->with('success', 'Produk berhasil diperbarui');

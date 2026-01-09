@@ -4,12 +4,11 @@
 
 @section('content')
   <style>
-    /* ====== STYLE ASLI ====== */
+    /* ====== TATA LETAK & DASAR ====== */
     [x-cloak] {
       display: none !important;
     }
 
-    /* ... (Semua style CSS Asli Anda Tetap Disini - Tidak Berubah) ... */
     .katalog-header {
       text-align: center;
       margin-top: 20px;
@@ -51,9 +50,6 @@
       transform: translateY(-50%);
       color: #aaa;
       pointer-events: none;
-      font-size: 1rem;
-      width: 20px;
-      text-align: center;
       z-index: 2;
     }
 
@@ -64,16 +60,14 @@
       border: 1px solid #444;
       background: #333;
       color: white;
-      font-size: 16px;
       outline: none;
-      box-sizing: border-box;
       transition: border-color 0.2s;
     }
 
     .input-with-icon input:focus {
-      border-color: #555;
+      border-color: #7377e3;
       background: #3a3a3a;
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 0 2px rgba(115, 119, 227, 0.2);
     }
 
     .category-tabs {
@@ -93,8 +87,8 @@
       border: none;
       cursor: pointer;
       transition: all 0.2s;
-      white-space: nowrap;
       font-size: 0.9rem;
+      white-space: nowrap;
     }
 
     .category-tab.active {
@@ -104,88 +98,128 @@
       box-shadow: 0 2px 6px rgba(115, 119, 227, 0.3);
     }
 
-    .category-tab:hover:not(.active) {
-      background: #555;
-      color: white;
-    }
-
+    /* ====== PRODUCT CARD REDESIGN ====== */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      gap: 24px;
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
 
     .product-card {
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
-      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
       padding: 20px;
-      transition: box-shadow 0.2s, transform 0.2s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
-      align-items: center;
+      height: 100%;
     }
 
     .product-card:hover {
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
-      transform: translateY(-4px) scale(1.02);
+      transform: translateY(-8px);
+      border-color: #7377e3;
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .product-card img {
-      width: 200px;
-      height: 120px;
+      width: 100%;
+      height: 140px;
       object-fit: contain;
-      margin-bottom: 16px;
-      background: none;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
     }
 
     .product-card h3 {
       color: #fff;
       font-size: 1.1rem;
-      font-weight: 500;
-      margin: 0 0 8px 0;
-      letter-spacing: 0.5px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      height: 2.8rem;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
 
     .product-price {
       color: #4caf50;
       font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      letter-spacing: 0.5px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    /* Action Buttons */
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .secondary-actions {
+      display: flex;
+      gap: 8px;
+      width: 100%;
     }
 
     .specs-button {
       background: #7377e3;
       color: white;
       border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 0.9rem;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: 0.2s;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
-    .specs-button:hover {
-      background: #5a5fd8;
+    .brochure-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: 0.2s;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .brochure-btn:hover {
+      background: rgba(115, 119, 227, 0.2);
+      border-color: #7377e3;
+      color: #7377e3;
     }
 
     .add-to-cart-btn {
       background: #28a745;
       color: white;
       border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
+      padding: 12px;
+      border-radius: 8px;
       font-size: 0.9rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: 0.2s;
+      width: 100%;
     }
 
-    .add-to-cart-btn:hover {
+    .add-to-cart-btn:hover:not(:disabled) {
       background: #218838;
     }
 
@@ -205,118 +239,65 @@
       transition: background 0.2s;
     }
 
-    .pagination-controls a:hover {
-      background: #555;
-    }
-
     .pagination-controls .active {
       background: #7377e3;
       color: white;
       font-weight: bold;
     }
 
-    @media screen and (max-width: 768px) {
-      .katalog-header h1 {
-        font-size: 1.8rem;
-      }
-
-      .category-tabs {
-        justify-content: start;
-        overflow-x: auto;
-        padding: 10px 0;
-      }
-
-      .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 16px;
-        padding: 16px;
-      }
-
-      .product-card img {
-        width: 150px;
-        height: 90px;
-      }
-    }
-
     @media screen and (max-width: 480px) {
       .product-grid {
         grid-template-columns: 1fr;
-        padding: 12px;
-      }
-
-      .search-container {
-        padding: 0 12px;
       }
     }
   </style>
 
   <div x-data="produkPage()" x-init="init()" x-cloak>
 
+    {{-- NOTIFIKASI TOAST --}}
     <div class="fixed top-20 right-5 z-[100] flex flex-col gap-3 pointer-events-none">
-      <template x-for="(notif, index) in notifications" :key="notif.id">
-        <div x-show="true" x-transition:enter="transition ease-out duration-300"
-          x-transition:enter-start="opacity-0 translate-x-10" x-transition:enter-end="opacity-100 translate-x-0"
-          x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 translate-x-0"
-          x-transition:leave-end="opacity-0 translate-x-10"
+      <template x-for="notif in notifications" :key="notif.id">
+        <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-10"
+          x-transition:enter-end="opacity-100 translate-x-0" x-transition:leave="transition ease-in duration-300"
+          x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 translate-x-10"
           class="pointer-events-auto px-6 py-4 rounded-lg shadow-xl text-white font-medium flex items-center gap-3 min-w-[300px]"
-          :class="{
-              'bg-green-600 border-l-4 border-green-400': notif.type === 'success',
-              'bg-red-600 border-l-4 border-red-400': notif.type === 'error',
-              'bg-blue-600 border-l-4 border-blue-400': notif.type === 'info'
-          }">
-
-          <i class="fas text-lg"
-            :class="{
-                'fa-check-circle': notif.type === 'success',
-                'fa-times-circle': notif.type === 'error',
-                'fa-info-circle': notif.type === 'info'
-            }"></i>
-
+          :class="notif.type === 'success' ? 'bg-green-600 border-l-4 border-green-400' :
+              'bg-red-600 border-l-4 border-red-400'">
+          <i class="fas text-lg" :class="notif.type === 'success' ? 'fa-check-circle' : 'fa-times-circle'"></i>
           <span x-text="notif.message"></span>
-
-          <button @click="removeNotification(notif.id)" class="ml-auto text-white/70 hover:text-white">
-            <i class="fas fa-times"></i>
-          </button>
         </div>
       </template>
     </div>
+
     <div class="katalog-header">
       <h1 style="margin-top: 40px;">Produk Kami</h1>
-      <p>Silakan pilih kategori untuk menampilkan produk yang Anda cari</p>
-
+      <p>Cari produk berdasarkan nama atau spesifikasi teknis yang Anda butuhkan</p>
       <div class="search-container">
-        <div class="input-with-icon">
-          <i class="fas fa-search"></i>
-          <input type="text" x-model="searchQuery" placeholder="Cari produk..."
-            @input="$event.target.value = $event.target.value.replace(/[^a-zA-Z0-9\s]/g, '')">
-        </div>
+        <div class="input-with-icon"><i class="fas fa-search"></i><input type="text" x-model="searchQuery"
+            placeholder="Cari nama atau spesifikasi..."></div>
       </div>
     </div>
 
+    {{-- TABS KATEGORI --}}
     <div class="category-tabs">
-      <button class="category-tab" :class="{ 'active': selectedCategory === null }" @click="selectedCategory = null">
-        Semua Kategori
-      </button>
+      <button class="category-tab" :class="{ 'active': selectedCategory === null }" @click="selectedCategory = null">Semua
+        Kategori</button>
       <template x-for="cat in categories" :key="cat.id">
         <button class="category-tab" :class="{ 'active': selectedCategory === cat.id }" @click="selectedCategory = cat.id"
           x-text="cat.name"></button>
       </template>
     </div>
 
+    {{-- PAGINASI --}}
     <div class="pagination-controls" x-show="totalPages > 1">
-      <span x-show="currentPage > 1">
-        <a @click="currentPage = 1" style="color: #888;">&laquo; First</a>
-        <a @click="currentPage = currentPage - 1" style="color: #888;">&lt; Prev</a>
-      </span>
-      <template x-for="page in totalPages" :key="page">
-        <a @click="currentPage = page" :class="{ 'active': currentPage === page }" x-text="page"></a>
-      </template>
-      <span x-show="currentPage < totalPages">
-        <a @click="currentPage = currentPage + 1" style="color: #888;">Next &gt;</a>
-        <a @click="currentPage = totalPages" style="color: #888;">Last &raquo;</a>
-      </span>
+      <span x-show="currentPage > 1"><a @click="currentPage = 1" style="color: #888;">&laquo; First</a></span>
+      <template x-for="page in totalPages" :key="page"><a @click="currentPage = page"
+          :class="{ 'active': currentPage === page }" x-text="page"></a></template>
+      <span x-show="currentPage < totalPages"><a @click="currentPage = totalPages" style="color: #888;">Last
+          &raquo;</a></span>
     </div>
 
+    {{-- PRODUCT GRID --}}
     <div class="product-grid">
       <template x-for="prod in paginatedProducts" :key="prod.id">
         <div class="product-card">
@@ -325,19 +306,22 @@
                 '/images/no-image.png'"
             :alt="prod.nama_produk" loading="lazy">
           <h3 x-text="prod.nama_produk"></h3>
-          <p class="product-price" x-text="prod.harga_format || formatRupiah(prod.harga)"></p>
+          <p class="product-price" x-text="formatRupiah(prod.harga)"></p>
 
-          {{-- INFO STOK DI KARTU --}}
           <p class="text-[11px] mb-4 flex items-center gap-1.5"
             :class="prod.stok <= 5 ? 'text-orange-500 font-bold' : 'text-gray-400'">
             <i class="fas fa-warehouse"></i>
             <span x-text="prod.stok > 0 ? 'Tersedia: ' + prod.stok + ' Unit' : 'Stok Habis'"></span>
           </p>
 
-          <div style="display: flex; gap: 8px; justify-content: center;">
-            <button class="specs-button" @click="openSpecsModal(prod)">
-              Lihat Spesifikasi
-            </button>
+          <div class="card-actions">
+            <div class="secondary-actions">
+              <button class="specs-button" @click="openSpecsModal(prod)"><i class="fas fa-info-circle"></i> Spek</button>
+              <template x-if="prod.link_brosur">
+                <a :href="prod.link_brosur" target="_blank" class="brochure-btn"><i class="fas fa-external-link-alt"></i>
+                  Lihat Brosur</a>
+              </template>
+            </div>
             <button class="add-to-cart-btn" @click="addToCart(prod)"
               :disabled="addingToCart === prod.id || prod.stok <= 0"
               :class="{ 'opacity-50 cursor-not-allowed bg-gray-600': addingToCart === prod.id || prod.stok <= 0 }">
@@ -350,86 +334,83 @@
       </template>
     </div>
 
+    {{-- PESAN JIKA TIDAK ADA PRODUK (FITUR ASLI DIPERTAHANKAN) --}}
     <template x-if="filteredProducts.length === 0">
-      <div style="text-align: center; color: #ccc; margin: 40px 0; font-size: 1.1rem;">
-        <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 16px; display: block; opacity: 0.5;"></i>
-        <p>Tidak ada produk yang tersedia untuk kategori ini</p>
+      <div style="text-align: center; color: #ccc; margin: 60px 0;">
+        <i class="fas fa-box-open" style="font-size: 3.5rem; opacity: 0.3; margin-bottom: 15px; display: block;"></i>
+        <p class="text-lg">Tidak ada produk yang cocok dengan pencarian Anda</p>
       </div>
     </template>
 
-    <div x-show="activeProduct" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto"
-      aria-labelledby="modal-title" role="dialog" aria-modal="true">
-
-      <div x-show="activeProduct" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+    {{-- MODAL (PERBAIKAN BUG NaN) --}}
+    <div x-show="isModalOpen" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto">
+      <div x-show="isModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-        class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm" @click="closeModal()">
-      </div>
-
-      <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div x-show="activeProduct" x-transition:enter="ease-out duration-300"
-          x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        class="fixed inset-0 bg-gray-900 bg-opacity-80 backdrop-blur-sm" @click="closeModal()"></div>
+      <div class="flex min-h-full items-center justify-center p-4">
+        <div x-show="isModalOpen" x-transition:enter="ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-y-4 sm:scale-95"
           x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200"
-          x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-          x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          class="relative transform overflow-hidden rounded-lg bg-gray-800 border border-gray-700 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+          class="relative bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl transition-all sm:w-full sm:max-w-lg overflow-hidden">
 
-          <div class="bg-gray-900 px-4 py-3 sm:px-6 border-b border-gray-700 flex justify-between items-center">
-            <h3 class="text-lg font-semibold leading-6 text-white" id="modal-title"
-              x-text="activeProduct?.nama_produk">
-            </h3>
-            <button @click="closeModal()" class="text-gray-400 hover:text-white">
-              <i class="fas fa-times"></i>
-            </button>
+          <div class="px-6 py-4 border-b border-gray-800 flex justify-between items-center bg-gray-900">
+            <h3 class="text-lg font-bold text-white" x-text="activeProduct?.nama_produk"></h3>
+            <button @click="closeModal()" class="text-gray-500 hover:text-white transition"><i
+                class="fas fa-times"></i></button>
           </div>
 
-          <div class="px-4 py-5 sm:p-6 max-h-[60vh] overflow-y-auto">
-            <div class="flex justify-center mb-4">
-              <img
-                :src="activeProduct?.gambar ? (activeProduct.gambar.startsWith('http') ? activeProduct.gambar : '/storage/' +
-                    activeProduct.gambar) : '/images/no-image.png'"
-                class="h-32 object-contain bg-white/5 rounded p-2">
+          <div class="px-6 py-6 max-h-[65vh] overflow-y-auto bg-gray-900/50">
+            <div class="flex justify-center mb-6">
+              <div class="bg-white p-3 rounded-lg shadow-lg inline-block">
+                <img
+                  :src="activeProduct?.gambar ? (activeProduct.gambar.startsWith('http') ? activeProduct.gambar :
+                      '/storage/' + activeProduct.gambar) : '/images/no-image.png'"
+                  class="h-40 object-contain mx-auto">
+              </div>
             </div>
 
-            <div class="text-center mb-4">
-              <span class="text-green-400 font-bold text-xl block"
-                x-text="activeProduct?.harga_format || formatRupiah(activeProduct?.harga)"></span>
+            <div class="text-center mb-8 space-y-3">
+              <h4 class="text-3xl font-black text-green-400" x-text="formatRupiah(activeProduct?.harga)"></h4>
+              <div class="flex flex-col items-center gap-2">
+                <span class="px-4 py-1 rounded-full border text-xs font-bold"
+                  :class="activeProduct?.stok <= 5 ? 'bg-orange-500/10 border-orange-500 text-orange-500' :
+                      'bg-gray-800 border-gray-700 text-gray-400'"
+                  x-text="activeProduct?.stok > 0 ? 'Sisa Stok: ' + activeProduct?.stok : 'Stok Habis'"></span>
 
-              {{-- INFO STOK DI MODAL --}}
-              <span class="text-sm mt-1 inline-block px-3 py-1 rounded-full border"
-                :class="activeProduct?.stok <= 5 ? 'bg-orange-500/10 border-orange-500 text-orange-500' :
-                    'bg-gray-700/50 border-gray-600 text-gray-400'"
-                x-text="activeProduct?.stok > 0 ? 'Sisa Stok: ' + activeProduct?.stok + ' Unit' : 'Stok Habis'">
-              </span>
+                {{-- LINK BROSUR MODAL --}}
+                <template x-if="activeProduct?.link_brosur">
+                  <a :href="activeProduct.link_brosur" target="_blank"
+                    class="text-blue-400 hover:text-blue-300 text-xs font-bold flex items-center gap-2 underline">
+                    <i class="fas fa-external-link-alt text-[10px]"></i> Lihat Brosur
+                  </a>
+                </template>
+              </div>
             </div>
 
             <div x-show="activeProduct && activeProduct.deskripsi">
-              <ul class="space-y-2">
+              <div
+                class="text-[10px] font-black uppercase text-gray-500 tracking-[0.2em] mb-3 border-b border-gray-800 pb-1">
+                Spesifikasi Teknis</div>
+              <ul class="divide-y divide-gray-800/50">
                 <template x-for="(item, index) in activeProduct?.deskripsi" :key="index">
-                  <li
-                    class="flex justify-between items-start gap-6 text-sm border-b border-gray-700 pb-3 pt-1 last:border-0">
-                    <span class="font-medium text-blue-400 shrink-0 text-left w-1/3" x-text="item.label"></span>
-                    <span class="text-gray-300 text-right w-2/3 break-words" x-text="item.value"></span>
+                  <li class="flex justify-between items-start py-3 text-sm">
+                    <span class="font-bold text-blue-400 w-1/3 text-left" x-text="item.label"></span>
+                    <span class="text-gray-300 w-2/3 text-right" x-text="item.value"></span>
                   </li>
                 </template>
               </ul>
-              <div x-show="typeof activeProduct?.deskripsi === 'string'"
-                class="text-gray-300 text-sm leading-relaxed mt-2">
-                <p x-text="activeProduct?.deskripsi"></p>
-              </div>
+              {{-- JIKA DESKRIPSI ADALAH STRING --}}
+              <div x-show="typeof activeProduct?.deskripsi === 'string'" class="text-gray-300 text-sm italic mt-2"
+                x-text="activeProduct?.deskripsi"></div>
             </div>
           </div>
 
-          <div class="bg-gray-900 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2">
-            <button type="button" @click="addToCart(activeProduct); closeModal()" :disabled="activeProduct?.stok <= 0"
-              :class="activeProduct?.stok <= 0 ? 'bg-gray-600 cursor-not-allowed' : 'bg-green-600 hover:bg-green-500'"
-              class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">
-              <span x-text="activeProduct?.stok > 0 ? 'Add to Cart' : 'Stok Habis'"></span>
-            </button>
-            <button type="button" @click="closeModal()"
-              class="mt-3 inline-flex w-full justify-center rounded-md bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-300 shadow-sm ring-1 ring-inset ring-gray-600 hover:bg-gray-600 sm:mt-0 sm:w-auto">
-              Close
-            </button>
+          <div class="bg-gray-900 px-6 py-4 flex flex-col sm:flex-row-reverse gap-3 border-t border-gray-800">
+            <button @click="addToCart(activeProduct); closeModal()" :disabled="activeProduct?.stok <= 0"
+              class="inline-flex w-full justify-center rounded-xl bg-green-600 px-6 py-3 text-sm font-black text-white shadow-lg hover:bg-green-500 transition sm:w-auto disabled:bg-gray-800 disabled:cursor-not-allowed">Add
+              to Cart</button>
+            <button @click="closeModal()"
+              class="inline-flex w-full justify-center rounded-xl bg-gray-800 px-6 py-3 text-sm font-bold text-gray-400 border border-gray-700 hover:bg-gray-700 transition sm:w-auto">Tutup</button>
           </div>
         </div>
       </div>
@@ -444,34 +425,26 @@
         selectedCategory: null,
         searchQuery: '',
         activeProduct: null,
+        isModalOpen: false, // State visibility modal
         currentPage: 1,
         productsPerPage: 12,
         addingToCart: null,
-
-        // === LOGIKA NOTIFIKASI (TOAST) ===
         notifications: [],
 
         showNotification(message, type = 'success') {
-          const id = Date.now(); // ID Unik
-          // Push notif baru ke array
+          const id = Date.now();
           this.notifications.push({
             id,
             message,
             type
           });
-
-          // Hapus otomatis setelah 3 detik
           setTimeout(() => {
-            this.removeNotification(id);
+            this.notifications = this.notifications.filter(n => n.id !== id);
           }, 3000);
         },
 
-        removeNotification(id) {
-          this.notifications = this.notifications.filter(n => n.id !== id);
-        },
-        // =================================
-
         formatRupiah(angka) {
+          if (!angka) return 'Rp 0';
           return new Intl.NumberFormat('id-ID', {
             style: 'currency',
             currency: 'IDR',
@@ -479,6 +452,7 @@
           }).format(angka);
         },
 
+        // FITUR ASLI: PENCARIAN BERDASARKAN NAMA DAN DESKRIPSI
         get filteredProducts() {
           let result = this.products;
           if (this.selectedCategory) {
@@ -508,18 +482,19 @@
         },
         get paginatedProducts() {
           const start = (this.currentPage - 1) * this.productsPerPage;
-          const end = start + this.productsPerPage;
-          return this.filteredProducts.slice(start, end);
+          return this.filteredProducts.slice(start, start + this.productsPerPage);
         },
 
         openSpecsModal(product) {
           this.activeProduct = product;
+          this.isModalOpen = true; // Buka modal secara visual
           document.body.style.overflow = 'hidden';
         },
 
         closeModal() {
-          this.activeProduct = null;
+          this.isModalOpen = false; // Tutup secara visual (memicu transisi Alpine)
           document.body.style.overflow = 'auto';
+          // Jangan hapus activeProduct di sini agar transisi keluar tetap memiliki data (cegah RpNaN)
         },
 
         async addToCart(product) {
@@ -536,18 +511,15 @@
                 quantity: 1
               })
             });
-
             const data = await response.json();
             if (data.success) {
               window.dispatchEvent(new CustomEvent('cart-updated'));
-              // PANGGIL TOAST DISINI
-              this.showNotification('Produk berhasil ditambahkan ke keranjang', 'success');
+              this.showNotification('Produk berhasil masuk keranjang');
             } else {
               this.showNotification(data.message, 'error');
             }
           } catch (error) {
-            console.error('Error adding to cart:', error);
-            this.showNotification('Terjadi kesalahan koneksi', 'error');
+            this.showNotification('Koneksi bermasalah', 'error');
           } finally {
             this.addingToCart = null;
           }
@@ -555,22 +527,18 @@
 
         async init() {
           try {
-            this.activeProduct = null;
             const res = await fetch('/produk/json');
-            if (!res.ok) throw new Error('Gagal memuat data');
             const data = await res.json();
             this.categories = data.categories || [];
             this.products = data.products || [];
-
             this.$watch('selectedCategory', () => {
               this.currentPage = 1;
             });
             this.$watch('searchQuery', () => {
               this.currentPage = 1;
             });
-
           } catch (err) {
-            console.error('Error loading produk:', err);
+            console.error('Error:', err);
           }
         }
       }

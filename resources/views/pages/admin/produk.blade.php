@@ -100,6 +100,20 @@
                     placeholder="0" min="0" required>
                 </div>
               </div>
+
+              <div class="md:col-span-3">
+                <label class="block mb-2 text-sm font-medium text-gray-300">Link Brosur Online</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <i class="fas fa-link text-gray-400"></i>
+                  </div>
+                  <input type="url" name="link_brosur" value="{{ old('link_brosur') }}"
+                    class="w-full bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 block pl-10 p-2.5"
+                    placeholder="https://drive.google.com/file/d/...">
+                </div>
+                <p class="text-[10px] text-gray-500 mt-2">*Opsional. Masukkan link Google Drive yang sudah diatur aksesnya
+                  ke "Anyone with the link".</p>
+              </div>
             </div>
 
             <div class="mb-6">
@@ -292,6 +306,12 @@
                 <input type="number" name="harga" id="editHarga"
                   class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg p-2.5" required>
               </div>
+              <div class="md:col-span-2">
+                <label class="block mb-2 text-sm font-medium text-gray-300">Link Brosur Online</label>
+                <input type="url" name="link_brosur" id="editBrosur"
+                  class="w-full bg-gray-700 border border-gray-600 text-white text-sm rounded-lg p-2.5"
+                  placeholder="https://drive.google.com/file/d/...">
+              </div>
             </div>
 
             <div class="mb-4">
@@ -385,6 +405,8 @@
       document.getElementById('editHarga').value = product.harga;
 
       document.getElementById('editStok').value = product.stok;
+
+      document.getElementById('editBrosur').value = product.link_brosur || '';
 
       document.getElementById('editForm').action = '/admin/produk/update/' + product.id;
 

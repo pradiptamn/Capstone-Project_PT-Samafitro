@@ -57,7 +57,7 @@ Route::get('/produk', function () {
 // API untuk data produk
 Route::get('/produk/json', function () {
     $categories = Category::select('id', 'name')->get();
-    $products = Product::select('id', 'kategori_id', 'nama_produk', 'harga', 'stok', 'deskripsi', 'gambar')->get();
+    $products = Product::select('id', 'kategori_id', 'nama_produk', 'harga', 'stok', 'deskripsi', 'gambar', 'link_brosur')->get();
 
     return response()->json([
         'categories' => $categories,
