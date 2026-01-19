@@ -1,0 +1,1718 @@
+{
+  "products": [
+    {
+      "id": "1a2b3c4d-5e6f-7890-a1b2-c3d4e5f6g7h8",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Epson SC-F11030",
+      "harga": 2450000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Kategori",
+          "value": "Garment & Textile"
+        },
+        {
+          "label": "Kecepatan",
+          "value": "Hingga 255 m²/jam"
+        },
+        {
+          "label": "Lebar Cetak",
+          "value": "76 inci"
+        }
+      ],
+      "gambar": "/assets/images/garment/epson-sc-f11030.jpg"
+    },
+    {
+      "id": "2b3c4d5e-6f7g-8901-b2c3-d4e5f6g7h8i9",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Epson SC-F9530",
+      "harga": 450000000,
+      "stok": 4,
+      "deskripsi": [
+        {
+          "label": "Fitur",
+          "value": "Dual Head Industrial"
+        },
+        {
+          "label": "Warna",
+          "value": "Dual CMYK"
+        }
+      ],
+      "gambar": "/assets/images/garment/epson-sc-f9530.jpg"
+    },
+    {
+      "id": "3c4d5e6f-7g8h-9012-c3d4-e5f6g7h8i9j0",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Epson SC-F6430",
+      "harga": 125000000,
+      "stok": 12,
+      "deskripsi": [
+        {
+          "label": "Ukuran",
+          "value": "44 inci"
+        },
+        {
+          "label": "Tinta",
+          "value": "PrecisionCore MicroTFP"
+        }
+      ],
+      "gambar": "/assets/images/garment/epson-sc-f6430.jpg"
+    },
+    {
+      "id": "4d5e6f7g-8h9i-0123-d4e5-f6g7h8i9j0k1",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Mimaki TIGER600-1800TS",
+      "harga": 3200000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "High Speed Dye Sublimation"
+        },
+        {
+          "label": "Lebar",
+          "value": "1800 mm"
+        }
+      ],
+      "gambar": "/assets/images/garment/mimaki-tiger600-1800ts.jpg"
+    },
+    {
+      "id": "5e6f7g8h-9i0j-1234-e5f6-g7h8i9j0k1l2",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Mimaki TS330-1800",
+      "harga": 650000000,
+      "stok": 3,
+      "deskripsi": [
+        {
+          "label": "Fungsi",
+          "value": "Industrial Textile Printer"
+        },
+        {
+          "label": "Teknologi",
+          "value": "MWDT (Mimaki Weaving Dot Technology)"
+        }
+      ],
+      "gambar": "/assets/images/garment/mimaki-ts330-1800.jpg"
+    },
+    {
+      "id": "6f7g8h9i-0j1k-2345-f6g7-h8i9j0k1l2m3",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Mimaki TS100-1600",
+      "harga": 185000000,
+      "stok": 15,
+      "deskripsi": [
+        {
+          "label": "Target",
+          "value": "Entry Level Sublimation"
+        },
+        {
+          "label": "Kecepatan",
+          "value": "70 m²/jam"
+        }
+      ],
+      "gambar": "/assets/images/garment/mimaki-ts100-1600.jpg"
+    },
+    {
+      "id": "7g8h9i0j-1k2l-3456-g7h8-i9j0k1l2m3n4",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "FITRO",
+      "harga": 45000000,
+      "stok": 50,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Garment Ink Solutions"
+        }
+      ],
+      "gambar": "/assets/images/garment/fitro.jpg"
+    },
+    {
+      "id": "8h9i0j1k-2l3m-4567-h8i9-j0k1l2m3n4o5",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Kornit Digital Presto",
+      "harga": 5500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Teknologi",
+          "value": "Single Step Digital Textile"
+        },
+        {
+          "label": "Tinta",
+          "value": "NeoPigment Robusto"
+        }
+      ],
+      "gambar": "/assets/images/garment/kornit-digital-presto.jpg"
+    },
+    {
+      "id": "9i0j1k2l-3m4n-5678-i9j0-k1l2m3n4o5p6",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Adelco Cyclone",
+      "harga": 1200000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Mesin",
+          "value": "Automatic Screen Printing"
+        }
+      ],
+      "gambar": "/assets/images/garment/adelco-cyclone.jpg"
+    },
+    {
+      "id": "a1b2c3d4-5e6f-7890-a1b2-c3d4e5f6g7h9",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Corino Machine",
+      "harga": 850000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Fungsi",
+          "value": "Textile Finishing Machine"
+        }
+      ],
+      "gambar": "/assets/images/garment/corino-machine.jpg"
+    },
+    {
+      "id": "b2c3d4e5-6f7g-8901-b2c3-d4e5f6g7h8i0",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Konica Minolta Nassenger 10",
+      "harga": 6800000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Kapasitas",
+          "value": "Ultra High Volume"
+        },
+        {
+          "label": "Head",
+          "value": "KM1024i"
+        }
+      ],
+      "gambar": "/assets/images/garment/konica-nassenger-10.jpg"
+    },
+    {
+      "id": "c3d4e5f6-7g8h-9012-c3d4-e5f6g7h8i9j1",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Konica Minolta Nassenger SP-1",
+      "harga": 12500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Teknologi",
+          "value": "Single Pass Digital Textile"
+        }
+      ],
+      "gambar": "/assets/images/garment/konica-nassenger-sp1.jpg"
+    },
+    {
+      "id": "d4e5f6g7-8h9i-0123-d4e5-f6g7h8i9j0k2",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Daeil",
+      "harga": 450000000,
+      "stok": 5,
+      "deskripsi": [
+        {
+          "label": "Negara",
+          "value": "Korea"
+        },
+        {
+          "label": "Fungsi",
+          "value": "Textile Steamer"
+        }
+      ],
+      "gambar": "/assets/images/garment/daeil.jpg"
+    },
+    {
+      "id": "e5f6g7h8-9i0j-1234-e5f6-g7h8i9j0k1l3",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Transmatic GFO 667",
+      "harga": 550000000,
+      "stok": 3,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Heat Transfer Press"
+        },
+        {
+          "label": "Lebar",
+          "value": "1700 mm"
+        }
+      ],
+      "gambar": "/assets/images/garment/transmatic-gfo-667.jpg"
+    },
+    {
+      "id": "f6g7h8i9-0j1k-2345-f6g7-h8i9j0k1l2m4",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Transmatic 7140/7160 SPORT",
+      "harga": 420000000,
+      "stok": 4,
+      "deskripsi": [
+        {
+          "label": "Fokus",
+          "value": "Sportswear Sublimation"
+        }
+      ],
+      "gambar": "/assets/images/garment/transmatic-7140-7160-sport.jpg"
+    },
+    {
+      "id": "g7h8i9j0-1k2l-3456-g7h8-i9j0k1l2m3n5",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Transfer Paper",
+      "harga": 1500000,
+      "stok": 100,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "High Speed Sublimation Paper"
+        }
+      ],
+      "gambar": "/assets/images/garment/transfer-paper.jpg"
+    },
+    {
+      "id": "h8i9j0k1-2l3m-4567-h8i9-j0k1l2m3n4o6",
+      "kategori_id": "e5f6g7h8-i9j0-1234-k5l6-m7n8o9p0q1r2",
+      "nama_produk": "Tinta Sublime",
+      "harga": 950000,
+      "stok": 200,
+      "deskripsi": [
+        {
+          "label": "Kualitas",
+          "value": "Premium Pigment"
+        }
+      ],
+      "gambar": "/assets/images/garment/tinta-sublime.jpg"
+    },
+    {
+      "id": "i9j0k1l2-3m4n-5678-j0k1-l2m3n4o5p6q7",
+      "kategori_id": "f6g7h8i9-j0k1-2345-l6m7-n8o9p0q1r2s3",
+      "nama_produk": "Canon Image PROGRAF TC-20M",
+      "harga": 22000000,
+      "stok": 20,
+      "deskripsi": [
+        {
+          "label": "Lebar",
+          "value": "24 inci"
+        },
+        {
+          "label": "Fungsi",
+          "value": "CAD & Poster"
+        }
+      ],
+      "gambar": "/assets/images/large-format/canon-tc-20m.jpg"
+    },
+    {
+      "id": "j0k1l2m3-4n5o-6789-k1l2-m3n4o5p6q7r8",
+      "kategori_id": "f6g7h8i9-j0k1-2345-l6m7-n8o9p0q1r2s3",
+      "nama_produk": "Canon Image PROGRAF TX-5410",
+      "harga": 115000000,
+      "stok": 8,
+      "deskripsi": [
+        {
+          "label": "Ukuran",
+          "value": "44 inci"
+        },
+        {
+          "label": "Fitur",
+          "value": "Multifunction Roll System"
+        }
+      ],
+      "gambar": "/assets/images/large-format/canon-tx-5410.jpg"
+    },
+    {
+      "id": "k1l2m3n4-5o6p-7890-l2m3-n4o5p6q7r8s9",
+      "kategori_id": "f6g7h8i9-j0k1-2345-l6m7-n8o9p0q1r2s3",
+      "nama_produk": "Canon Image PROGRAF GP-540",
+      "harga": 145000000,
+      "stok": 5,
+      "deskripsi": [
+        {
+          "label": "Keunggulan",
+          "value": "Pink Fluorescent Ink"
+        }
+      ],
+      "gambar": "/assets/images/large-format/canon-gp-540.jpg"
+    },
+    {
+      "id": "l2m3n4o5-6p7q-8901-m3n4-o5p6q7r8s9t0",
+      "kategori_id": "f6g7h8i9-j0k1-2345-l6m7-n8o9p0q1r2s3",
+      "nama_produk": "HP DesignJet T650",
+      "harga": 35000000,
+      "stok": 12,
+      "deskripsi": [
+        {
+          "label": "Ukuran",
+          "value": "36 inci"
+        },
+        {
+          "label": "Portabilitas",
+          "value": "Compact Office Design"
+        }
+      ],
+      "gambar": "/assets/images/large-format/hp-t650.jpg"
+    },
+    {
+      "id": "m3n4o5p6-7q8r-9012-n4o5-p6q7r8s9t0u1",
+      "kategori_id": "f6g7h8i9-j0k1-2345-l6m7-n8o9p0q1r2s3",
+      "nama_produk": "HP DesignJet T950",
+      "harga": 55000000,
+      "stok": 10,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Professional CAD Printer"
+        }
+      ],
+      "gambar": "/assets/images/large-format/hp-t950.jpg"
+    },
+    {
+      "id": "n4o5p6q7-8r9s-0123-o5p6-q7r8s9t0u1v2",
+      "kategori_id": "f6g7h8i9-j0k1-2345-l6m7-n8o9p0q1r2s3",
+      "nama_produk": "HP DesignJet XL3600MFP",
+      "harga": 185000000,
+      "stok": 4,
+      "deskripsi": [
+        {
+          "label": "Fungsi",
+          "value": "Scan, Copy, Print Large Format"
+        }
+      ],
+      "gambar": "/assets/images/large-format/hp-xl3600mfp.jpg"
+    },
+    {
+      "id": "o5p6q7r8-9s0t-1234-p6q7-r8s9t0u1v2w3",
+      "kategori_id": "f6g7h8i9-j0k1-2345-l6m7-n8o9p0q1r2s3",
+      "nama_produk": "HP DesignJet T2600MFP",
+      "harga": 140000000,
+      "stok": 6,
+      "deskripsi": [
+        {
+          "label": "Security",
+          "value": "HP Wolf Enterprise Security"
+        }
+      ],
+      "gambar": "/assets/images/large-format/hp-t2600mfp.jpg"
+    },
+    {
+      "id": "p6q7r8s9-0t1u-2345-q7r8-s9t0u1v2w3x4",
+      "kategori_id": "g7h8i9j0-k1l2-3456-m7n8-o9p0q1r2s3t4",
+      "nama_produk": "Jetrix LXi8",
+      "harga": 2100000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "UV Flatbed Printer"
+        },
+        {
+          "label": "Media",
+          "value": "Rigid (Kaca, Kayu, Akrilik)"
+        }
+      ],
+      "gambar": "/assets/images/large-format/jetrix-lxi8.jpg"
+    },
+    {
+      "id": "q7r8s9t0-1u2v-3456-r8s9-t0u1v2w3x4y5",
+      "kategori_id": "g7h8i9j0-k1l2-3456-m7n8-o9p0q1r2s3t4",
+      "nama_produk": "Jetrix RollToRoll UV Printers LXiR320",
+      "harga": 1800000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Lebar",
+          "value": "3.2 Meter"
+        }
+      ],
+      "gambar": "/assets/images/large-format/jetrix-lxir320.jpg"
+    },
+    {
+      "id": "r8s9t0u1-2v3w-4567-s9t0-u1v2w3x4y5z6",
+      "kategori_id": "g7h8i9j0-k1l2-3456-m7n8-o9p0q1r2s3t4",
+      "nama_produk": "KINGT 2513 UV Print",
+      "harga": 950000000,
+      "stok": 3,
+      "deskripsi": [
+        {
+          "label": "Area",
+          "value": "2.5m x 1.3m"
+        }
+      ],
+      "gambar": "/assets/images/large-format/kingt-2513.jpg"
+    },
+    {
+      "id": "s9t0u1v2-3w4x-5678-t0u1-v2w3x4y5z6a7",
+      "kategori_id": "g7h8i9j0-k1l2-3456-m7n8-o9p0q1r2s3t4",
+      "nama_produk": "KINGT 1016 UV Print",
+      "harga": 450000000,
+      "stok": 5,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Small Format UV"
+        }
+      ],
+      "gambar": "/assets/images/large-format/kingt-1016.jpg"
+    },
+    {
+      "id": "t0u1v2w3-4x5y-6789-u1v2-w3x4y5z6a7b8",
+      "kategori_id": "g7h8i9j0-k1l2-3456-m7n8-o9p0q1r2s3t4",
+      "nama_produk": "KINGT 2500A Corrugated Printer",
+      "harga": 3500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Aplikasi",
+          "value": "Packaging Cardboard"
+        }
+      ],
+      "gambar": "/assets/images/large-format/kingt-2500a.jpg"
+    },
+    {
+      "id": "u1v2w3x4-5y6z-7890-v2w3-x4y5z6a7b8c9",
+      "kategori_id": "g7h8i9j0-k1l2-3456-m7n8-o9p0q1r2s3t4",
+      "nama_produk": "Mimaki SWJ-320EA Solvent",
+      "harga": 380000000,
+      "stok": 8,
+      "deskripsi": [
+        {
+          "label": "Lebar",
+          "value": "3.2 Meter"
+        },
+        {
+          "label": "Tinta",
+          "value": "Solvent CS100"
+        }
+      ],
+      "gambar": "/assets/images/large-format/mimaki-swj-320ea.jpg"
+    },
+    {
+      "id": "v2w3x4y5-6z7a-8901-w3x4-y5z6a7b8c9d0",
+      "kategori_id": "g7h8i9j0-k1l2-3456-m7n8-o9p0q1r2s3t4",
+      "nama_produk": "Mimaki JV200-160 EcoSolvent",
+      "harga": 245000000,
+      "stok": 12,
+      "deskripsi": [
+        {
+          "label": "Kualitas",
+          "value": "Eco-Solvent Vibrant Colors"
+        }
+      ],
+      "gambar": "/assets/images/large-format/mimaki-jv200-160.jpg"
+    },
+    {
+      "id": "w3x4y5z6-7a8b-9012-x4y5-z6a7b8c9d0e1",
+      "kategori_id": "g7h8i9j0-k1l2-3456-m7n8-o9p0q1r2s3t4",
+      "nama_produk": "Mimaki UCJV330 Serie",
+      "harga": 425000000,
+      "stok": 6,
+      "deskripsi": [
+        {
+          "label": "Fungsi",
+          "value": "Print & Cut UV LED"
+        }
+      ],
+      "gambar": "/assets/images/large-format/mimaki-ucjv330.jpg"
+    },
+    {
+      "id": "areta-apollo-69v-6090-uv-001",
+      "kategori_id": "g7h8i9j0-k1l2-3456-m7n8-o9p0q1r2s3t4",
+      "nama_produk": "Areta Gifted Apollo-69V 6090 UV printer",
+      "harga": 185000000,
+      "stok": 10,
+      "deskripsi": [
+        {
+          "label": "Area",
+          "value": "60cm x 90cm"
+        }
+      ],
+      "gambar": "/assets/images/large-format/areta-apollo-69v-6090-uv.jpg"
+    },
+    {
+      "id": "gcc-expert-24-lx",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "GCC Expert 24 LX",
+      "harga": 9500000,
+      "stok": 25,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Vinyl Cutting Plotter"
+        }
+      ],
+      "gambar": "/assets/images/cutting/gcc-expert-24-lx.jpg"
+    },
+    {
+      "id": "gcc-mg-380-hybrid",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "GCC MG 380 Hybrid",
+      "harga": 145000000,
+      "stok": 4,
+      "deskripsi": [
+        {
+          "label": "Sistem",
+          "value": "Hybrid Laser"
+        }
+      ],
+      "gambar": "/assets/images/cutting/gcc-mg-380-hybrid.jpg"
+    },
+    {
+      "id": "gcc-spirit-gls-hybrid",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "GCC SPIRIT GLS Hybrid",
+      "harga": 210000000,
+      "stok": 3,
+      "deskripsi": [
+        {
+          "label": "Fitur",
+          "value": "Laser Engraver & Cutter"
+        }
+      ],
+      "gambar": "/assets/images/cutting/gcc-spirit-gls-hybrid.jpg"
+    },
+    {
+      "id": "gcc-laserpro-dfs",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "GCC LaserPro DFS",
+      "harga": 350000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Kelas",
+          "value": "Industrial Laser System"
+        }
+      ],
+      "gambar": "/assets/images/cutting/gcc-laserpro-dfs.jpg"
+    },
+    {
+      "id": "graphtec-fcx2000",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "Graphtec FCX2000",
+      "harga": 185000000,
+      "stok": 5,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Flatbed Cutting Plotter"
+        }
+      ],
+      "gambar": "/assets/images/cutting/graphtec-fcx2000.jpg"
+    },
+    {
+      "id": "graphtec-ce-8000",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "Graphtec CE 8000",
+      "harga": 28000000,
+      "stok": 15,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Roll Cutting Plotter"
+        }
+      ],
+      "gambar": "/assets/images/cutting/graphtec-ce-8000.jpg"
+    },
+    {
+      "id": "graphtec-asf1-30",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "Graphtec ASF1-30",
+      "harga": 45000000,
+      "stok": 10,
+      "deskripsi": [
+        {
+          "label": "Fungsi",
+          "value": "Auto Sheet Feeder"
+        }
+      ],
+      "gambar": "/assets/images/cutting/graphtec-asf1-30.jpg"
+    },
+    {
+      "id": "zund-g3",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "ZUND G3",
+      "harga": 3200000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Modular Digital Cutter"
+        }
+      ],
+      "gambar": "/assets/images/cutting/zund-g3.jpg"
+    },
+    {
+      "id": "sticker-mactac",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "Sticker MACTAC",
+      "harga": 2500000,
+      "stok": 100,
+      "deskripsi": [
+        {
+          "label": "Media",
+          "value": "Self Adhesive Vinyl"
+        }
+      ],
+      "gambar": "/assets/images/cutting/sticker-mactac.jpg"
+    },
+    {
+      "id": "samafitro-graphic-art-media",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "Samafitro Graphic Art Media",
+      "harga": 1500000,
+      "stok": 150,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Premium Art Media"
+        }
+      ],
+      "gambar": "/assets/images/cutting/samafitro-graphic-art-media.jpg"
+    },
+    {
+      "id": "tinta-mimaki-uv-solvent-ecosolvent",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "Tinta Mimaki UV, Solvent & Ecosolvent",
+      "harga": 1200000,
+      "stok": 300,
+      "deskripsi": [
+        {
+          "label": "Original",
+          "value": "Mimaki Genuine Inks"
+        }
+      ],
+      "gambar": "/assets/images/cutting/tinta-mimaki-uv-solvent-ecosolvent.jpg"
+    },
+    {
+      "id": "hp-plotter-ink-cartridges",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "HP Plotter Ink Cartridges",
+      "harga": 1500000,
+      "stok": 200,
+      "deskripsi": [
+        {
+          "label": "Original",
+          "value": "HP Genuine Plotter Ink"
+        }
+      ],
+      "gambar": "/assets/images/cutting/hp-plotter-ink-cartridges.jpg"
+    },
+    {
+      "id": "hp-plotter-paper",
+      "kategori_id": "h8i9j0k1-l2m3-4567-n8o9-p0q1r2s3t4u5",
+      "nama_produk": "HP Plotter Paper",
+      "harga": 450000,
+      "stok": 400,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "CAD Bond Paper"
+        }
+      ],
+      "gambar": "/assets/images/cutting/hp-plotter-paper.jpg"
+    },
+    {
+      "id": "canon-ir-adv-dx-68xx",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon IR-ADV DX 68xx",
+      "harga": 145000000,
+      "stok": 8,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Multifunction Monochrome"
+        },
+        {
+          "label": "Kecepatan",
+          "value": "60-70 ppm"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-ir-adv-dx-68xx.jpg"
+    },
+    {
+      "id": "canon-ir-adv-dx-49xx",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon IR-ADV DX 49xx",
+      "harga": 85000000,
+      "stok": 12,
+      "deskripsi": [
+        {
+          "label": "Fokus",
+          "value": "Office Productivity"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-ir-adv-dx-49xx.jpg"
+    },
+    {
+      "id": "canon-ir-adv-c-58xx",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon IR-ADV C 58xx",
+      "harga": 210000000,
+      "stok": 5,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Multifunction Color"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-ir-adv-c-58xx.jpg"
+    },
+    {
+      "id": "canon-ir-adv-c39xx",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon IR-ADV C39xx",
+      "harga": 125000000,
+      "stok": 9,
+      "deskripsi": [
+        {
+          "label": "Fungsi",
+          "value": "A3 Color MFP"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-ir-adv-c39xx.jpg"
+    },
+    {
+      "id": "canon-ir-adv-c3326i",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon IR-ADV C3326I",
+      "harga": 95000000,
+      "stok": 7,
+      "deskripsi": [
+        {
+          "label": "Kelas",
+          "value": "Standard Office MFP"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-ir-adv-c3326i.jpg"
+    },
+    {
+      "id": "canon-ir-c332l",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon IR C332L",
+      "harga": 65000000,
+      "stok": 15,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Essential Color Printer"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-ir-c332l.jpg"
+    },
+    {
+      "id": "canon-ir-29xx",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon IR 29xx",
+      "harga": 35000000,
+      "stok": 20,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Monochrome Office Copier"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-ir-29xx.jpg"
+    },
+    {
+      "id": "canon-c1333i",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon C1333i",
+      "harga": 18500000,
+      "stok": 30,
+      "deskripsi": [
+        {
+          "label": "Fokus",
+          "value": "Compact Color MFP"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-c1333i.jpg"
+    },
+    {
+      "id": "canon-1440i",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon 1440i",
+      "harga": 12500000,
+      "stok": 25,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Monochrome A4 Printer"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-1440i.jpg"
+    },
+    {
+      "id": "canon-ir-2425",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon IR 2425",
+      "harga": 28500000,
+      "stok": 14,
+      "deskripsi": [
+        {
+          "label": "Kelas",
+          "value": "Entry Level A3 Copier"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-ir-2425.jpg"
+    },
+    {
+      "id": "canon-ir-2224n",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon IR 2224N",
+      "harga": 19500000,
+      "stok": 18,
+      "deskripsi": [
+        {
+          "label": "Fitur",
+          "value": "Monochrome Network Printer"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-ir-2224n.jpg"
+    },
+    {
+      "id": "canon-ir-1643i",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon IR 1643i",
+      "harga": 14500000,
+      "stok": 22,
+      "deskripsi": [
+        {
+          "label": "Ukuran",
+          "value": "A4 Compact Monochrome"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-ir-1643i.jpg"
+    },
+    {
+      "id": "canon-lbp664cx",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon LBP664CX",
+      "harga": 11500000,
+      "stok": 40,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Color Laser Printer"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-lbp664cx.jpg"
+    },
+    {
+      "id": "canon-maxify-gx4070",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Canon Maxify GX4070",
+      "harga": 8500000,
+      "stok": 50,
+      "deskripsi": [
+        {
+          "label": "Sistem",
+          "value": "Refillable Ink Tank"
+        }
+      ],
+      "gambar": "/assets/images/office/canon-maxify-gx4070.jpg"
+    },
+    {
+      "id": "mf-244dw",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "MF 244DW",
+      "harga": 4500000,
+      "stok": 60,
+      "deskripsi": [
+        {
+          "label": "Koneksi",
+          "value": "Wireless Multifunction"
+        }
+      ],
+      "gambar": "/assets/images/office/mf-244dw.jpg"
+    },
+    {
+      "id": "honeywell-pc42e-t",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Honeywell PC42E-T",
+      "harga": 3200000,
+      "stok": 100,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Barcode Label Printer"
+        }
+      ],
+      "gambar": "/assets/images/office/honeywell-pc42e-t.jpg"
+    },
+    {
+      "id": "honeywell-1470g",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Honeywell 1470G",
+      "harga": 2100000,
+      "stok": 150,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "2D Barcode Scanner"
+        }
+      ],
+      "gambar": "/assets/images/office/honeywell-1470g.jpg"
+    },
+    {
+      "id": "honeywell-1250g",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Honeywell 1250G",
+      "harga": 1250000,
+      "stok": 150,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Linear Laser Scanner"
+        }
+      ],
+      "gambar": "/assets/images/office/honeywell-1250g.jpg"
+    },
+    {
+      "id": "honeywell-eda52",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Honeywell EDA52",
+      "harga": 9500000,
+      "stok": 15,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Mobile Computer / Handheld"
+        }
+      ],
+      "gambar": "/assets/images/office/honeywell-eda52.jpg"
+    },
+    {
+      "id": "honeywell-mk7120",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Honeywell MK7120",
+      "harga": 2850000,
+      "stok": 30,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Omnidirectional Scanner"
+        }
+      ],
+      "gambar": "/assets/images/office/honeywell-mk7120.jpg"
+    },
+    {
+      "id": "honeywell-hf680",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Honeywell HF680",
+      "harga": 2450000,
+      "stok": 35,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Hands-free Area Imager"
+        }
+      ],
+      "gambar": "/assets/images/office/honeywell-hf680.jpg"
+    },
+    {
+      "id": "citizen-ct-d150",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Citizen CT-D150",
+      "harga": 1850000,
+      "stok": 80,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "POS Receipt Printer"
+        }
+      ],
+      "gambar": "/assets/images/office/citizen-ct-d150.jpg"
+    },
+    {
+      "id": "zebra-zt421",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Zebra ZT421",
+      "harga": 22500000,
+      "stok": 10,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Industrial Label Printer"
+        }
+      ],
+      "gambar": "/assets/images/office/zebra-zt421.jpg"
+    },
+    {
+      "id": "hprt-tp-806",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "HPRT TP-806",
+      "harga": 1450000,
+      "stok": 100,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Thermal Receipt Printer"
+        }
+      ],
+      "gambar": "/assets/images/office/hprt-tp-806.jpg"
+    },
+    {
+      "id": "datalogic-2500-series",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Datalogic 2500 Series",
+      "harga": 2150000,
+      "stok": 60,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "General Purpose Scanner"
+        }
+      ],
+      "gambar": "/assets/images/office/datalogic-2500-series.jpg"
+    },
+    {
+      "id": "sam4s-nr-500-series",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "SAM4S NR 500 Series",
+      "harga": 5200000,
+      "stok": 20,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Electronic Cash Register"
+        }
+      ],
+      "gambar": "/assets/images/office/sam4s-nr-500-series.jpg"
+    },
+    {
+      "id": "clover-jet-100",
+      "kategori_id": "i9j0k1l2-m3n4-5678-o9p0-q1r2s3t4u5v6",
+      "nama_produk": "Clover JET-100",
+      "harga": 4500000,
+      "stok": 15,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Standard POS Terminal"
+        }
+      ],
+      "gambar": "/assets/images/office/clover-jet-100.jpg"
+    },
+    {
+      "id": "sunmi-k2",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "SUNMI K2",
+      "harga": 18500000,
+      "stok": 5,
+      "deskripsi": [
+        {
+          "label": "Fungsi",
+          "value": "Self-service Kiosk"
+        }
+      ],
+      "gambar": "/assets/images/pos/sunmi-k2.jpg"
+    },
+    {
+      "id": "sunmi-v3mix",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "SUNMI V3MIX",
+      "harga": 7500000,
+      "stok": 20,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Desktop & Mobile Hybrid POS"
+        }
+      ],
+      "gambar": "/assets/images/pos/sunmi-v3mix.jpg"
+    },
+    {
+      "id": "sunmi-v2s-std",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "SUNMI V2S STD",
+      "harga": 3450000,
+      "stok": 45,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Handheld POS Device"
+        }
+      ],
+      "gambar": "/assets/images/pos/sunmi-v2s-std.jpg"
+    },
+    {
+      "id": "sunmi-l2ks-rfid",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "SUNMI L2KS RFID",
+      "harga": 12500000,
+      "stok": 10,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Handheld RFID Terminal"
+        }
+      ],
+      "gambar": "/assets/images/pos/sunmi-l2ks-rfid.jpg"
+    },
+    {
+      "id": "fec-kiosk",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "FEC KIOSK",
+      "harga": 15500000,
+      "stok": 8,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Engagement Kiosk"
+        }
+      ],
+      "gambar": "/assets/images/pos/fec-kiosk.jpg"
+    },
+    {
+      "id": "fec-ap-3615",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "FEC AP-3615",
+      "harga": 9500000,
+      "stok": 12,
+      "deskripsi": [
+        {
+          "label": "Fungsi",
+          "value": "All-in-one POS Terminal"
+        }
+      ],
+      "gambar": "/assets/images/pos/fec-ap-3615.jpg"
+    },
+    {
+      "id": "fec-pp-1135",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "FEC PP-1135",
+      "harga": 1200000,
+      "stok": 50,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Compact POS Printer"
+        }
+      ],
+      "gambar": "/assets/images/pos/fec-pp-1135.jpg"
+    },
+    {
+      "id": "gemini",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "GEMINI",
+      "harga": 4500000,
+      "stok": 30,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Retail Tech Solutions"
+        }
+      ],
+      "gambar": "/assets/images/pos/gemini.jpg"
+    },
+    {
+      "id": "axioo-interactive-smart-screen",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "AXIOO Interactive Smart Screen",
+      "harga": 35000000,
+      "stok": 5,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Interactive Smart Screen"
+        }
+      ],
+      "gambar": "/assets/images/pos/axioo-interactive-smart-screen.jpg"
+    },
+    {
+      "id": "axioo-mybook-pro-k7v",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "AXIOO MyBook Pro K7V",
+      "harga": 14500000,
+      "stok": 25,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Business Laptop"
+        }
+      ],
+      "gambar": "/assets/images/pos/axioo-mybook-pro-k7v.jpg"
+    },
+    {
+      "id": "axioo-mypc-pro-j5",
+      "kategori_id": "j0k1l2m3-n4o5-6789-p0q1-r2s3t4u5v6w7",
+      "nama_produk": "AXIOO MyPC Pro J5",
+      "harga": 11500000,
+      "stok": 20,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Business Desktop"
+        }
+      ],
+      "gambar": "/assets/images/pos/axioo-mypc-pro-j5.jpg"
+    },
+    {
+      "id": "monkefit-mandrill",
+      "kategori_id": "k1l2m3n4-o5p6-7890-q1r2-s3t4u5v6w7x8",
+      "nama_produk": "MONKEFIT Mandrill",
+      "harga": 15500000,
+      "stok": 10,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Premium Treadmill"
+        }
+      ],
+      "gambar": "/assets/images/sport/monkefit-mandrill.jpg"
+    },
+    {
+      "id": "monkefit-static-air-bike",
+      "kategori_id": "k1l2m3n4-o5p6-7890-q1r2-s3t4u5v6w7x8",
+      "nama_produk": "MONKEFIT Static Air Bike",
+      "harga": 8500000,
+      "stok": 15,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Cardio Air Bike"
+        }
+      ],
+      "gambar": "/assets/images/sport/monkefit-static-air-bike.jpg"
+    },
+    {
+      "id": "monkefit-hussar-1000",
+      "kategori_id": "k1l2m3n4-o5p6-7890-q1r2-s3t4u5v6w7x8",
+      "nama_produk": "MONKEFIT Hussar 1000",
+      "harga": 12500000,
+      "stok": 8,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "High-Performance Spin Bike"
+        }
+      ],
+      "gambar": "/assets/images/sport/monkefit-hussar-1000.jpg"
+    },
+    {
+      "id": "monkefit-tamarin-pro",
+      "kategori_id": "k1l2m3n4-o5p6-7890-q1r2-s3t4u5v6w7x8",
+      "nama_produk": "MONKEFIT Tamarin Pro",
+      "harga": 18500000,
+      "stok": 5,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Industrial Treadmill"
+        }
+      ],
+      "gambar": "/assets/images/sport/monkefit-tamarin-pro.jpg"
+    },
+    {
+      "id": "monkefit-howler-x15",
+      "kategori_id": "k1l2m3n4-o5p6-7890-q1r2-s3t4u5v6w7x8",
+      "nama_produk": "MONKEFIT Howler X15",
+      "harga": 4500000,
+      "stok": 12,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Versatile Gym Bench"
+        }
+      ],
+      "gambar": "/assets/images/sport/monkefit-howler-x15.jpg"
+    },
+    {
+      "id": "monkefit-simian-s3-clip-on-bluetooth-tws",
+      "kategori_id": "k1l2m3n4-o5p6-7890-q1r2-s3t4u5v6w7x8",
+      "nama_produk": "MONKEFIT Simian S3 Clip On Bluetooth TWS",
+      "harga": 1200000,
+      "stok": 50,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Fitness Bluetooth Earbuds"
+        }
+      ],
+      "gambar": "/assets/images/sport/monkefit-simian-s3-clip-on-bluetooth-tws.jpg"
+    },
+    {
+      "id": "edan-acclarix-lx3",
+      "kategori_id": "l2m3n4o5-p6q7-8901-r2s3-t4u5v6w7x8y9",
+      "nama_produk": "EDAN Acclarix LX3",
+      "harga": 450000000,
+      "stok": 3,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Portable Ultrasound System"
+        }
+      ],
+      "gambar": "/assets/images/medical/edan-acclarix-lx3.jpg"
+    },
+    {
+      "id": "edan-acclarix-ax3",
+      "kategori_id": "l2m3n4o5-p6q7-8901-r2s3-t4u5v6w7x8y9",
+      "nama_produk": "EDAN Acclarix AX3",
+      "harga": 320000000,
+      "stok": 5,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Compact Ultrasound Device"
+        }
+      ],
+      "gambar": "/assets/images/medical/edan-acclarix-ax3.jpg"
+    },
+    {
+      "id": "edan-h60",
+      "kategori_id": "l2m3n4o5-p6q7-8901-r2s3-t4u5v6w7x8y9",
+      "nama_produk": "EDAN H60",
+      "harga": 750000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "High-end Clinical Ultrasound"
+        }
+      ],
+      "gambar": "/assets/images/medical/edan-h60.jpg"
+    },
+    {
+      "id": "edan-cx-patient-monitor",
+      "kategori_id": "l2m3n4o5-p6q7-8901-r2s3-t4u5v6w7x8y9",
+      "nama_produk": "EDAN CX Patient Monitor",
+      "harga": 185000000,
+      "stok": 15,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Patient Monitoring System"
+        }
+      ],
+      "gambar": "/assets/images/medical/edan-cx-patient-monitor.jpg"
+    },
+    {
+      "id": "edan-i20",
+      "kategori_id": "l2m3n4o5-p6q7-8901-r2s3-t4u5v6w7x8y9",
+      "nama_produk": "EDAN I20",
+      "harga": 125000000,
+      "stok": 10,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Portable ECG Device"
+        }
+      ],
+      "gambar": "/assets/images/medical/edan-i20.jpg"
+    },
+    {
+      "id": "edan-nano-series",
+      "kategori_id": "l2m3n4o5-p6q7-8901-r2s3-t4u5v6w7x8y9",
+      "nama_produk": "EDAN Nano Series",
+      "harga": 95000000,
+      "stok": 20,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Compact Medical Devices"
+        }
+      ],
+      "gambar": "/assets/images/medical/edan-nano-series.jpg"
+    },
+    {
+      "id": "hp-indigo-35k",
+      "kategori_id": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
+      "nama_produk": "HP Indigo 35K Digital Press",
+      "harga": 15500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Kecepatan cetak",
+          "value": "3.450 lembar/jam (4/0)"
+        },
+        {
+          "label": "Resolusi",
+          "value": "812 dpi pada 8 bit"
+        },
+        {
+          "label": "Ketebalan substrat",
+          "value": "140–630 mikron"
+        }
+      ],
+      "gambar": "images/product/hp-indigo-35k.png"
+    },
+    {
+      "id": "hp-indigo-120k",
+      "kategori_id": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
+      "nama_produk": "HP Indigo 120K",
+      "harga": 18500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Kecepatan",
+          "value": "Ultra High Volume Label Production"
+        }
+      ],
+      "gambar": "/assets/images/labels/hp-indigo-120k.jpg"
+    },
+    {
+      "id": "hp-indigo-6k",
+      "kategori_id": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
+      "nama_produk": "HP Indigo 6K",
+      "harga": 4500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Versatile Digital Press for Labels"
+        }
+      ],
+      "gambar": "/assets/images/labels/hp-indigo-6k.jpg"
+    },
+    {
+      "id": "hp-indigo-200k",
+      "kategori_id": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
+      "nama_produk": "HP Indigo 200K",
+      "harga": 9500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Target",
+          "value": "Flexible Packaging"
+        }
+      ],
+      "gambar": "/assets/images/labels/hp-indigo-200k.jpg"
+    },
+    {
+      "id": "konica-minolta-accurio-label230",
+      "kategori_id": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
+      "nama_produk": "Konica Minolta Accurio Label230",
+      "harga": 1850000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Digital Label Press High Productivity"
+        }
+      ],
+      "gambar": "/assets/images/labels/konica-minolta-accurio-label230.jpg"
+    },
+    {
+      "id": "hp-indigo-18k",
+      "kategori_id": "b2c3d4e5-f6g7-8901-h2i3-j4k5l6m7n8o9",
+      "nama_produk": "HP Indigo 18K",
+      "harga": 12500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Premium Commercial Digital Press"
+        }
+      ],
+      "gambar": "/assets/images/commercial/hp-indigo-18k.jpg"
+    },
+    {
+      "id": "hp-indigo-7k",
+      "kategori_id": "b2c3d4e5-f6g7-8901-h2i3-j4k5l6m7n8o9",
+      "nama_produk": "HP Indigo 7K",
+      "harga": 8500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "SRA3+ Digital Commercial Press"
+        }
+      ],
+      "gambar": "/assets/images/commercial/hp-indigo-7k.jpg"
+    },
+    {
+      "id": "canon-varioprint-ix2100-3200",
+      "kategori_id": "b2c3d4e5-f6g7-8901-h2i3-j4k5l6m7n8o9",
+      "nama_produk": "Canon VarioPrint iX2100 / 3200",
+      "harga": 9500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Teknologi",
+          "value": "High Speed Inkjet Press"
+        }
+      ],
+      "gambar": "/assets/images/commercial/canon-varioprint-ix2100-3200.jpg"
+    },
+    {
+      "id": "canon-varioprint-ix1700",
+      "kategori_id": "b2c3d4e5-f6g7-8901-h2i3-j4k5l6m7n8o9",
+      "nama_produk": "Canon varioPrint iX1700",
+      "harga": 7200000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "B3 Inkjet Production Press"
+        }
+      ],
+      "gambar": "/assets/images/commercial/canon-varioprint-ix1700.jpg"
+    },
+    {
+      "id": "canon-imagepress-v1350",
+      "kategori_id": "b2c3d4e5-f6g7-8901-h2i3-j4k5l6m7n8o9",
+      "nama_produk": "Canon imagePRESS V1350",
+      "harga": 3200000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Kecepatan",
+          "value": "135 ppm"
+        }
+      ],
+      "gambar": "/assets/images/commercial/canon-imagepress-v1350.jpg"
+    },
+    {
+      "id": "canon-imagepress-v1000",
+      "kategori_id": "b2c3d4e5-f6g7-8901-h2i3-j4k5l6m7n8o9",
+      "nama_produk": "Canon imagePRESS V1000",
+      "harga": 2450000000,
+      "stok": 3,
+      "deskripsi": [
+        {
+          "label": "Kecepatan",
+          "value": "100 ppm"
+        }
+      ],
+      "gambar": "/assets/images/commercial/canon-imagepress-v1000.jpg"
+    },
+    {
+      "id": "canon-imagepress-v700-v900",
+      "kategori_id": "b2c3d4e5-f6g7-8901-h2i3-j4k5l6m7n8o9",
+      "nama_produk": "Canon imagePRESS V700/V900",
+      "harga": 1250000000,
+      "stok": 5,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Light Production Color Press"
+        }
+      ],
+      "gambar": "/assets/images/commercial/canon-imagepress-v700-v900.jpg"
+    },
+    {
+      "id": "canon-imagepress-c265-c270",
+      "kategori_id": "b2c3d4e5-f6g7-8901-h2i3-j4k5l6m7n8o9",
+      "nama_produk": "Canon imagePRESS C265/C270",
+      "harga": 450000000,
+      "stok": 8,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Office Production Color"
+        }
+      ],
+      "gambar": "/assets/images/commercial/canon-imagepress-c265-c270.jpg"
+    },
+    {
+      "id": "canon-varioprint-115-quartz",
+      "kategori_id": "b2c3d4e5-f6g7-8901-h2i3-j4k5l6m7n8o9",
+      "nama_produk": "Canon VarioPrint 115 Quartz",
+      "harga": 850000000,
+      "stok": 3,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Industrial Monochrome Press"
+        }
+      ],
+      "gambar": "/assets/images/commercial/canon-varioprint-115-quartz.jpg"
+    },
+    {
+      "id": "scodix-ultra-6000",
+      "kategori_id": "c3d4e5f6-g7h8-9012-i3j4-k5l6m7n8o9p0",
+      "nama_produk": "SCODIX ULTRA 6000",
+      "harga": 6500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Digital Enhancement Press (Finishing)"
+        }
+      ],
+      "gambar": "/assets/images/finishing/scodix-ultra-6000.jpg"
+    },
+    {
+      "id": "abg-digicon-series3",
+      "kategori_id": "c3d4e5f6-g7h8-9012-i3j4-k5l6m7n8o9p0",
+      "nama_produk": "ABG Digicon Series3",
+      "harga": 2100000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Fungsi",
+          "value": "Modular Label Finishing"
+        }
+      ],
+      "gambar": "/assets/images/finishing/abg-digicon-series3.jpg"
+    },
+    {
+      "id": "cp-bourg-bb-3002-eva",
+      "kategori_id": "c3d4e5f6-g7h8-9012-i3j4-k5l6m7n8o9p0",
+      "nama_produk": "CP Bourg BB 3002 EVA",
+      "harga": 1450000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Automatic Perfect Binder"
+        }
+      ],
+      "gambar": "/assets/images/finishing/cp-bourg-bb-3002-eva.jpg"
+    },
+    {
+      "id": "areta-vd-3350",
+      "kategori_id": "c3d4e5f6-g7h8-9012-i3j4-k5l6m7n8o9p0",
+      "nama_produk": "Areta VD 3350",
+      "harga": 950000000,
+      "stok": 3,
+      "deskripsi": [
+        {
+          "label": "Fungsi",
+          "value": "Digital Label Finishing"
+        }
+      ],
+      "gambar": "/assets/images/finishing/areta-vd-3350.jpg"
+    },
+    {
+      "id": "areta-atexco-vega-varnish-3d",
+      "kategori_id": "c3d4e5f6-g7h8-9012-i3j4-k5l6m7n8o9p0",
+      "nama_produk": "Areta Atexco Vega Varnish-3D",
+      "harga": 1850000000,
+      "stok": 2,
+      "deskripsi": [
+        {
+          "label": "Fitur",
+          "value": "3D Varnish Spot UV"
+        }
+      ],
+      "gambar": "/assets/images/finishing/areta-atexco-vega-varnish-3d.jpg"
+    },
+    {
+      "id": "massivit",
+      "kategori_id": "d4e5f6g7-h8i9-0123-j4k5-l6m7n8o9p0q1",
+      "nama_produk": "Massivit",
+      "harga": 6500000000,
+      "stok": 1,
+      "deskripsi": [
+        {
+          "label": "Tipe",
+          "value": "Industrial Large Format 3D Printer"
+        }
+      ],
+      "gambar": "/assets/images/3d/massivit.jpg"
+    },
+    {
+      "id": "mimaki-3duj-2207",
+      "kategori_id": "d4e5f6g7-h8i9-0123-j4k5-l6m7n8o9p0q1",
+      "nama_produk": "Mimaki 3DUJ-2207",
+      "harga": 850000000,
+      "stok": 3,
+      "deskripsi": [
+        {
+          "label": "Fitur",
+          "value": "Full Color 3D Printing (10M Colors)"
+        }
+      ],
+      "gambar": "/assets/images/3d/mimaki-3duj-2207.jpg"
+    }
+  ]
+}
