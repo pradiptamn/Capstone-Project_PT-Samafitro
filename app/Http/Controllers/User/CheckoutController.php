@@ -100,7 +100,7 @@ class CheckoutController extends Controller
 
             $order = Order::create([
                 'user_id' => $user->id,
-                'order_number' => 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(5)),
+                'order_number' => Order::generateOrderNumber(),
                 'shipping_address' => $request->address,
                 'shipping_phone' => $request->phone,
                 'note' => $request->note,

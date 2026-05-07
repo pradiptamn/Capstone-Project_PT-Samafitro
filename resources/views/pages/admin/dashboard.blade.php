@@ -285,6 +285,40 @@
 
   </div>
 
+  {{-- MODAL DETAIL SALES --}}
+  <div id="salesDetailModal" class="fixed inset-0 z-[60] hidden overflow-y-auto">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-sm" onclick="closeSalesModal()"></div>
+    <div class="flex min-h-full items-center justify-center p-4">
+      <div class="relative bg-gray-900 border border-gray-700 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden">
+        <div class="bg-gray-800 px-6 py-4 border-b border-gray-700 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-yellow-400">
+            <i class="fas fa-box-open mr-2"></i> Detail Penjualan: <span id="modalSalesName"
+              class="text-white text-lg"></span>
+          </h3>
+          <button onclick="closeSalesModal()"
+            class="text-gray-400 hover:text-white transition text-2xl">&times;</button>
+        </div>
+        <div class="p-6">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-gray-950 text-gray-400 uppercase text-[10px] font-bold">
+                <tr>
+                  <th class="px-4 py-3">Tanggal & Order</th>
+                  <th class="px-4 py-3">Nama Produk</th>
+                  <th class="px-4 py-3 text-center">Qty</th>
+                  <th class="px-4 py-3 text-right">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="salesDetailTableBody" class="divide-y divide-gray-800">
+                {{-- Isi data --}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   {{-- SCRIPT JAVASCRIPT --}}
   <script>
     let revenueChart, barChart, pieChart, salesChart;
@@ -441,6 +475,13 @@
           indexAxis: 'y', // <--- PINDAHKAN KE SINI (Level Options)
           responsive: true,
           maintainAspectRatio: false,
+          onClick: (event, elements) => {
+            if (elements.length > 0) {
+              const index = elements[0].index;
+              const salesName = salesChart.data.labels[index];
+              showSalesDetail(salesName);
+            }
+          },
           scales: {
             x: {
               beginAtZero: true,
@@ -576,6 +617,94 @@
       document.getElementById('end_date').value = formatDate(endOfMonth);
       document.getElementById('trend_type').value = 'daily';
       updateDashboard();
+    }
+
+    // BARU: Fungsi untuk mengambil data dan menampilkan modal
+    // function showSalesDetail(salesName) {
+    //   const startDate = document.getElementById('start_date').value;
+    //   const endDate = document.getElementById('end_date').value;
+
+    //   document.getElementById('modalSalesName').innerText = salesName;
+    //   const tbody = document.getElementById('salesDetailTableBody');
+    //   tbody.innerHTML =
+    //     '<tr><td colspan="3" class="py-10 text-center"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data...</td></tr>';
+    //   document.getElementById('salesDetailModal').classList.remove('hidden');
+
+    //   fetch(`?sales_name=${encodeURIComponent(salesName)}&start_date=${startDate}&end_date=${endDate}`, {
+    //       headers: {
+    //         'X-Requested-With': 'XMLHttpRequest'
+    //       }
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       tbody.innerHTML = '';
+    //       if (data.length === 0) {
+    //         tbody.innerHTML =
+    //           '<tr><td colspan="3" class="py-10 text-center text-gray-500">Tidak ada data penjualan.</td></tr>';
+    //         return;
+    //       }
+    //       data.forEach(item => {
+    //         tbody.innerHTML += `
+  //             <tr class="hover:bg-gray-800 transition">
+  //                 <td class="px-4 py-3 text-white font-medium">${item.product_name}</td>
+  //                 <td class="px-4 py-3 text-center font-bold text-blue-400">${item.total_qty} Unit</td>
+  //                 <td class="px-4 py-3 text-right text-green-400 font-mono">Rp ${new Intl.NumberFormat('id-ID').format(item.total_amount)}</td>
+  //             </tr>
+  //         `;
+    //       });
+    //     });
+    // }
+
+    function showSalesDetail(salesName) {
+      const startDate = document.getElementById('start_date').value;
+      const endDate = document.getElementById('end_date').value;
+
+      document.getElementById('modalSalesName').innerText = salesName;
+      const tbody = document.getElementById('salesDetailTableBody');
+      tbody.innerHTML =
+        '<tr><td colspan="4" class="py-10 text-center"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data...</td></tr>';
+      document.getElementById('salesDetailModal').classList.remove('hidden');
+
+      fetch(`?sales_name=${encodeURIComponent(salesName)}&start_date=${startDate}&end_date=${endDate}`, {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          tbody.innerHTML = '';
+          if (data.length === 0) {
+            tbody.innerHTML =
+              '<tr><td colspan="4" class="py-10 text-center text-gray-500">Tidak ada data penjualan.</td></tr>';
+            return;
+          }
+          data.forEach(item => {
+            // Format Tanggal
+            const date = new Date(item.created_at).toLocaleDateString('id-ID', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+
+            tbody.innerHTML += `
+                <tr class="hover:bg-gray-800 transition">
+                    <td class="px-4 py-3">
+                        <div class="text-white text-xs font-bold">${date}</div>
+                        <div class="text-[10px] text-blue-400 font-mono">${item.order_number}</div>
+                    </td>
+                    <td class="px-4 py-3 text-gray-300 text-xs">${item.product_name}</td>
+                    <td class="px-4 py-3 text-center font-bold text-white text-xs">${item.quantity}</td>
+                    <td class="px-4 py-3 text-right text-green-400 font-mono text-xs">Rp ${new Intl.NumberFormat('id-ID').format(item.subtotal)}</td>
+                </tr>
+            `;
+          });
+        });
+    }
+
+    function closeSalesModal() {
+      document.getElementById('salesDetailModal').classList.add('hidden');
     }
   </script>
 @endsection

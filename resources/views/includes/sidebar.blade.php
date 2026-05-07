@@ -19,7 +19,7 @@
   </div>
 
   <nav class="mt-5 px-4 space-y-1">
-    {{-- 1. DASHBOARD (Dinamis) --}}
+    {{-- 1. DASHBOARD --}}
     <a href="{{ route($prefix . '.dashboard') }}"
       class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs($prefix . '.dashboard') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
       <i class="fas fa-home w-6"></i>
@@ -42,8 +42,7 @@
       @endif
     </a>
 
-    {{-- 3. INPUT PESANAN BARU (Admin & Sales bisa akses) --}}
-    {{-- Karena di web.php rutenya ada di group sales.sales.create --}}
+    {{-- 3. INPUT PESANAN BARU --}}
     @if (in_array($role, ['sales']))
       <a href="{{ route('sales.order.create') }}"
         class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('sales.order.*') ? 'bg-gray-800 text-green-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
@@ -62,6 +61,13 @@
         class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.produk.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
         <i class="fas fa-box w-6"></i>
         Edit Produk
+      </a>
+
+      {{-- NEW: KATEGORI --}}
+      <a href="{{ route('admin.categories.index') }}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('admin.categories.*') ? 'bg-gray-800 text-indigo-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+        <i class="fas fa-list w-6"></i>
+        Edit Kategori
       </a>
 
       {{-- 5. PROMO --}}
@@ -89,6 +95,5 @@
         Data Kurir
       </a>
     @endif
-
   </nav>
 </div>

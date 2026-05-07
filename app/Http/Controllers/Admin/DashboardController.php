@@ -110,6 +110,41 @@ class DashboardController extends Controller
             ->get();
 
         if ($request->ajax()) {
+            // BARU: Jika ada permintaan detail sales
+            if ($request->has('sales_name')) {
+                // $details = OrderItem::join('orders', 'order_items.order_id', '=', 'orders.id')
+                //     ->join('users', 'orders.created_by', '=', 'users.id')
+                //     ->where('users.name', $request->sales_name)
+                //     ->where('orders.payment_status', 'paid')
+                //     ->whereBetween('orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
+                //     ->select(
+                //         'order_items.product_name',
+                //         DB::raw('SUM(order_items.quantity) as total_qty'),
+                //         DB::raw('SUM(order_items.subtotal) as total_amount') // Tambahkan prefix order_items.
+                //     )
+                //     ->groupBy('order_items.product_id', 'order_items.product_name') // Tambahkan prefix untuk keamanan
+                //     ->orderByDesc('total_qty')
+                //     ->get();
+
+                // return response()->json($details);
+                $details = OrderItem::join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->join('users', 'orders.created_by', '=', 'users.id')
+                    ->where('users.name', $request->sales_name)
+                    ->where('orders.payment_status', 'paid')
+                    ->whereBetween('orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
+                    ->select(
+                        'order_items.product_name',
+                        'order_items.quantity',
+                        'order_items.subtotal',
+                        'orders.order_number',   // Tambah Nomor Invoice
+                        'orders.created_at'      // Tambah Waktu Transaksi
+                    )
+                    ->orderByDesc('orders.created_at') // Urutkan dari yang terbaru
+                    ->get();
+
+                return response()->json($details);
+            }
+
             return response()->json([
                 'stats' => [
                     'filteredRevenue' => number_format($filteredRevenue, 0, ',', '.'),
