@@ -103,7 +103,7 @@ class OrderController extends Controller
                 'id' => (string) Str::uuid(),
                 'user_id' => $user->id,
                 'created_by' => auth()->id(), // Mencatat Sales yang bertugas
-                'order_number' => 'INV-OFF-' . date('Ymd') . '-' . strtoupper(Str::random(5)),
+                'order_number' => Order::generateOrderNumber(),
                 'shipping_address' => 'In-Store Purchase (Input by Sales)',
                 'shipping_phone' => $request->phone,
                 'subtotal' => $totalPrice,

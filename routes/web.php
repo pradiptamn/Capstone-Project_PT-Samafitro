@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\CourierController;
 use App\Http\Controllers\Admin\PromoController as AdminPromoController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 
 // User
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
@@ -154,6 +155,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     // Artikel Admin
     Route::resource('articles', AdminArticleController::class)->names('admin.articles');
+
+    // Category Admin
+    Route::resource('categories', AdminCategoryController::class)->names('admin.categories');
 
     // Produk Admin
     Route::prefix('produk')->name('admin.produk.')->group(function () {
